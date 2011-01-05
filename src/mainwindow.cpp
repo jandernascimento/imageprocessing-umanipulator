@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 #include <QPixmap>
 #include "imagewindow.h"
-
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QFileDialog>
@@ -52,6 +51,7 @@ void MainWindow::setupFileMenu(QMenu *menu){
     QAction *quitaction=new QAction(("&Quit"), this);
 
     configureOpen(openaction);
+    configureSaveAs(saveasaction);
     configureQuit(quitaction);
 
     menu->addAction(openaction);
@@ -105,53 +105,92 @@ void MainWindow::setupImageAdvancedSubMenu(QMenu *menu){
 
     menu->addAction(resizing);
     menu->addAction(scissor);
-
 }
 
 void MainWindow::setupColorMenu(QMenu *menu){
-
     QAction *contrast=new QAction(("&Contrast and equalization"), this);
     QAction *convertGrey=new QAction(("Convert to &grey scale"), this);
     menu->addAction(contrast);
     menu->addAction(convertGrey);
-
 }
 
 void MainWindow::configureQuit(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(quit()));
 }
 
-void MainWindow::quit(void){    
-    QCoreApplication::exit();
-
-}
-
 void MainWindow::configureOpen(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(open()));
 }
 
+void MainWindow::configureSaveAs(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(saveas()));
+}
+
+void MainWindow::quit(void){
+    QCoreApplication::exit();
+}
+
 void MainWindow::open(void){
-    //creates a QFileDialog without using the static function
+    /*/creates a QFileDialog without using the static function
     QFileDialog dialog(this);
     //only files with these extension will be shown in the QFileDialog
     dialog.setNameFilter(tr("Images (*.gif *.jpg *.pnm *.png)"));
     //presents the contents of the current directory as a list of file and directory names
     dialog.setViewMode(QFileDialog::List);
+    //the user must select an existing file
+    dialog.setFileMode(QFileDialog::ExistingFile);
     //a modal file dialog is created and shown. If the user clicked OK, the file they selected is put in fileName
     QStringList fileNames;
     if (dialog.exec()){
+         QMessageBox::information(this, tr("title"), tr("File choosed"));
          fileNames = dialog.selectedFiles();
-         //QMessageBox::information(this, tr("title"), tr("File choosed"));
+         QMessageBox::information(this, tr("title"), tr("File choosed"));
          ImageWindow *w2=new ImageWindow(this,fileNames.at(0));
          w2->show();
      }
+    */
 
-    /* creates a QFileDialog using static function
-       If the user presses Cancel, it returns a null string. */
-    /*QString fileName = QFileDialog::getOpenFileName(this,
-         tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"));*/
+
+    // creates a QFileDialog using static function
+    //if (maybeSave()) {
+             QString fileName = QFileDialog::getOpenFileName(this,
+                tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
+             if (!fileName.isEmpty()){
+                 imagewin=new ImageWindow(this,fileName);
+                 imagewin->show();
+             }
+      //   }
 
 }
+
+bool MainWindow::saveas(void){
+    QFileInfo file=QFileDialog::getSaveFileName(this, tr("Save Image"), "",
+        tr("Images (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog:: DontUseNativeDialog);
+
+    if (file.fileName().isEmpty())
+         return false;
+
+    QString completeName = file.absoluteFilePath();
+    if (file.suffix()==NULL)
+        completeName = file.absoluteFilePath() + ".jpg";
+
+    imagewin->save(completeName);
+}
+
+bool MainWindow::maybeSave(void){
+     //if (textEdit->document()->isModified()) {
+         QMessageBox::StandardButton ret;
+         ret = QMessageBox::warning(this, tr("Application"),
+                      tr("The document has been modified.\n"
+                         "Do you want to save your changes?"),
+                      QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+         /*if (ret == QMessageBox::Save)
+             return save();
+         else if (ret == QMessageBox::Cancel)
+             return false;*/
+     //}
+     //return true;
+ }
 
 MainWindow::~MainWindow()
 {

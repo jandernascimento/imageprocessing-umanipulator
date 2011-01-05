@@ -1,7 +1,10 @@
 #include "imagewindow.h"
 #include "ui_imagewindow.h"
+#include <QMessageBox>
 #include <QtCore/QtCore>
 #include <QMouseEvent>
+
+const QImage *qi;
 
 ImageWindow::ImageWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,7 +18,7 @@ ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
     ui(new Ui::ImageWindow)
 {
     ui->setupUi(this);
-    const QImage *qi=new QImage(filesname,0);
+    qi=new QImage(filesname,0);
 
     for(int x=0;x<qi->height();x++){
 
@@ -34,6 +37,10 @@ ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
 
     ui->label->setPixmap(QPixmap::fromImage(*qi,Qt::AutoColor));
 
+}
+
+void ImageWindow::save(QString fileName){
+    qi->save(fileName,0,-1);
 }
 
 ImageWindow::~ImageWindow()

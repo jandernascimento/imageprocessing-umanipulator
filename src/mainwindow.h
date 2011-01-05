@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "imagewindow.h"
 
 namespace Ui {
     class MainWindow;
@@ -17,9 +18,12 @@ public:
 
 public slots:
      void open(void);
+     bool saveas(void);
+     bool maybeSave(void);
      void quit(void);
 private:
     Ui::MainWindow *ui;
+    ImageWindow *imagewin;
     QMenu *filemenu;
     QMenu *viewmenu;
     QMenu *imagemenu;
@@ -32,8 +36,8 @@ private:
     void setupImageAdvancedSubMenu(QMenu *menu);
     void setupColorMenu(QMenu *menu);
     void configureOpen(QAction *act);
+    void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
-
 };
 
 #endif // MAINWINDOW_H
