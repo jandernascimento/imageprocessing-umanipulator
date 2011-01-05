@@ -175,6 +175,8 @@ bool MainWindow::saveas(void){
         completeName = file.absoluteFilePath() + ".jpg";
 
     imagewin->save(completeName);
+    return true;
+
 }
 
 bool MainWindow::maybeSave(void){

@@ -12,10 +12,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    imagewindow.cpp
+    imagewindow.cpp \
+    qtextension.cpp
 
 HEADERS  += mainwindow.h \
-    imagewindow.h
+    imagewindow.h \
+    qtextension.h
 
 FORMS    += mainwindow.ui \
     imagewindow.ui
