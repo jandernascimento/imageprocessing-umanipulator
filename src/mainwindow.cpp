@@ -1,9 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QPixmap>
+#include "imagewindow.h"
 
 #include <QCoreApplication>
 #include <QMessageBox>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -129,8 +131,26 @@ void MainWindow::configureOpen(QAction *act){
 }
 
 void MainWindow::open(void){
-    QMessageBox::information(this, tr("title"),
-                             tr("hello world"));
+    //creates a QFileDialog without using the static function
+    QFileDialog dialog(this);
+    //only files with these extension will be shown in the QFileDialog
+    dialog.setNameFilter(tr("Images (*.gif *.jpg *.pnm *.png)"));
+    //presents the contents of the current directory as a list of file and directory names
+    dialog.setViewMode(QFileDialog::List);
+    //a modal file dialog is created and shown. If the user clicked OK, the file they selected is put in fileName
+    QStringList fileNames;
+    if (dialog.exec()){
+         fileNames = dialog.selectedFiles();
+         QMessageBox::information(this, tr("title"), tr("File choosed"));
+         ImageWindow *w2=new ImageWindow(this,fileNames.at(0));
+         w2->show();
+     }
+
+    /* creates a QFileDialog using static function
+       If the user presses Cancel, it returns a null string. */
+    /*QString fileName = QFileDialog::getOpenFileName(this,
+         tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"));*/
+
 }
 
 MainWindow::~MainWindow()
