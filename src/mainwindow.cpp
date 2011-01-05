@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QPixmap>
 
+#include <QCoreApplication>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -118,8 +119,9 @@ void MainWindow::configureQuit(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(quit()));
 }
 
-void MainWindow::quit(void){
-    this->close();
+void MainWindow::quit(void){    
+    QCoreApplication::exit();
+
 }
 
 void MainWindow::configureOpen(QAction *act){
