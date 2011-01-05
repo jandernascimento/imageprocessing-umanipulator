@@ -15,6 +15,8 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+     void quit(void);
 private:
     Ui::MainWindow *ui;
     QMenu *filemenu;
@@ -27,6 +29,8 @@ private:
     void setupImageFilterSubMenu(QMenu *menu);
     void setupImageAdvancedSubMenu(QMenu *menu);
     void setupColorMenu(QMenu *menu);
+    void configureQuit(QAction *act);
+
 };
 
 #endif // MAINWINDOW_H
