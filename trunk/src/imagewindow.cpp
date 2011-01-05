@@ -16,7 +16,6 @@ ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
     const QImage *qi=new QImage(filesname/*QString("/home/jander/Desktop/P1030833.JPG")*/,0);
 
     //QPicture *p=new QPicture();
-
     ui->label->setPixmap(QPixmap::fromImage(*qi,Qt::AutoColor));
 
     //ui->verticalLayout->addWidget(qi);
