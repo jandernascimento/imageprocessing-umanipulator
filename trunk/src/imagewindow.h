@@ -14,10 +14,12 @@ class ImageWindow : public QMainWindow
 public:
     explicit ImageWindow(QWidget *parent = 0);
     explicit ImageWindow(QWidget *parent = 0, QString filesname=NULL);
+    void init(void);
     ~ImageWindow();
 
 public slots:
     void save(QString fileName);
+    void mouseOver(QMouseEvent* event);
 
 private:
     Ui::ImageWindow *ui;

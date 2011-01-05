@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QSizePolicy>
+#include <qtextension.h>
 
 const QImage *qi;
 
@@ -14,18 +15,9 @@ ImageWindow::ImageWindow(QWidget *parent) :
     ui(new Ui::ImageWindow)
 {
     ui->setupUi(this);
-
-    QLabel *l1=new QLabel();
-    l1->setAccessibleName("label");
-    l1->setObjectName("label");
-    l1->setText("vvvaaaaai");
-    l1->setMinimumHeight(300);
-    l1->setMinimumWidth(400);
-
-    ui->horizontalLayout->addWidget(l1);
-
-    l1->show();
 }
+
+ImageLabel *label;
 
 ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
     QMainWindow(parent),
@@ -49,11 +41,12 @@ ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
     //*pixel = qRgba(255,0,0,100);
     //int blue = qBlue(*pixel);
     /** Adding scroll:begin **/
-    QLabel *label=new QLabel(this);
+    //ImageLabel *
+            label=new ImageLabel(this);
     label->setAccessibleName("label");
     label->setObjectName("label");    
-    label->setMinimumHeight(480);
-    label->setMinimumWidth(640);
+    //label->setMinimumHeight(480);
+    //label->setMinimumWidth(640);
     label->setPixmap(QPixmap::fromImage(*qi,Qt::AutoColor));
 
     QScrollArea *scroll = new QScrollArea(this);
@@ -62,11 +55,16 @@ ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
     scroll->setSizePolicy(QSizePolicy::Maximum,QSizePolicy::Maximum);
     ui->horizontalLayout->addWidget(scroll);
     /** Adding scroll:end **/
-
+    connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
 }
 
 void ImageWindow::save(QString fileName){
     qi->save(fileName,0,-1);
+}
+
+void ImageWindow::mouseOver(QMouseEvent* event){
+  qDebug("%i,%i",event->pos().x(),event->pos().y());
+
 }
 
 ImageWindow::~ImageWindow()
