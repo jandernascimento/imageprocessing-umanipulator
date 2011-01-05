@@ -1,6 +1,7 @@
 #include "imagewindow.h"
 #include "ui_imagewindow.h"
 #include <QtCore/QtCore>
+#include <QMouseEvent>
 
 ImageWindow::ImageWindow(QWidget *parent) :
     QMainWindow(parent),

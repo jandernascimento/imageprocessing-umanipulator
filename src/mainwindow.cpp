@@ -141,7 +141,7 @@ void MainWindow::open(void){
     QStringList fileNames;
     if (dialog.exec()){
          fileNames = dialog.selectedFiles();
-         QMessageBox::information(this, tr("title"), tr("File choosed"));
+         //QMessageBox::information(this, tr("title"), tr("File choosed"));
          ImageWindow *w2=new ImageWindow(this,fileNames.at(0));
          w2->show();
      }
