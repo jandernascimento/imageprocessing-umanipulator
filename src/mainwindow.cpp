@@ -40,6 +40,8 @@ void MainWindow::setupFileMenu(QMenu *menu){
     QAction *saveasaction=new QAction(("Save &as.."), this);
     QAction *quitaction=new QAction(("&Quit"), this);
 
+    configureQuit(quitaction);
+
     menu->addAction(openaction);
     menu->addAction(saveaction);
     menu->addAction(saveasaction);
@@ -101,6 +103,14 @@ void MainWindow::setupColorMenu(QMenu *menu){
     colormenu->addAction(contrast);
     colormenu->addAction(convertGrey);
 
+}
+
+void MainWindow::configureQuit(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(quit()));
+}
+
+void MainWindow::quit(void){
+    this->close();
 }
 
 MainWindow::~MainWindow()
