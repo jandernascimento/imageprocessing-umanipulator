@@ -6,7 +6,14 @@ ImageWindow::ImageWindow(QWidget *parent) :
     ui(new Ui::ImageWindow)
 {
     ui->setupUi(this);
-    const QImage *qi=new QImage(QString("/home/jander/Desktop/P1030833.JPG"),0);
+}
+
+ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
+    QMainWindow(parent),
+    ui(new Ui::ImageWindow)
+{
+    ui->setupUi(this);
+    const QImage *qi=new QImage(filesname/*QString("/home/jander/Desktop/P1030833.JPG")*/,0);
 
     //QPicture *p=new QPicture();
 
