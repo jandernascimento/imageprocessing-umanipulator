@@ -23,6 +23,7 @@ private:
     QMenu *viewmenu;
     QMenu *imagemenu;
     QMenu *colormenu;
+    void createMenu(void);
     void setupFileMenu(QMenu *menu);
     void setupViewMenu(QMenu *menu);
     void setupImageMenu(QMenu *menu);

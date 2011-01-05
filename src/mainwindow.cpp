@@ -7,6 +7,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    createMenu();
+
+}
+
+void MainWindow::createMenu(){
 
     //file
     filemenu=menuBar()->addMenu("&File");
@@ -65,10 +70,10 @@ void MainWindow::setupImageMenu(QMenu *menu){
     QAction *fusion=new QAction(("&Fusion"), this);
     QAction *resize=new QAction(("&Resize"), this);
 
-    imagemenu->addAction(crop);
-    imagemenu->addAction(blur);
-    imagemenu->addAction(fusion);
-    imagemenu->addAction(resize);
+    menu->addAction(crop);
+    menu->addAction(blur);
+    menu->addAction(fusion);
+    menu->addAction(resize);
 }
 
 void MainWindow::setupImageFilterSubMenu(QMenu *menu){
@@ -100,8 +105,8 @@ void MainWindow::setupColorMenu(QMenu *menu){
 
     QAction *contrast=new QAction(("&Contrast and equalization"), this);
     QAction *convertGrey=new QAction(("Convert to &grey scale"), this);
-    colormenu->addAction(contrast);
-    colormenu->addAction(convertGrey);
+    menu->addAction(contrast);
+    menu->addAction(convertGrey);
 
 }
 
