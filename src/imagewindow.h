@@ -9,7 +9,7 @@ namespace Ui {
 
 class ImageWindow : public QMainWindow
 {
-    Q_OBJECT
+    Q_OBJECT;
 
 public:
     explicit ImageWindow(QWidget *parent = 0);
