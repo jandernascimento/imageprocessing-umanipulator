@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -40,11 +42,12 @@ void MainWindow::createMenu(){
 }
 
 void MainWindow::setupFileMenu(QMenu *menu){
-    QAction *openaction=new QAction(("&Open.."), this);
+    QAction *openaction=new QAction(("&Open..."), this);
     QAction *saveaction=new QAction(("&Save"), this);
-    QAction *saveasaction=new QAction(("Save &as.."), this);
+    QAction *saveasaction=new QAction(("Save &as..."), this);
     QAction *quitaction=new QAction(("&Quit"), this);
 
+    configureOpen(openaction);
     configureQuit(quitaction);
 
     menu->addAction(openaction);
@@ -116,6 +119,15 @@ void MainWindow::configureQuit(QAction *act){
 
 void MainWindow::quit(void){
     this->close();
+}
+
+void MainWindow::configureOpen(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(open()));
+}
+
+void MainWindow::open(void){
+    QMessageBox::information(this, tr("title"),
+                             tr("hello world"));
 }
 
 MainWindow::~MainWindow()

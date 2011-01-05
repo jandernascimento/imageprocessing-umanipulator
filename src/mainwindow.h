@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 
 public slots:
+     void open(void);
      void quit(void);
 private:
     Ui::MainWindow *ui;
@@ -30,6 +31,7 @@ private:
     void setupImageFilterSubMenu(QMenu *menu);
     void setupImageAdvancedSubMenu(QMenu *menu);
     void setupColorMenu(QMenu *menu);
+    void configureOpen(QAction *act);
     void configureQuit(QAction *act);
 
 };
