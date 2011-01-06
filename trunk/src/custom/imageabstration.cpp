@@ -16,15 +16,15 @@ ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):
             //Sets all red values to the maximum, so the image becomes i little redy
             setPixel(ImageAbstraction::red,x,y,255);
 
-            int blue=qBlue(*getPixel(ImageAbstraction::blue,x,y));
+            int blue=qBlue(*getPixel(x,y));
             if(blue>bluemax) bluemax=blue;
             if(blue<bluemin) bluemin=blue;
 
-            int red=qRed(*getPixel(ImageAbstraction::red,x,y));
+            int red=qRed(*getPixel(x,y));
             if(red>redmax) redmax=red;
             if(red<redmin) redmin=red;
 
-            int green=qGreen(*getPixel(ImageAbstraction::green,x,y));
+            int green=qGreen(*getPixel(x,y));
             if(green>greenmax) greenmax=green;
             if(green<greenmin) greenmin=green;
         }
@@ -35,14 +35,14 @@ ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):
     qDebug("Blue min:%i max:%i",getMinColorValue(ImageAbstraction::blue),getMaxColorValue(ImageAbstraction::blue));
 }
 
-QRgb* ImageAbstraction::getPixel(enum ecolor color, int x, int y){
+QRgb* ImageAbstraction::getPixel(int x, int y){
     QRgb *pixel = (QRgb *)this->scanLine(x);
     pixel=(pixel+y);
     return pixel;
 }
 
 QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
-    QRgb *pixel = getPixel(color,x,y);
+    QRgb *pixel = getPixel(x,y);
     int red = color==ImageAbstraction::red?value:qRed(*pixel);
     int green = color==ImageAbstraction::green?value:qGreen(*pixel);
     int blue = color==ImageAbstraction::blue?value:qBlue(*pixel);
