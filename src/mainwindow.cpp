@@ -51,6 +51,7 @@ void MainWindow::setupFileMenu(QMenu *menu){
     QAction *quitaction=new QAction(("&Quit"), this);
 
     configureOpen(openaction);
+    configureSave(saveaction);
     configureSaveAs(saveasaction);
     configureQuit(quitaction);
 
@@ -122,6 +123,10 @@ void MainWindow::configureOpen(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(open()));
 }
 
+void MainWindow::configureSave(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(save()));
+}
+
 void MainWindow::configureSaveAs(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(saveas()));
 }
@@ -165,25 +170,33 @@ void MainWindow::open(void){
 }
 
 void MainWindow::save(void){
-    imagewin->save(fileSelected);
+    if (fileSelected == NULL)
+        QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
+    else{
+        //QMessageBox::information(this, tr("title"), fileSelected);
+        imagewin->save(fileSelected);
+    }
 }
 
 void MainWindow::saveas(void){
-    QFileInfo file=QFileDialog::getSaveFileName(this, tr("Save Image"), "",
-        tr("Images (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog:: DontUseNativeDialog);
+    if (fileSelected == NULL)
+        QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
+    else{
+        QFileInfo file=QFileDialog::getSaveFileName(this, tr("Save Image"), "",
+            tr("Images (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog:: DontUseNativeDialog);
 
-    if ( ! file.fileName().isEmpty()){
+        if ( ! file.fileName().isEmpty()){
 
 
-        fileSelected = file.absoluteFilePath();
-        if (file.suffix()==NULL)
-            fileSelected = file.absoluteFilePath() + ".jpg";
+            fileSelected = file.absoluteFilePath();
+            if (file.suffix()==NULL)
+                fileSelected = file.absoluteFilePath() + ".jpg";
 
-        save();
+            save();
 
-        //QMessageBox::information(this, tr("title"), fileSelected);
+            //QMessageBox::information(this, tr("title"), fileSelected);
+        }
     }
-
 }
 
 bool MainWindow::maybeSave(void){
