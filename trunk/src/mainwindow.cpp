@@ -156,7 +156,7 @@ void MainWindow::open(void){
              fileSelected = QFileDialog::getOpenFileName(this,
                 tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
              if (!fileSelected.isEmpty()){
-                 QMessageBox::information(this, tr("title"), fileSelected);
+                 //QMessageBox::information(this, tr("title"), fileSelected);
                  imagewin=new ImageWindow(this,fileSelected);
                  imagewin->show();
              }
@@ -181,7 +181,7 @@ void MainWindow::saveas(void){
 
         save();
 
-        QMessageBox::information(this, tr("title"), fileSelected);
+        //QMessageBox::information(this, tr("title"), fileSelected);
     }
 
 }
