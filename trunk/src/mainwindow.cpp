@@ -153,29 +153,36 @@ void MainWindow::open(void){
 
     // creates a QFileDialog using static function
     //if (maybeSave()) {
-             QString fileName = QFileDialog::getOpenFileName(this,
+             fileSelected = QFileDialog::getOpenFileName(this,
                 tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
-             if (!fileName.isEmpty()){
-                 imagewin=new ImageWindow(this,fileName);
+             if (!fileSelected.isEmpty()){
+                 QMessageBox::information(this, tr("title"), fileSelected);
+                 imagewin=new ImageWindow(this,fileSelected);
                  imagewin->show();
              }
       //   }
 
 }
 
-bool MainWindow::saveas(void){
+void MainWindow::save(void){
+    imagewin->save(fileSelected);
+}
+
+void MainWindow::saveas(void){
     QFileInfo file=QFileDialog::getSaveFileName(this, tr("Save Image"), "",
         tr("Images (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog:: DontUseNativeDialog);
 
-    if (file.fileName().isEmpty())
-         return false;
+    if ( ! file.fileName().isEmpty()){
 
-    QString completeName = file.absoluteFilePath();
-    if (file.suffix()==NULL)
-        completeName = file.absoluteFilePath() + ".jpg";
 
-    imagewin->save(completeName);
-    return true;
+        fileSelected = file.absoluteFilePath();
+        if (file.suffix()==NULL)
+            fileSelected = file.absoluteFilePath() + ".jpg";
+
+        save();
+
+        QMessageBox::information(this, tr("title"), fileSelected);
+    }
 
 }
 
