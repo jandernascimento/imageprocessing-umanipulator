@@ -1,9 +1,8 @@
 #include <QLabel>
 #include <QMouseEvent>
 #include <QPoint>
-
-#ifndef QTEXTENSION_H
-#define QTEXTENSION_H
+#ifndef IMAGELABEL_H
+#define IMAGELABEL_H
 
 class ImageLabel : public QLabel
 {
@@ -19,4 +18,4 @@ class ImageLabel : public QLabel
 
 };
 
-#endif // QTEXTENSION_H
+#endif // IMAGELABEL_H
