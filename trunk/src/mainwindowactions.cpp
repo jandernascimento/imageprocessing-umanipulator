@@ -29,11 +29,13 @@ void MainWindow::open(void){
 
 
     // creates a QFileDialog using static function
-    fileSelected = QFileDialog::getOpenFileName(this,
+    QFileInfo file = fileSelected=QFileDialog::getOpenFileName(this,
                 tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
 
+    fileSelected=file.fileName();
+
     if (!fileSelected.isEmpty()){
-        imagewin=new ImageWindow(this,fileSelected);
+        imagewin=new ImageWindow(this,file.absoluteFilePath(),fileSelected);
         imagewin->show();
     }
 }

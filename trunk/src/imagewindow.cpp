@@ -19,14 +19,15 @@ ImageWindow::ImageWindow(QWidget *parent) :
 }
 
 
-ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
+ImageWindow::ImageWindow(QWidget *parent, QString filePath, QString fileName) :
     QMainWindow(parent),
     ui(new Ui::ImageWindow)
 {
     ImageLabel *label;
     ui->setupUi(this);
+    ImageWindow::setWindowTitle(fileName);
 
-    image=new ImageAbstraction(fileName,0);
+    image=new ImageAbstraction(filePath,0);
 
     //*pixel = qRgba(255,0,0,100);
     //int blue = qBlue(*pixel);
