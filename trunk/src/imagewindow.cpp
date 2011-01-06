@@ -9,13 +9,13 @@
 #include <custom/imagelabel.h>
 #include <custom/imageabstration.h>
 
-const ImageAbstraction *qi;
-
 ImageWindow::ImageWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ImageWindow)
 {
+
     ui->setupUi(this);
+
 }
 
 
@@ -26,7 +26,7 @@ ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
     ImageLabel *label;
     ui->setupUi(this);
 
-    qi=new ImageAbstraction(fileName,0);
+    image=new ImageAbstraction(fileName,0);
 
     //*pixel = qRgba(255,0,0,100);
     //int blue = qBlue(*pixel);
@@ -37,7 +37,7 @@ ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
     label->setObjectName("label");    
     //label->setMinimumHeight(480);
     //label->setMinimumWidth(640);
-    label->setPixmap(QPixmap::fromImage(*qi,Qt::AutoColor));
+    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
 
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setWidget(label);
@@ -49,12 +49,14 @@ ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
 }
 
 void ImageWindow::save(QString fileName){
-    qi->save(fileName,0,-1);
+    this->image->save(fileName,0,-1);
 }
 
 void ImageWindow::mouseOver(QMouseEvent* event){
   qDebug("%i,%i",event->pos().x(),event->pos().y());
-
+  QRgb *pixel=image->getPixel(event->pos().x(),event->pos().y());
+  QString message=QString("RGB(%1,%2,%3)").arg(qRed(*pixel)).arg(qGreen(*pixel)).arg(qBlue(*pixel));
+  ui->statusbar->showMessage(message);
 }
 
 ImageWindow::~ImageWindow()

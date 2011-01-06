@@ -2,6 +2,8 @@
 #define IMAGEWINDOW_H
 
 #include <QMainWindow>
+#include <imagewindow.h>
+#include <custom/imageabstration.h>
 
 namespace Ui {
     class ImageWindow;
@@ -11,11 +13,12 @@ class ImageWindow : public QMainWindow
 {
     Q_OBJECT;
 
+
 public:
     explicit ImageWindow(QWidget *parent = 0);
     explicit ImageWindow(QWidget *parent = 0, QString fileName=NULL);
-    void init(void);
     ~ImageWindow();
+    ImageAbstraction *image;
 
 public slots:
     void save(QString fileName);
@@ -23,6 +26,7 @@ public slots:
 
 private:
     Ui::ImageWindow *ui;
+
 };
 
 #endif // IMAGEWINDOW_H
