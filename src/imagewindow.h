@@ -16,7 +16,7 @@ class ImageWindow : public QMainWindow
 
 public:
     explicit ImageWindow(QWidget *parent = 0);
-    explicit ImageWindow(QWidget *parent = 0, QString fileName=NULL);
+    explicit ImageWindow(QWidget *parent = 0, QString filePath=NULL, QString fileName=NULL);
     ~ImageWindow();
     ImageAbstraction *image;
 
