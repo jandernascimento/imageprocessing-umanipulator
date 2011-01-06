@@ -1,6 +1,4 @@
-#include "qtextension.h"
-#include <QLabel>
-#include <QMouseEvent>
+#include "imagelabel.h"
 
 ImageLabel::ImageLabel(QWidget *parent){
     //Label(parent);
@@ -17,4 +15,3 @@ void ImageLabel::mousePressEvent (QMouseEvent* eve)
 void ImageLabel::mouseMoveEvent( QMouseEvent* event ){
         //emit selected();
 }
-

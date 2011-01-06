@@ -13,11 +13,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     imagewindow.cpp \
-    qtextension.cpp
+    custom/imageabstration.cpp \
+    custom/imagelabel.cpp
 
 HEADERS  += mainwindow.h \
     imagewindow.h \
-    qtextension.h
+    custom/imageabstration.h \
+    custom/imagelabel.h
 
 FORMS    += mainwindow.ui \
     imagewindow.ui

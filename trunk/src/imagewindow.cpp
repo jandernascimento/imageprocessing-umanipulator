@@ -6,9 +6,10 @@
 #include <QLabel>
 #include <QScrollArea>
 #include <QSizePolicy>
-#include <qtextension.h>
+#include <custom/imagelabel.h>
+#include <custom/imageabstration.h>
 
-const QImage *qi;
+const ImageAbstraction *qi;
 
 ImageWindow::ImageWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,7 +25,7 @@ ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
 {
     ImageLabel *label;
     ui->setupUi(this);
-    qi=new QImage(fileName,0);
+    qi=new ImageAbstraction(fileName,0);
 
     for(int x=0;x<qi->height();x++){
 
@@ -71,4 +72,5 @@ ImageWindow::~ImageWindow()
 {
     delete ui;
 }
+
 
