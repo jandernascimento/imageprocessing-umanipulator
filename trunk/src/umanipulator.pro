@@ -13,6 +13,7 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     imagewindow.cpp \
+
     custom/imageabstration.cpp \
     custom/imagelabel.cpp
 

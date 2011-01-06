@@ -25,6 +25,7 @@ ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
 {
     ImageLabel *label;
     ui->setupUi(this);
+
     qi=new ImageAbstraction(fileName,0);
 
     //*pixel = qRgba(255,0,0,100);
