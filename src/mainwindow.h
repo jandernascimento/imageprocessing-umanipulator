@@ -20,7 +20,6 @@ public slots:
      void open(void);
      void saveas(void);
      void save(void);
-     bool maybeSave(void);
      void quit(void);
 private:
     Ui::MainWindow *ui;

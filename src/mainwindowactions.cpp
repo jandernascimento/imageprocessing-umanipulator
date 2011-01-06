@@ -1,0 +1,65 @@
+#include "mainwindow.h"
+#include <QFileDialog>
+#include <QMessageBox>
+
+
+void MainWindow::quit(void){
+    QCoreApplication::exit();
+}
+
+void MainWindow::open(void){
+    //creates a QFileDialog without using the static function
+    //QFileDialog dialog(this);
+    //only files with these extension will be shown in the QFileDialog
+    //dialog.setNameFilter(tr("Images (*.gif *.jpg *.pnm *.png)"));
+    //presents the contents of the current directory as a list of file and directory names
+    //dialog.setViewMode(QFileDialog::List);
+    //the user must select an existing file
+    //dialog.setFileMode(QFileDialog::ExistingFile);
+    //a modal file dialog is created and shown. If the user clicked OK, the file they selected is put in fileName
+    //QStringList fileNames;
+    //if (dialog.exec()){
+      //   QMessageBox::information(this, tr("title"), tr("File choosed"));
+        // fileNames = dialog.selectedFiles();
+         //QMessageBox::information(this, tr("title"), tr("File choosed"));
+         //ImageWindow *w2=new ImageWindow(this,fileNames.at(0));
+         //w2->show();
+     //}
+
+
+
+    // creates a QFileDialog using static function
+    fileSelected = QFileDialog::getOpenFileName(this,
+                tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
+
+    if (!fileSelected.isEmpty()){
+        imagewin=new ImageWindow(this,fileSelected);
+        imagewin->show();
+    }
+}
+
+void MainWindow::save(void){
+    if (fileSelected == NULL)
+        QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
+    else
+        imagewin->save(fileSelected);
+
+}
+
+void MainWindow::saveas(void){
+    if (fileSelected == NULL)
+        QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
+    else{
+        QFileInfo file=QFileDialog::getSaveFileName(this, tr("Save Image"), "",
+            tr("Images (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog:: DontUseNativeDialog);
+
+        if ( ! file.fileName().isEmpty()){
+            fileSelected = file.absoluteFilePath();
+            if (file.suffix()==NULL)
+                fileSelected = file.absoluteFilePath() + ".jpg";
+
+            save();
+        }
+    }
+}
+
