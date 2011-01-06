@@ -38,6 +38,7 @@ private:
     void setupImageAdvancedSubMenu(QMenu *menu);
     void setupColorMenu(QMenu *menu);
     void configureOpen(QAction *act);
+    void configureSave(QAction *act);
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
 };
