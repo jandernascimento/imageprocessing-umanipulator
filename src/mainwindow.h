@@ -18,12 +18,14 @@ public:
 
 public slots:
      void open(void);
-     bool saveas(void);
+     void saveas(void);
+     void save(void);
      bool maybeSave(void);
      void quit(void);
 private:
     Ui::MainWindow *ui;
     ImageWindow *imagewin;
+    QString fileSelected;
     QMenu *filemenu;
     QMenu *viewmenu;
     QMenu *imagemenu;

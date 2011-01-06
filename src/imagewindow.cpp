@@ -17,14 +17,14 @@ ImageWindow::ImageWindow(QWidget *parent) :
     ui->setupUi(this);
 }
 
-ImageLabel *label;
 
-ImageWindow::ImageWindow(QWidget *parent, QString filesname) :
+ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
     QMainWindow(parent),
     ui(new Ui::ImageWindow)
 {
+    ImageLabel *label;
     ui->setupUi(this);
-    qi=new QImage(filesname,0);
+    qi=new QImage(fileName,0);
 
     for(int x=0;x<qi->height();x++){
 

@@ -13,7 +13,7 @@ class ImageWindow : public QMainWindow
 
 public:
     explicit ImageWindow(QWidget *parent = 0);
-    explicit ImageWindow(QWidget *parent = 0, QString filesname=NULL);
+    explicit ImageWindow(QWidget *parent = 0, QString fileName=NULL);
     void init(void);
     ~ImageWindow();
 
