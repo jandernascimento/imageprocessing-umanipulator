@@ -14,7 +14,7 @@ class ImageLabel : public QLabel
       void selected(QMouseEvent* event);
     protected:
       void mousePressEvent( QMouseEvent* event );
-      void mouseMoveEvent( QMouseEvent* event );
+      //void mouseMoveEvent( QMouseEvent* event );
 
 };
 
