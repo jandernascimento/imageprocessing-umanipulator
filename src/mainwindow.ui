@@ -36,7 +36,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>23</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
@@ -48,7 +48,11 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar">
+   <property name="statusTip">
+    <string/>
+   </property>
+  </widget>
   <action name="action_Open">
    <property name="text">
     <string>&amp;Open</string>
