@@ -27,18 +27,6 @@ ImageWindow::ImageWindow(QWidget *parent, QString fileName) :
     ui->setupUi(this);
     qi=new ImageAbstraction(fileName,0);
 
-    for(int x=0;x<qi->height();x++){
-
-        for(int y=0;y<qi->width();y++){
-
-            //QRgb *pixel = (QRgb *)qi->scanLine(x);
-            //pixel=(pixel+y);
-            //*pixel = qRgba(255,0,0,255);
-
-        }
-
-    }
-
     //*pixel = qRgba(255,0,0,100);
     //int blue = qBlue(*pixel);
     /** Adding scroll:begin **/
