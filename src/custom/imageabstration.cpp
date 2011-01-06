@@ -76,6 +76,7 @@ int ImageAbstraction::getMaxColorValue(enum ecolor color){
             return this->bluemax;
             break;
     };
+    return -1;
 }
 
 int ImageAbstraction::getMinColorValue(enum ecolor color){
@@ -93,4 +94,6 @@ int ImageAbstraction::getMinColorValue(enum ecolor color){
             return this->bluemin;
             break;
     };
+
+    return -1;
 }
