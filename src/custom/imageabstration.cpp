@@ -27,6 +27,11 @@ ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):
             int green=qGreen(*getPixel(x,y));
             if(green>greenmax) greenmax=green;
             if(green<greenmin) greenmin=green;
+
+            int grey=red*0.33+green*0.33+blue*0.33;
+
+            setPixel(x,y,grey,grey,grey);
+
         }
     }
 
