@@ -10,8 +10,17 @@
     <height>308</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>MainWindow</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
@@ -44,8 +53,13 @@
     <rect>
      <x>0</x>
      <y>0</y>
+<<<<<<< .mine
+     <width>400</width>
+     <height>27</height>
+=======
      <width>407</width>
      <height>27</height>
+>>>>>>> .r47
     </rect>
    </property>
   </widget>
