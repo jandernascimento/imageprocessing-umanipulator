@@ -3,15 +3,18 @@
 #include <QMessageBox>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include "histogram.h"
 
 
 void MainWindow::histogram(void){
-    QGraphicsScene scene;
+    /*QGraphicsScene scene;
     scene.addText("Hello, world!");
 
     QGraphicsView view(&scene);
-    //view.centerOn(100,100);
-    view.show();
+    view.show();*/
+
+    Histogram *histowin=new Histogram(this);
+    histowin->show();
 }
 
 void MainWindow::quit(void){

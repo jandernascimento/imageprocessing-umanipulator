@@ -14,10 +14,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     mainwindowactions.cpp \
     custom/imageabstration.cpp \
-    custom/imagelabel.cpp
+    custom/imagelabel.cpp \
+    histogram.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
-    custom/imagelabel.h
+    custom/imagelabel.h \
+    form.h \
+    histogram.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    histogram.ui
