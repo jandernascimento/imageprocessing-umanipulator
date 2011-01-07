@@ -16,6 +16,26 @@ QRgb* ImageAbstraction::getPixel(int x, int y){
     return pixel;
 }
 
+int ImageAbstraction::getPixelColorIntensity(enum ecolor color,int x, int y){
+
+    switch(color){
+        case ImageAbstraction::red:
+            return qRed(*getPixel(x,y));
+            break;
+
+        case ImageAbstraction::green:
+            return qGreen(*getPixel(x,y));
+            break;
+
+        case ImageAbstraction::blue:
+            return qBlue(*getPixel(x,y));
+            break;
+    };
+
+    return -1;
+
+}
+
 QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
     QRgb *pixel = getPixel(x,y);
     int red = color==ImageAbstraction::red?value:qRed(*pixel);

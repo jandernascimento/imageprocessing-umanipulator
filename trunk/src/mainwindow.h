@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "imagewindow.h"
+#include <custom/imagelabel.h>
+#include <custom/imageabstration.h>
 
 namespace Ui {
     class MainWindow;
@@ -15,16 +17,20 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void save(QString fileName);
 
 public slots:
      void open(void);
      void saveas(void);
      void save(void);
      void quit(void);
+     void mouseOver(QMouseEvent* event);
      void histogram(void);
 private:
     Ui::MainWindow *ui;
     ImageWindow *imagewin;
+    ImageAbstraction *image;
+    ImageLabel *label;
     QString fileSelected;
     QMenu *filemenu;
     QMenu *viewmenu;
