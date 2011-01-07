@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 #include <QPixmap>
 #include "mainwindowactions.cpp"
+#include <custom/imagelabel.h>
+#include <custom/imageabstration.h>
+#include <QScrollArea>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,6 +13,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     createMenu();
+
+    label=new ImageLabel(this);
+    label->setAccessibleName("label");
+    label->setObjectName("label");
+    label->setMinimumHeight(480);
+    label->setMinimumWidth(640);
+
+    QScrollArea *scroll = new QScrollArea(this);
+    scroll->setWidget(label);
+    scroll->setLayoutDirection(Qt::LayoutDirectionAuto);
+    scroll->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+    ui->horizontalLayout->addWidget(scroll);
+
+    connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
 
 }
 
@@ -128,6 +146,17 @@ void MainWindow::configureSave(QAction *act){
 
 void MainWindow::configureSaveAs(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(saveas()));
+}
+
+void MainWindow::mouseOver(QMouseEvent* event){
+  qDebug("%i,%i",event->pos().x(),event->pos().y());
+  QRgb *pixel=image->getPixel(event->pos().x(),event->pos().y());
+  QString message=QString("RGB(%1,%2,%3)").arg(qRed(*pixel)).arg(qGreen(*pixel)).arg(qBlue(*pixel));
+  ui->statusBar->showMessage(message);
+}
+
+void MainWindow::save(QString fileName){
+    this->image->save(fileName,0,-1);
 }
 
 void MainWindow::configureHistogram(QAction *act){

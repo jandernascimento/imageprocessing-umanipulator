@@ -35,8 +35,13 @@ void MainWindow::open(void){
     fileSelected=file.fileName();
 
     if (!fileSelected.isEmpty()){
-        imagewin=new ImageWindow(this,file.absoluteFilePath(),fileSelected);
-        imagewin->show();
+        //imagewin=new ImageWindow(this,file.absoluteFilePath(),fileSelected);
+        //imagewin->show();
+
+        this->setWindowTitle(fileSelected);
+
+        image=new ImageAbstraction(file.absoluteFilePath(),0);
+        label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
     }
 }
 
@@ -44,7 +49,7 @@ void MainWindow::save(void){
     if (fileSelected == NULL)
         QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
     else
-        imagewin->save(fileSelected);
+        this->save(fileSelected);
 
 }
 

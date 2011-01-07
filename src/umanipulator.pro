@@ -12,13 +12,11 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    imagewindow.cpp \
     mainwindowactions.cpp \
     custom/imageabstration.cpp \
     custom/imagelabel.cpp
 
 HEADERS  += mainwindow.h \
-    imagewindow.h \
     custom/imageabstration.h \
     custom/imagelabel.h
 
