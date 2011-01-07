@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     createMenu();
-
+    showMaximized();
     label=new ImageLabel(this);
     label->setAccessibleName("label");
     label->setObjectName("label");

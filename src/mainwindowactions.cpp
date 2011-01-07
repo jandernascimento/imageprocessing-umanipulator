@@ -1,7 +1,18 @@
 #include "mainwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
+
+void MainWindow::histogram(void){
+    QGraphicsScene scene;
+    scene.addText("Hello, world!");
+
+    QGraphicsView view(&scene);
+    //view.centerOn(100,100);
+    view.show();
+}
 
 void MainWindow::quit(void){
     QCoreApplication::exit();
@@ -70,6 +81,3 @@ void MainWindow::saveas(void){
     }
 }
 
-void MainWindow::histogram(void){
-    QMessageBox::warning(this, tr("Warning"), tr("histogram."));
-}
