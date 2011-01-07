@@ -29,11 +29,8 @@ ImageWindow::ImageWindow(QWidget *parent, QString filePath, QString fileName) :
 
     image=new ImageAbstraction(filePath,0);
 
-    //*pixel = qRgba(255,0,0,100);
-    //int blue = qBlue(*pixel);
     /** Adding scroll:begin **/
-    //ImageLabel *
-            label=new ImageLabel(this);
+    label=new ImageLabel(this);
     label->setAccessibleName("label");
     label->setObjectName("label");    
     //label->setMinimumHeight(480);
