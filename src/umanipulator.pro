@@ -20,5 +20,4 @@ HEADERS  += mainwindow.h \
     custom/imageabstration.h \
     custom/imagelabel.h
 
-FORMS    += mainwindow.ui \
-    imagewindow.ui
+FORMS    += mainwindow.ui
