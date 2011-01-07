@@ -65,3 +65,6 @@ void MainWindow::saveas(void){
     }
 }
 
+void MainWindow::histogram(void){
+    QMessageBox::warning(this, tr("Warning"), tr("histogram."));
+}

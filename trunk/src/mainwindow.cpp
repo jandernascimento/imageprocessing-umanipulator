@@ -64,6 +64,8 @@ void MainWindow::setupViewMenu(QMenu *menu){
     QAction *colorbaraction=new QAction(("&Color information bar"), this);
     QAction *histogramaction=new QAction(("&Histogram"), this);
 
+    configureHistogram(histogramaction);
+
     menu->addAction(colorbaraction);
     menu->addAction(histogramaction);
 
@@ -126,6 +128,10 @@ void MainWindow::configureSave(QAction *act){
 
 void MainWindow::configureSaveAs(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(saveas()));
+}
+
+void MainWindow::configureHistogram(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(histogram()));
 }
 
 MainWindow::~MainWindow()
