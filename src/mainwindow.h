@@ -21,6 +21,7 @@ public slots:
      void saveas(void);
      void save(void);
      void quit(void);
+     void histogram(void);
 private:
     Ui::MainWindow *ui;
     ImageWindow *imagewin;
@@ -40,6 +41,7 @@ private:
     void configureSave(QAction *act);
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
+    void configureHistogram(QAction *act);
 };
 
 #endif // MAINWINDOW_H
