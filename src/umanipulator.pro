@@ -15,7 +15,7 @@ SOURCES += main.cpp\
     mainwindowactions.cpp \
     custom/imageabstration.cpp \
     custom/imagelabel.cpp \
-    dialogcontrast.cpp
+    dialogcontrast.cpp \
     histogram.cpp
 
 HEADERS  += mainwindow.h \
