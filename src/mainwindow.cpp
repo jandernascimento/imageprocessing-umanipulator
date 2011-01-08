@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->horizontalLayout->addWidget(scroll);
 
+
+
     connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
 
 }
@@ -128,6 +130,10 @@ void MainWindow::setupImageAdvancedSubMenu(QMenu *menu){
 void MainWindow::setupColorMenu(QMenu *menu){
     QAction *contrast=new QAction(("&Contrast and equalization"), this);
     QAction *convertGrey=new QAction(("Convert to &grey scale"), this);
+
+    configureContrast(contrast);
+    configureGrey(convertGrey);
+
     menu->addAction(contrast);
     menu->addAction(convertGrey);
 }
@@ -142,6 +148,14 @@ void MainWindow::configureOpen(QAction *act){
 
 void MainWindow::configureSave(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(save()));
+}
+
+void MainWindow::configureContrast(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(dialogContrast()));
+}
+
+void MainWindow::configureGrey(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(applyGrey()));
 }
 
 void MainWindow::configureSaveAs(QAction *act){

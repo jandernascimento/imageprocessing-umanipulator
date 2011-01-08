@@ -5,6 +5,10 @@
 #include "imagewindow.h"
 #include <custom/imagelabel.h>
 #include <custom/imageabstration.h>
+#include <mainwindow.h>
+#include <dialogcontrast.h>
+
+
 
 namespace Ui {
     class MainWindow;
@@ -18,19 +22,24 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void save(QString fileName);
+    ImageAbstraction *image;
+    ImageLabel *label;
 
 public slots:
      void open(void);
      void saveas(void);
      void save(void);
      void quit(void);
+     void dialogContrast(void);
      void mouseOver(QMouseEvent* event);
      void histogram(void);
+     void applyContrast(int,int);
+     void applyGrey(void);
+
 private:
     Ui::MainWindow *ui;
     ImageWindow *imagewin;
-    ImageAbstraction *image;
-    ImageLabel *label;
+    DialogContrast mDialogContrast;
     QString fileSelected;
     QMenu *filemenu;
     QMenu *viewmenu;
@@ -45,9 +54,12 @@ private:
     void setupColorMenu(QMenu *menu);
     void configureOpen(QAction *act);
     void configureSave(QAction *act);
+    void configureContrast(QAction *act);
+    void configureGrey(QAction *act);
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);
+
 };
 
 #endif // MAINWINDOW_H
