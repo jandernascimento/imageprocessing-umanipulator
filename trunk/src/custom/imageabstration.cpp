@@ -4,9 +4,9 @@ ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):
 
     qDebug("Calling custom constructor");
 
-    UpdateColorRange();
+    //ApplyFilterGreyScale();
 
-    ApplyFilterGreyScale();
+    UpdateColorRange();
 
 }
 
@@ -108,6 +108,60 @@ void ImageAbstraction::ApplyFilterGreyScale(){
 
 }
 
+void ImageAbstraction::ApplyFilterContrast(int newmin,int newmax){
+
+    for(int x=0;x<this->height();x++){
+        for(int y=0;y<this->width();y++){
+
+            int blue=qBlue(*getPixel(x,y));
+            int red=qRed(*getPixel(x,y));
+            int green=qGreen(*getPixel(x,y));
+
+            /** RED **/
+
+            int actmin=this->getMinColorValue(ImageAbstraction::red);
+            int actmax=this->getMaxColorValue(ImageAbstraction::red);
+            int actdelta=actmax-actmin;
+            int newdelta=newmax-newmin;
+            float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
+            int newred=newmin+mul*(red-actmin);
+
+            /** GREEN **/
+
+            actmin=this->getMinColorValue(ImageAbstraction::green);
+            actmax=this->getMaxColorValue(ImageAbstraction::green);
+            actdelta=actmax-actmin;
+            newdelta=newmax-newmin;
+            mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
+            int newgreen=newmin+mul*(green-actmin);
+
+            /** BLUE **/
+            actmin=this->getMinColorValue(ImageAbstraction::blue);
+            actmax=this->getMaxColorValue(ImageAbstraction::blue);
+            actdelta=actmax-actmin;
+            newdelta=newmax-newmin;
+            mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
+            int newblue=newmin+mul*(blue-actmin);
+/*
+            qDebug("blue actmax:%i actmin:%i value:%i percentual:%f",
+                   this->getMinColorValue(ImageAbstraction::blue),
+                   this->getMaxColorValue(ImageAbstraction::blue),
+                   newvalue,
+                   mul);
+*/
+            setPixel(x,y,newred,newgreen,newblue);
+
+            //break;
+
+        }
+
+        //break;
+
+    }
+UpdateColorRange();
+
+}
+
 void ImageAbstraction::UpdateColorRange(){
 
     redmax=-1;
@@ -133,6 +187,10 @@ void ImageAbstraction::UpdateColorRange(){
             int green=qGreen(*getPixel(x,y));
             if(green>greenmax) greenmax=green;
             if(green<greenmin) greenmin=green;
+
+            //if(blue==255)
+            //    qDebug("Blue is 255 x:%i y:%i",x,y);
+
 
         }
     }

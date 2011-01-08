@@ -20,6 +20,7 @@ class ImageAbstraction : public QImage
 
           /** Filter and masks **/
           void ApplyFilterGreyScale();
+          void ApplyFilterContrast(int min,int max);
 
     private:
           int redmax;

@@ -15,13 +15,16 @@ SOURCES += main.cpp\
     mainwindowactions.cpp \
     custom/imageabstration.cpp \
     custom/imagelabel.cpp \
+    dialogcontrast.cpp
     histogram.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
     custom/imagelabel.h \
-    form.h \
+    dialogcontrast.h \
     histogram.h
 
 FORMS    += mainwindow.ui \
+    dialogcontrast.ui \
     histogram.ui
+

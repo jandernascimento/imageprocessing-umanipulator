@@ -3,8 +3,9 @@
 #include <QMessageBox>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <dialogcontrast.h>
+#include <QPixmap>
 #include "histogram.h"
-
 
 void MainWindow::histogram(void){
     /*QGraphicsScene scene;
@@ -84,3 +85,30 @@ void MainWindow::saveas(void){
     }
 }
 
+void MainWindow::dialogContrast(void){
+
+   mDialogContrast.show();
+   connect(&mDialogContrast,
+           SIGNAL(constrastChanged(int,int)),
+           this,
+           SLOT(applyContrast(int,int)));
+
+}
+
+void MainWindow::applyContrast(int newmin,int newmax){
+
+    qDebug("Chegou");
+
+    image->ApplyFilterContrast(newmin,newmax);
+
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+
+}
+
+void MainWindow::applyGrey(){
+
+    image->ApplyFilterGreyScale();
+
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+
+}
