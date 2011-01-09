@@ -33,5 +33,12 @@ void DialogContrast::contrastChanged(int value)
 
 }
 
+void DialogContrast::setMinMax(int min,int max){
+
+    horizontalSlider->setValue(min);
+    horizontalSlider_2->setValue(max);
+
+}
+
 
 
