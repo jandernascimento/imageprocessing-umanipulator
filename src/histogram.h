@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::Histogram *ui;
+
 };
 
 #endif // HISTOGRAM_H

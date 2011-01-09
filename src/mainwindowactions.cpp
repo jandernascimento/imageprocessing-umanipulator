@@ -8,12 +8,6 @@
 #include "histogram.h"
 
 void MainWindow::histogram(void){
-    /*QGraphicsScene scene;
-    scene.addText("Hello, world!");
-
-    QGraphicsView view(&scene);
-    view.show();*/
-
     Histogram *histowin=new Histogram(this);
     histowin->show();
 }
