@@ -1,6 +1,5 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
-<<<<<<< .mine
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include "dialogcontrast.h"
