@@ -88,22 +88,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QCheckBox" name="checkBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>91</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Lock</string>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections>

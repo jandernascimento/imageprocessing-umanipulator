@@ -203,14 +203,12 @@ void ImageAbstraction::UpdateColorRange(){
     greenmin=300;
     bluemax=-1;
     bluemin=300;
-
+/*
     int minimum=300;
     int maximum=-1;
-
+*/
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
-
-            /**
             int blue=qBlue(*getPixel(x,y));
             if(blue>bluemax) bluemax=blue;
             if(blue<bluemin) bluemin=blue;
@@ -226,11 +224,7 @@ void ImageAbstraction::UpdateColorRange(){
             colorcounterred[red]++;
             colorcountergreen[green]++;
             colorcounterblue[blue]++;
-            **/
-
-
-
-
+            /*
             if(qRed(*getPixel(x,y))<minimum){
                 minimum=qRed(*getPixel(x,y));
             }
@@ -257,6 +251,7 @@ void ImageAbstraction::UpdateColorRange(){
             greenmin=minimum;
             bluemax=maximum;
             bluemin=minimum;
+            */
 
         }
     }
