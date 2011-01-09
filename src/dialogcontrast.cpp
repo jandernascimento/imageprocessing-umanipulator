@@ -2,7 +2,6 @@
 #include "ui_dialogcontrast.h"
 #include "QtCore/QtCore"
 #include <QtGui>
-//#include <mainwindow.h>
 #include <QPixmap>
 
 DialogContrast::DialogContrast(QDialog *parent)
@@ -14,6 +13,7 @@ DialogContrast::DialogContrast(QDialog *parent)
     qDebug(s.toAscii());
 
     connect(horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
+    connect(horizontalSlider_2,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
 
 
 }
@@ -29,18 +29,9 @@ void DialogContrast::contrastChanged(int value)
 
     qDebug(v.toAscii());
 
-    emit constrastChanged(value,this->horizontalSlider_2->value());
-
-    //this->win->image->ApplyFilterContrast(value);
-
-    //this->win->label->setPixmap(QPixmap::fromImage(*this->win->image,Qt::AutoColor));
+    emit constrastChanged(this->horizontalSlider->value(),this->horizontalSlider_2->value());
 
 }
 
-/*
-void DialogContrast::setWindow(MainWindow *pw){
-    this->win=pw;
-}
-*/
 
 

@@ -1,4 +1,5 @@
 #include "imageabstration.h"
+#include "math.h"
 
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
 
@@ -113,35 +114,10 @@ void ImageAbstraction::ApplyFilterContrast(int newmin,int newmax){
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
 
-            int blue=qBlue(*getPixel(x,y));
-            int red=qRed(*getPixel(x,y));
-            int green=qGreen(*getPixel(x,y));
-
-            /** RED **/
-
-            int actmin=this->getMinColorValue(ImageAbstraction::red);
-            int actmax=this->getMaxColorValue(ImageAbstraction::red);
-            int actdelta=actmax-actmin;
-            int newdelta=newmax-newmin;
-            float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
-            int newred=newmin+mul*(red-actmin);
-
-            /** GREEN **/
-
-            actmin=this->getMinColorValue(ImageAbstraction::green);
-            actmax=this->getMaxColorValue(ImageAbstraction::green);
-            actdelta=actmax-actmin;
-            newdelta=newmax-newmin;
-            mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
-            int newgreen=newmin+mul*(green-actmin);
-
-            /** BLUE **/
-            actmin=this->getMinColorValue(ImageAbstraction::blue);
-            actmax=this->getMaxColorValue(ImageAbstraction::blue);
-            actdelta=actmax-actmin;
-            newdelta=newmax-newmin;
-            mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
-            int newblue=newmin+mul*(blue-actmin);
+            setPixel(x,y,
+            ApplyFilterContrastRule(red,x,y,newmin,newmax),
+            ApplyFilterContrastRule(green,x,y,newmin,newmax),
+            ApplyFilterContrastRule(blue,x,y,newmin,newmax));
 /*
             qDebug("blue actmax:%i actmin:%i value:%i percentual:%f",
                    this->getMinColorValue(ImageAbstraction::blue),
@@ -149,16 +125,50 @@ void ImageAbstraction::ApplyFilterContrast(int newmin,int newmax){
                    newvalue,
                    mul);
 */
-            setPixel(x,y,newred,newgreen,newblue);
-
-            //break;
-
         }
 
-        //break;
-
     }
-UpdateColorRange();
+
+    UpdateColorRange();
+
+}
+
+int ImageAbstraction::ApplyFilterContrastRule(enum ecolor color,int x,int y,int min,int max){
+    int colorvalue=0;
+
+    switch(color){
+    case blue:
+        colorvalue=qBlue(*getPixel(x,y));
+        break;
+    case red:
+        colorvalue=qRed(*getPixel(x,y));
+        break;
+    case green:
+        colorvalue=qGreen(*getPixel(x,y));
+        break;
+    }
+
+    /*
+    int actmin=this->getMinColorValue(color);
+    int actmax=this->getMaxColorValue(color);
+    int actdelta=actmax-actmin;
+    //int newdelta=max-min;
+    int newdelta=max-min;
+    //float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
+    float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
+    int newcolor=actmin+mul*(colorvalue-actmin);
+*/
+    float brightness=-1*((float)min)/((float)255);
+
+    float value=((float)colorvalue)/((float)255);
+
+    float contrast=((float)max)/((float)255);
+
+    if (brightness < 0.0)  value = value * ( 1.0 + brightness);
+                      else value = value + ((1.0 - value) * brightness);
+    //value = (value - 0.5) * (tan ((contrast + 1) * 2.1415/4) ) + 0.5;
+
+    return (int)(value*(float)255);
 
 }
 
