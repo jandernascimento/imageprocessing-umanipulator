@@ -22,6 +22,7 @@ class ImageAbstraction : public QImage
           void ApplyFilterGreyScale();
           void ApplyFilterContrast(int min,int max);
 
+
     private:
           int redmax;
           int redmin;
@@ -29,6 +30,7 @@ class ImageAbstraction : public QImage
           int greenmin;
           int bluemax;
           int bluemin;
+          int ApplyFilterContrastRule(enum ecolor color,int x,int y,int min,int max);
 
 };
 

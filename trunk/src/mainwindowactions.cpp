@@ -57,6 +57,8 @@ void MainWindow::open(void){
 
         image=new ImageAbstraction(file.absoluteFilePath(),0);
         label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+
+        connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
     }
 }
 
@@ -102,6 +104,7 @@ void MainWindow::applyContrast(int newmin,int newmax){
     image->ApplyFilterContrast(newmin,newmax);
 
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+
 
 }
 
