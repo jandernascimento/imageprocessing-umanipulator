@@ -13,6 +13,7 @@ class DialogContrast : public QDialog, private Ui::dialogcontrast
 public:
     DialogContrast(QDialog *parent = 0);
     //void setWindow(MainWindow *pw);
+    void setMinMax(int min,int max);
 
 private:
     //MainWindow *win;

@@ -17,6 +17,7 @@ class ImageAbstraction : public QImage
           void UpdateColorRange(void);
           int getMinColorValue(enum ecolor color);
           int getMaxColorValue(enum ecolor color);
+          int getColorCounter(enum ecolor color,int level);
 
           /** Filter and masks **/
           void ApplyFilterGreyScale();
@@ -30,6 +31,9 @@ class ImageAbstraction : public QImage
           int greenmin;
           int bluemax;
           int bluemin;
+          int colorcounterred[256];
+          int colorcountergreen[256];
+          int colorcounterblue[256];
           int ApplyFilterContrastRule(enum ecolor color,int x,int y,int min,int max);
 
 };

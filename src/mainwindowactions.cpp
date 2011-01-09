@@ -83,6 +83,12 @@ void MainWindow::saveas(void){
 
 void MainWindow::dialogContrast(void){
 
+    mDialogContrast.setMinMax(
+            image->getMinColorValue(ImageAbstraction::blue),
+            image->getMaxColorValue(ImageAbstraction::blue)
+            );
+    mDialogContrast.update();
+
    mDialogContrast.show();
    connect(&mDialogContrast,
            SIGNAL(constrastChanged(int,int)),

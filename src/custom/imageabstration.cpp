@@ -148,16 +148,20 @@ int ImageAbstraction::ApplyFilterContrastRule(enum ecolor color,int x,int y,int 
         break;
     }
 
-    /*
+
     int actmin=this->getMinColorValue(color);
     int actmax=this->getMaxColorValue(color);
+
+
     int actdelta=actmax-actmin;
-    //int newdelta=max-min;
     int newdelta=max-min;
     //float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
     float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
     int newcolor=actmin+mul*(colorvalue-actmin);
-*/
+
+    return newcolor;
+
+    /*
     float brightness=-1*((float)min)/((float)255);
 
     float value=((float)colorvalue)/((float)255);
@@ -169,6 +173,25 @@ int ImageAbstraction::ApplyFilterContrastRule(enum ecolor color,int x,int y,int 
     //value = (value - 0.5) * (tan ((contrast + 1) * 2.1415/4) ) + 0.5;
 
     return (int)(value*(float)255);
+    */
+
+}
+
+int ImageAbstraction::getColorCounter(enum ecolor color,int level){
+
+    switch(color){
+    case blue:
+        return colorcounterblue[level];
+        break;
+    case red:
+        return colorcounterred[level];
+        break;
+    case green:
+        return colorcountergreen[level];
+        break;
+    }
+
+    return -1;
 
 }
 
@@ -181,11 +204,13 @@ void ImageAbstraction::UpdateColorRange(){
     bluemax=-1;
     bluemin=300;
 
+    int minimum=300;
+    int maximum=-1;
+
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
-            //Sets all red values to the maximum, so the image becomes i little redy
-            //setPixel(ImageAbstraction::red,x,y,255);
 
+            /**
             int blue=qBlue(*getPixel(x,y));
             if(blue>bluemax) bluemax=blue;
             if(blue<bluemin) bluemin=blue;
@@ -198,9 +223,40 @@ void ImageAbstraction::UpdateColorRange(){
             if(green>greenmax) greenmax=green;
             if(green<greenmin) greenmin=green;
 
-            //if(blue==255)
-            //    qDebug("Blue is 255 x:%i y:%i",x,y);
+            colorcounterred[red]++;
+            colorcountergreen[green]++;
+            colorcounterblue[blue]++;
+            **/
 
+
+
+
+            if(qRed(*getPixel(x,y))<minimum){
+                minimum=qRed(*getPixel(x,y));
+            }
+            if(qGreen(*getPixel(x,y))<minimum){
+                minimum=qGreen(*getPixel(x,y));
+            }
+            if(qBlue(*getPixel(x,y))<minimum){
+                minimum=qBlue(*getPixel(x,y));
+            }
+
+            if(qRed(*getPixel(x,y))>maximum){
+                maximum=qRed(*getPixel(x,y));
+            }
+            if(qGreen(*getPixel(x,y))>maximum){
+                maximum=qGreen(*getPixel(x,y));
+            }
+            if(qBlue(*getPixel(x,y))>maximum){
+                maximum=qBlue(*getPixel(x,y));
+            }
+
+            redmax=maximum;
+            redmin=minimum;
+            greenmax=maximum;
+            greenmin=minimum;
+            bluemax=maximum;
+            bluemin=minimum;
 
         }
     }
