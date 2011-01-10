@@ -114,10 +114,13 @@ void ImageAbstraction::ApplyFilterContrast(int newmin,int newmax){
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
 
-            setPixel(x,y,
-            ApplyFilterContrastRule(red,x,y,newmin,newmax),
-            ApplyFilterContrastRule(green,x,y,newmin,newmax),
-            ApplyFilterContrastRule(blue,x,y,newmin,newmax));
+            if(!this->isGrayscale()||true){
+                setPixel(x,y,
+                ApplyFilterContrastRule(red,x,y,newmin,newmax),
+                ApplyFilterContrastRule(green,x,y,newmin,newmax),
+                ApplyFilterContrastRule(blue,x,y,newmin,newmax));
+            }else{
+            }
 /*
             qDebug("blue actmax:%i actmin:%i value:%i percentual:%f",
                    this->getMinColorValue(ImageAbstraction::blue),
@@ -195,7 +198,40 @@ int ImageAbstraction::getColorCounter(enum ecolor color,int level){
 
 }
 
+void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy){
+
+    qDebug("Fusion called");
+
+    int total=this->height()*this->width();
+    int numbertoplot=percentage*total;
+    int space=total/numbertoplot;
+    int pcounter=0;
+
+    for(int x=0;x<this->height();x++){
+        for(int y=0;y<this->width();y++){
+
+            if(y>fimage->width()) break;
+
+            if(++pcounter==space){
+                //qDebug("fundiu");
+                QRgb *pix=getPixel(x,y);
+                QRgb *pixext=fimage->getPixel(x,y);
+                *pix=qRgba(qRed(*pixext),qGreen(*pixext),qBlue(*pixext),255);
+                //*pix=qRgba(255,0,0,255);
+                pcounter=0;
+            }
+
+        }
+    }
+}
+
 void ImageAbstraction::UpdateColorRange(){
+
+    for(int count=0;count<256;count++){
+        colorcounterred[count]=0;
+        colorcountergreen[count]=0;
+        colorcounterblue[count]=0;
+    }
 
     redmax=-1;
     redmin=300;

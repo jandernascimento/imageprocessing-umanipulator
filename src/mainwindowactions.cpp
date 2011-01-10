@@ -108,6 +108,22 @@ void MainWindow::applyContrast(int newmin,int newmax){
 
 }
 
+void MainWindow::applyFusion(){
+
+    QFileInfo file = fileSelected=QFileDialog::getOpenFileName(this,
+                tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
+
+    //QString fileSelected=file.fileName();
+
+    ImageAbstraction *no=new ImageAbstraction(file.absoluteFilePath(),0);
+
+    this->image->ApplyFilterFusion(no,0.3,0,0);
+
+    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+
+}
+
+
 void MainWindow::applyGrey(){
 
     image->ApplyFilterGreyScale();

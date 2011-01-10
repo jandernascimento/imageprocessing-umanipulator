@@ -93,6 +93,8 @@ void MainWindow::setupImageMenu(QMenu *menu){
     QAction *fusion=new QAction(("&Fusion"), this);
     QAction *resize=new QAction(("&Resize"), this);
 
+    configureFusion(fusion);
+
     menu->addAction(crop);
     menu->addAction(blur);
     menu->addAction(fusion);
@@ -171,6 +173,10 @@ void MainWindow::save(QString fileName){
 
 void MainWindow::configureHistogram(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(histogram()));
+}
+
+void MainWindow::configureFusion(QAction *act){
+    connect(act, SIGNAL(triggered()),this, SLOT(applyFusion()));
 }
 
 MainWindow::~MainWindow()
