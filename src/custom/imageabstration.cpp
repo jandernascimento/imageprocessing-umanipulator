@@ -207,15 +207,15 @@ void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percenta
     int space=total/numbertoplot;
     int pcounter=0;
 
-    for(int x=0;x<this->height();x++){
-        for(int y=0;y<this->width();y++){
+    for(int x=posx;x<this->height();x++){
+        for(int y=posy;y<this->width();y++){
 
             if(y>fimage->width()) break;
 
             if(++pcounter==space){
                 //qDebug("fundiu");
                 QRgb *pix=getPixel(x,y);
-                QRgb *pixext=fimage->getPixel(x,y);
+                QRgb *pixext=fimage->getPixel(x-posx,y-posy);
                 *pix=qRgba(qRed(*pixext),qGreen(*pixext),qBlue(*pixext),255);
                 //*pix=qRgba(255,0,0,255);
                 pcounter=0;
