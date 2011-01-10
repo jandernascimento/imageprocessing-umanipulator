@@ -17,7 +17,8 @@ public:
 
 private:
     Ui::Histogram *ui;
-
+    void drawHistogram(void);
+    void fillArray(int *n_colors,int n_items);
 };
 
 #endif // HISTOGRAM_H
