@@ -3,6 +3,7 @@
 #include <QPoint>
 #ifndef IMAGELABEL_H
 #define IMAGELABEL_H
+#include <QRubberBand>
 
 class ImageLabel : public QLabel
 {
@@ -14,7 +15,11 @@ class ImageLabel : public QLabel
       void selected(QMouseEvent* event);
     protected:
       void mousePressEvent( QMouseEvent* event );
-      //void mouseMoveEvent( QMouseEvent* event );
+      void mouseMoveEvent(QMouseEvent *e);
+      void mouseReleaseEvent ( QMouseEvent * event );
+      QRubberBand *rubberBand;
+      QPoint start;
+      QPoint end;
 
 };
 

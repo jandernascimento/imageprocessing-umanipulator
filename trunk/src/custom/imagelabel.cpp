@@ -1,17 +1,42 @@
 #include "imagelabel.h"
+#include <QRubberBand>
+
 
 ImageLabel::ImageLabel(QWidget *parent){
     this->setParent(parent);
+
+    rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
+
 }
 
-void ImageLabel::mousePressEvent (QMouseEvent* eve)
+void ImageLabel::mouseMoveEvent(QMouseEvent *e) {
+
+     rubberBand->setGeometry(QRect(start, e->pos()).normalized());
+     rubberBand->show();
+
+}
+
+void ImageLabel::mousePressEvent (QMouseEvent* event)
 {
-    if(eve->button() == Qt::LeftButton)
+
+    start=event->pos();
+
+    rubberBand->setGeometry(QRect(start, start));
+    rubberBand->show();
+
+    if(event->button() == Qt::LeftButton)
     {
-        emit selected(eve);
+        emit selected(event);
     }
+
+
+
 }
 
-//void ImageLabel::mouseMoveEvent( QMouseEvent* event ){
-        //emit selected();
-//}
+void ImageLabel::mouseReleaseEvent ( QMouseEvent * event ){
+    qDebug("Mouse released");
+}
+
+
+
+
