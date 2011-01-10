@@ -93,6 +93,16 @@ void MainWindow::dialogContrast(void){
 
 }
 
+void MainWindow::dialogFusion(void){
+
+    dialogfusion *df=new dialogfusion();
+
+    connect(df, SIGNAL(fusion(QString,float ,int , int )),this, SLOT(applyFusion(QString,float ,int , int)));
+
+    df->show();
+
+}
+
 void MainWindow::applyContrast(int newmin,int newmax){
 
     qDebug("Chegou");
@@ -104,16 +114,11 @@ void MainWindow::applyContrast(int newmin,int newmax){
 
 }
 
-void MainWindow::applyFusion(){
+void MainWindow::applyFusion(QString path, float percentage,int x, int y){
 
-    QFileInfo file = fileSelected=QFileDialog::getOpenFileName(this,
-                tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
+    ImageAbstraction *externalImage=new ImageAbstraction(path,0);
 
-    //QString fileSelected=file.fileName();
-
-    ImageAbstraction *no=new ImageAbstraction(file.absoluteFilePath(),0);
-
-    this->image->ApplyFilterFusion(no,0.3,0,0);
+    this->image->ApplyFilterFusion(externalImage,percentage,x,y);
 
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
 
