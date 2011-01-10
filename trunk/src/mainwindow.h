@@ -34,6 +34,7 @@ public slots:
      void mouseOver(QMouseEvent* event);
      void histogram(void);
      void applyContrast(int,int);
+     void applyFusion(void);
      void applyGrey(void);
 
 private:
@@ -56,6 +57,7 @@ private:
     void configureSave(QAction *act);
     void configureContrast(QAction *act);
     void configureGrey(QAction *act);
+    void configureFusion(QAction *act);
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);

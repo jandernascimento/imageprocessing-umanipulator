@@ -24,7 +24,7 @@ void DialogContrast::contrastChanged(int value)
    /* QMessageBox::about(this,"About myQtApp",
                 "This app was coded for educational purposes.\n"
                 "Number 1 is: " + QString::number(spinBox1->value()) + "\n\n"
-                "Bye.\n");*/
+                "Bye.\n"); */
     QString v=QString("%1").arg(value);
 
     qDebug(v.toAscii());
