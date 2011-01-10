@@ -16,15 +16,17 @@ SOURCES += main.cpp\
     custom/imageabstration.cpp \
     custom/imagelabel.cpp \
     dialogcontrast.cpp \
-    histogram.cpp
+    histogram.cpp \
+    dialogfusion.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
     custom/imagelabel.h \
     dialogcontrast.h \
-    histogram.h
+    histogram.h \
+    dialogfusion.h
 
 FORMS    += mainwindow.ui \
     dialogcontrast.ui \
-    histogram.ui
-
+    histogram.ui \
+    dialogfusion.ui

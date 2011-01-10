@@ -7,6 +7,7 @@
 #include <custom/imageabstration.h>
 #include <mainwindow.h>
 #include <dialogcontrast.h>
+#include <dialogfusion.h>
 
 namespace Ui {
     class MainWindow;
@@ -29,10 +30,11 @@ public slots:
      void save(void);
      void quit(void);
      void dialogContrast(void);
+     void dialogFusion(void);
      void mouseOver(QMouseEvent* event);
      void histogram(void);
      void applyContrast(int,int);
-     void applyFusion(void);
+     void applyFusion(QString path, float percentage,int x, int y);
      void applyGrey(void);
 
 private:

@@ -179,7 +179,9 @@ void MainWindow::configureHistogram(QAction *act){
 }
 
 void MainWindow::configureFusion(QAction *act){
-    connect(act, SIGNAL(triggered()),this, SLOT(applyFusion()));
+
+    connect(act, SIGNAL(triggered()),this, SLOT(dialogFusion()));
+
 }
 
 MainWindow::~MainWindow()
