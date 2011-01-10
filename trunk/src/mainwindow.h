@@ -8,8 +8,6 @@
 #include <mainwindow.h>
 #include <dialogcontrast.h>
 
-
-
 namespace Ui {
     class MainWindow;
 }
@@ -61,7 +59,6 @@ private:
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);
-
 };
 
 #endif // MAINWINDOW_H

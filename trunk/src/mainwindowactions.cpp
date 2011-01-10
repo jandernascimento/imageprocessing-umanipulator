@@ -1,10 +1,6 @@
 #include "mainwindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <dialogcontrast.h>
-#include <QPixmap>
 #include "histogram.h"
 
 void MainWindow::histogram(void){

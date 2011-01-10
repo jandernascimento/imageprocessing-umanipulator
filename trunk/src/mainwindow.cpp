@@ -6,6 +6,7 @@
 #include <custom/imageabstration.h>
 #include <QScrollArea>
 
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -26,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     scroll->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
     ui->horizontalLayout->addWidget(scroll);
+
+
 
 }
 
@@ -183,3 +186,5 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
