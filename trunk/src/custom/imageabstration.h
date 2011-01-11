@@ -23,6 +23,7 @@ class ImageAbstraction : public QImage
           void ApplyFilterGreyScale();
           void ApplyFilterContrast(int min,int max);
           void ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy);
+          QImage* ApplyCrop(int startx,int starty,int endx,int endy);
 
 
     private:

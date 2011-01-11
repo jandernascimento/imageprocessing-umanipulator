@@ -213,16 +213,37 @@ void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percenta
             if(y>fimage->width()) break;
 
             if(++pcounter==space){
-                //qDebug("fundiu");
                 QRgb *pix=getPixel(x,y);
                 QRgb *pixext=fimage->getPixel(x-posx,y-posy);
                 *pix=qRgba(qRed(*pixext),qGreen(*pixext),qBlue(*pixext),255);
-                //*pix=qRgba(255,0,0,255);
                 pcounter=0;
             }
 
         }
     }
+}
+
+QImage* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int endy){
+
+    QImage *newImage=new QImage( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
+
+    for(int x=startx;x<endx;x++){
+        for(int y=starty;y<endx;y++){
+
+                QRgb *pixel = (QRgb *)newImage->scanLine(x-startx);
+                pixel=(pixel+y-starty);
+
+                //QRgb b=moi->pixel(QPoint(10,10));
+                *pixel=qRgba(getPixelColorIntensity(ImageAbstraction::red,x,y),
+                             getPixelColorIntensity(ImageAbstraction::green,x,y),
+                             getPixelColorIntensity(ImageAbstraction::blue,x,y),
+                             255);
+
+        }
+    }
+
+    return newImage;
+
 }
 
 void ImageAbstraction::UpdateColorRange(){

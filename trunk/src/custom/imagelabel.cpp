@@ -35,8 +35,19 @@ void ImageLabel::mousePressEvent (QMouseEvent* event)
 
 void ImageLabel::mouseReleaseEvent ( QMouseEvent * event ){
     qDebug("Mouse released");
+    end=event->pos();
+
+    emit areaselected(start.x(),start.y(),end.x(),end.y());
+
 }
 
+/*
+void ImageLabel::areaselected(int startx,int starty, int endx, int endy){
+
+
+
+}
+*/
 
 
 

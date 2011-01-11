@@ -35,6 +35,7 @@ public slots:
      void histogram(void);
      void applyContrast(int,int);
      void applyFusion(QString path, float percentage,int x, int y);
+     void applyCrop(int startx,int starty,int endx,int endy);
      void applyGrey(void);
 
 private:
