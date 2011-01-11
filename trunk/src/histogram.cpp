@@ -1,9 +1,5 @@
 #include "histogram.h"
 #include "ui_histogram.h"
-#include <QComboBox>
-#include <QGridLayout>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMessageBox>
@@ -14,7 +10,6 @@ Histogram::Histogram(QWidget *parent) :
     ui(new Ui::Histogram)
 {
     ui->setupUi(this);
-    this->drawHistogram();
 }
 
 Histogram::~Histogram()
@@ -30,6 +25,12 @@ void Histogram::fillArray(int *n_colors,int n_items){
 }
 
 void Histogram::drawHistogram(void){
+    qDebug("****************2-BLUE:%i red:%i green:%i",
+           this->image->getMaxColorValue(ImageAbstraction::blue),
+           this->image->getMaxColorValue(ImageAbstraction::red),
+           this->image->getMaxColorValue(ImageAbstraction::green));
+
+
     int minx=30;
     int maxx=550; //x axis goes from 0 to 255. So maxx is equivalent to 255
     int miny=30;
@@ -41,12 +42,13 @@ void Histogram::drawHistogram(void){
     //filling the array with the number os pixels for each color's level
     int n_columns=maxx_hist_default/weight_hist_default; //number of columns of the histogram
     int n_colors[n_columns]; //number of times that color's level appears (height of the column of the histogram). ||should be passed to the procedure by param
-    fillArray(n_colors,n_columns); //fill the array with random values
+    //fillArray(n_colors,n_columns); //fill the array with random values
     /*/
     for(int i=0;i<n_columns;i++){
         n_colors[i]=0;
         for(int j=(i*weight_hist_default);j<((i+1)*weight_hist_default);j++){
-            n_colors[i]=n_colors[i]+w.image->getColorCounter(ImageAbstraction::blue,j);
+            n_colors[i]=n_colors[i];
+            qDebug("%i",MainWindow.image->getColorCounter(ImageAbstraction::blue,j));
             qDebug("\n%i-%i-%i",i,j,n_colors[i]);
         }
     }
