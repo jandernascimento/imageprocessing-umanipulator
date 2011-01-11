@@ -234,7 +234,7 @@ QImage* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int endy){
     QImage *newImage=new QImage( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
 
     for(int x=startx;x<endx;x++){
-        for(int y=starty;y<endx;y++){
+        for(int y=starty;y<endy;y++){
 
                 QRgb *pixel = (QRgb *)newImage->scanLine(x-startx);
                 pixel=(pixel+y-starty);
