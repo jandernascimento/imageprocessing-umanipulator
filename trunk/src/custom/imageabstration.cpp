@@ -1,5 +1,8 @@
 #include "imageabstration.h"
 #include "math.h"
+#include <assert.h>
+
+
 
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
 
@@ -19,6 +22,8 @@ QRgb* ImageAbstraction::getPixel(int x, int y){
 
 int ImageAbstraction::getPixelColorIntensity(enum ecolor color,int x, int y){
 
+assert(color==ImageAbstraction::red||color==ImageAbstraction::green||color==ImageAbstraction::blue);
+
     switch(color){
         case ImageAbstraction::red:
             return qRed(*getPixel(x,y));
@@ -31,6 +36,7 @@ int ImageAbstraction::getPixelColorIntensity(enum ecolor color,int x, int y){
         case ImageAbstraction::blue:
             return qBlue(*getPixel(x,y));
             break;
+
     };
 
     return -1;
@@ -317,4 +323,130 @@ void ImageAbstraction::UpdateColorRange(){
     qDebug("Green min:%i max:%i",getMinColorValue(ImageAbstraction::green),getMaxColorValue(ImageAbstraction::green));
     qDebug("Blue min:%i max:%i",getMinColorValue(ImageAbstraction::blue),getMaxColorValue(ImageAbstraction::blue));
 
+}
+
+double* ImageAbstraction::ApplyFilterGaussian(int dim, int sig){
+
+        const double pi = 3.141592;
+        const double ee = 2.718281;
+        double* kernel = (double*)malloc(sizeof(double)*dim*dim);
+        double tmp1, tmp2;
+        int center = (int)(dim/2.0);
+        for (int i=0; i<dim; ++i)
+                for (int j=0; j<dim; ++j)
+                {
+                        tmp1 = 1.0/(2.0*pi*sig*sig);
+                        tmp2 = -1.0*(((i-center)*(i-center)+(j-center)*(j-center))/(2.0*sig*sig));
+                        kernel[i*dim+j] = tmp1*pow(ee,tmp2);
+                }
+        return kernel;
+
+}
+void ImageAbstraction::ApplyConvolution(int dim, int sig){
+       double* kernel = ImageAbstraction::ApplyFilterGaussian(dim,sig);
+       int j;  // row    index of the current image
+       int i;  // column index of the current image
+       int jk; // row    index of the kernel;
+       int ik; // column index of the kernel;
+       int newval[3]; // new colors
+       int kernelCenteri; // index of the central column of the kernel
+       int kernelCenterj; // index of the central row of the kernel
+       double kernelTotalValue;
+
+       kernelCenteri = dim / 2;
+       kernelCenterj = dim / 2;
+       kernelTotalValue = 0.0;
+       for (j = 0; j < dim; j++)
+         for(i = 0; i < dim; i++)
+           kernelTotalValue += (double)(kernel[j*dim+i]);
+       // convolution computation
+       for (j = 0; j < this->height(); j++) {
+         for (i = 0; i < this->width(); i++) {
+           newval[0] = 0;
+           newval[1] = 0;
+           newval[2] = 0;
+           for (jk = 0; jk < dim; jk++) {
+             for (ik = 0; ik < dim; ik++) {
+               int ii = i + ik - kernelCenteri;
+               int jj = j + jk - kernelCenterj;
+               if ((jj > 0) && (jj <this->height() ) && (ii > 0) && (ii < this->width()))
+               {
+                   newval[0] += getPixelColorIntensity(ImageAbstraction::red,jj,ii) * (double)(kernel[jk*dim+ik]);
+                   newval[1] += getPixelColorIntensity(ImageAbstraction::green,jj,ii) * (double)(kernel[jk*dim+ik]);
+                   newval[2] += getPixelColorIntensity(ImageAbstraction::blue,jj,ii) * (double)(kernel[jk*dim+ik]);
+               }
+             }
+           }
+           newval[0] = newval[0] / kernelTotalValue;
+           newval[1] = newval[1] / kernelTotalValue;
+           newval[2] = newval[2] / kernelTotalValue;
+           setPixel(j,i,newval[0],newval[1],newval[2]);
+         }
+       }
+       free(kernel);
+}
+int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolor color){
+    float r = getPixelColorIntensity(ImageAbstraction::red,x,y);
+    float g = getPixelColorIntensity(ImageAbstraction::green,x,y);
+    float b = getPixelColorIntensity(ImageAbstraction::blue,x,y);
+    float c,m,ye,k;
+    k = 1.0;
+    if (r==0 && b==0 && g==0)
+    {
+        c = 0;
+        m = 0;
+        ye = 0;
+        switch(color){
+            case ImageAbstraction::cyan:
+                return c*100;
+                break;
+            case ImageAbstraction::black:
+                return k*100;
+                break;
+            case ImageAbstraction::magenta:
+                    return m*100;
+                    break;
+            case ImageAbstraction::yellow:
+                    return ye*100;
+                    break;
+        }
+    }
+    c = 1-(r/255.0);
+    m = 1-(g/255.0);
+    ye = 1-(b/255.0);
+    //qDebug("%f CC",c);
+    //qDebug("%f CC",m);
+    //qDebug("%f CC",ye);
+    if (c<k)
+        k = c;
+    if (m<k)
+        k = m;
+    if (ye<k)
+        k = ye;
+    qDebug("%f KK",k);
+    c = (c-k)/(1-k);
+    m = (m-k)/(1-k);
+    ye = (ye-k)/(1-k);
+    //qDebug("%i",getPixelColorIntensity(ImageAbstraction::red,0,0));
+    //qDebug("%i",getPixelColorIntensity(ImageAbstraction::green,0,0));
+    //qDebug("%i",getPixelColorIntensity(ImageAbstraction::blue,0,0));
+    //qDebug("%f",c);
+    //qDebug("%f",m);
+    //qDebug("%f",ye);
+    //qDebug("%f",k);
+
+    switch(color){
+        case ImageAbstraction::cyan:
+            return c*100;
+            break;
+        case ImageAbstraction::black:
+            return k*100;
+            break;
+        case ImageAbstraction::magenta:
+                return m*100;
+                break;
+        case ImageAbstraction::yellow:
+                return ye*100;
+                break;
+    }
 }

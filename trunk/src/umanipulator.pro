@@ -17,6 +17,7 @@ SOURCES += main.cpp\
     custom/imagelabel.cpp \
     dialogcontrast.cpp \
     histogram.cpp \
+    dialogcustom.cpp \
     dialogfusion.cpp
 
 HEADERS  += mainwindow.h \
@@ -24,9 +25,13 @@ HEADERS  += mainwindow.h \
     custom/imagelabel.h \
     dialogcontrast.h \
     histogram.h \
+    dialogcustom.h \
     dialogfusion.h
 
 FORMS    += mainwindow.ui \
     dialogcontrast.ui \
     histogram.ui \
+    custom.ui \
+    dialogcustom.ui \
     dialogfusion.ui
+
