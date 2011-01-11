@@ -43,6 +43,7 @@ private:
     ImageWindow *imagewin;
     DialogContrast mDialogContrast;
     QString fileSelected;
+    QString filePath;
     QMenu *filemenu;
     QMenu *viewmenu;
     QMenu *imagemenu;

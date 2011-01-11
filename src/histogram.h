@@ -2,6 +2,7 @@
 #define HISTOGRAM_H
 
 #include <QDialog>
+#include "custom/imageabstration.h"
 
 namespace Ui {
     class Histogram;
@@ -14,10 +15,10 @@ class Histogram : public QDialog
 public:
     explicit Histogram(QWidget *parent = 0);
     ~Histogram();
-
-private:
-    Ui::Histogram *ui;
+    ImageAbstraction *image;
     void drawHistogram(void);
+private:
+    Ui::Histogram *ui;    
     void fillArray(int *n_colors,int n_items);
 };
 
