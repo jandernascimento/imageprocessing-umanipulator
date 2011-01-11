@@ -7,6 +7,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMessageBox>
+#include "mainwindow.h"
 
 Histogram::Histogram(QWidget *parent) :
     QDialog(parent),
@@ -29,8 +30,6 @@ void Histogram::fillArray(int *n_colors,int n_items){
 }
 
 void Histogram::drawHistogram(void){
-    //w.open();
-
     int minx=30;
     int maxx=550; //x axis goes from 0 to 255. So maxx is equivalent to 255
     int miny=30;
@@ -55,7 +54,7 @@ void Histogram::drawHistogram(void){
     //qDebug("%i-%i",n_columns,weight_hist);
 
 
-   QGraphicsScene *scene=new QGraphicsScene();
+    QGraphicsScene *scene=new QGraphicsScene();
     //x1,y1,x2,y2
     scene->setSceneRect( 0, 0, 598, 398 ); //window
     scene->addLine(minx,miny,minx,maxy); //y axis
@@ -70,7 +69,9 @@ void Histogram::drawHistogram(void){
     }
 
     ui->graphicsView->setScene(scene);
+    ui->graphicsView->adjustSize();
 
-
-    //QMessageBox::information(this,"","hellow");
+    this->setWindowTitle("Histogram");
+    this->setWindowModality(Qt::ApplicationModal);
+    this->adjustSize();
 }

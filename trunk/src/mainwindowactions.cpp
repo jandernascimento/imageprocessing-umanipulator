@@ -4,6 +4,8 @@
 #include "histogram.h"
 
 void MainWindow::histogram(void){
+    open();
+
     Histogram *histowin=new Histogram(this);
     histowin->show();
 }
