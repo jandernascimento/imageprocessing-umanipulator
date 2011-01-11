@@ -13,6 +13,7 @@ class ImageLabel : public QLabel
 
     signals:
       void selected(QMouseEvent* event);
+      void areaselected(int startx,int starty, int endx, int endy);
     protected:
       void mousePressEvent( QMouseEvent* event );
       void mouseMoveEvent(QMouseEvent *e);

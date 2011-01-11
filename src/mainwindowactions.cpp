@@ -134,3 +134,14 @@ void MainWindow::applyGrey(){
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 
 }
+
+void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
+
+    QImage *img=image->ApplyCrop(startx,starty,endx,endy);
+
+    label->setPixmap(QPixmap::fromImage(*img,Qt::AutoColor));
+
+    qDebug("apply crop");
+
+}
+
