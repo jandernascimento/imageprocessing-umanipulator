@@ -136,7 +136,6 @@ void MainWindow::applyFusion(QString path, float percentage,int x, int y){
     this->image->ApplyFilterFusion(externalImage,percentage,x,y);
 
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
-
 }
 
 
@@ -146,6 +145,15 @@ void MainWindow::applyGrey(){
 
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 
+}
+
+void MainWindow::applyBlur(){
+    image->ApplyConvolution(3,1);
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+void MainWindow::applyBlurCustom(){
+    //image->ApplyConvolution(3,1);
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
 void MainWindow::applyCrop(int startx,int starty,int endx,int endy){

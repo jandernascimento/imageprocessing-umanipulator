@@ -59,7 +59,10 @@ void MainWindow::createMenu(){
     //color
     colormenu=menuBar()->addMenu("&Color");
     setupColorMenu(colormenu);
+
+
 }
+
 
 void MainWindow::setupFileMenu(QMenu *menu){
     QAction *openaction=new QAction(("&Open..."), this);
@@ -98,7 +101,7 @@ void MainWindow::setupImageMenu(QMenu *menu){
     QAction *resize=new QAction(("&Resize"), this);
 
     configureFusion(fusion);
-
+    connect(blur, SIGNAL(triggered()),this,SLOT(applyBlur()));
     menu->addAction(crop);
     menu->addAction(blur);
     menu->addAction(fusion);
@@ -108,13 +111,13 @@ void MainWindow::setupImageMenu(QMenu *menu){
 void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *mean=new QAction(("Mean"), this);
     QAction *gradient=new QAction(("Gradiant"), this);
-    QAction *gaussian=new QAction(("Gaussian"), this);
+    //QAction *gaussian=new QAction(("Gaussian"), this);
     QAction *laplacian=new QAction(("Laplacian"), this);
     QAction *custom=new QAction(("Custom"), this);
-
+    connect(custom, SIGNAL(triggered()),this,SLOT(applyBlurCustom()));
     menu->addAction(mean);
     menu->addAction(gradient);
-    menu->addAction(gaussian);
+    //menu->addAction(gaussian);
     menu->addAction(laplacian);
     menu->addSeparator();
     menu->addAction(custom);
@@ -159,7 +162,6 @@ void MainWindow::configureContrast(QAction *act){
 void MainWindow::configureGrey(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(applyGrey()));
 }
-
 void MainWindow::configureSaveAs(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(saveas()));
 }
@@ -167,7 +169,14 @@ void MainWindow::configureSaveAs(QAction *act){
 void MainWindow::mouseOver(QMouseEvent* event){
   qDebug("%i,%i",event->pos().x(),event->pos().y());
   QRgb *pixel=image->getPixel(event->pos().x(),event->pos().y());
-  QString message=QString("RGB(%1,%2,%3)").arg(qRed(*pixel)).arg(qGreen(*pixel)).arg(qBlue(*pixel));
+  QString message=QString("RGB(%1,%2,%3)CMYK(%4, %5, %6, %7)")
+                  .arg(qRed(*pixel))
+                  .arg(qGreen(*pixel))
+                  .arg(qBlue(*pixel))
+                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::cyan))
+                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::magenta))
+                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::yellow))
+                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::black));
   ui->statusBar->showMessage(message);
 }
 

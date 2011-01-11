@@ -37,6 +37,8 @@ public slots:
      void applyFusion(QString path, float percentage,int x, int y);
      void applyCrop(int startx,int starty,int endx,int endy);
      void applyGrey(void);
+     void applyBlur(void);
+     void applyBlurCustom(void);
 
 private:
     Ui::MainWindow *ui;
@@ -48,6 +50,7 @@ private:
     QMenu *viewmenu;
     QMenu *imagemenu;
     QMenu *colormenu;
+    QMenu *teste;
     void createMenu(void);
     void setupFileMenu(QMenu *menu);
     void setupViewMenu(QMenu *menu);
