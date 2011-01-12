@@ -79,8 +79,10 @@ void MainWindow::setupFileMenu(QMenu *menu){
     configureQuit(quitaction);
 
     openaction->setIcon(QIcon(":open"));
+    saveasaction->setIcon(QIcon(":saveas"));
 
     secondToolBar->addAction(openaction);
+    secondToolBar->addAction(saveasaction);
 
     menu->addAction(openaction);
     menu->addAction(saveaction);
@@ -230,15 +232,13 @@ MainWindow::~MainWindow()
 QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
 
 
-    QList<QAction *> li2=menu->actions();
+    QList<QAction *> menulist=menu->actions();
 
-    QListIterator<QAction *> li=QListIterator<QAction *>(li2);
+    QListIterator<QAction *> li=QListIterator<QAction *>(menulist);
 
     while(li.hasNext()){
 
         QAction *mainmenu=li.next();
-
-        qDebug(mainmenu->text().toAscii());
 
         if(mainmenu->text()==option){
               return mainmenu;
