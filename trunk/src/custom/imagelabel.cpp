@@ -33,6 +33,9 @@ void ImageLabel::mousePressEvent (QMouseEvent* event)
 void ImageLabel::mouseReleaseEvent ( QMouseEvent * event ){
     end=event->pos();
 
+    if((end.x()-start.x())>0&&
+       (end.y()-start.y())>0)
+
     emit areaselected(start.x(),start.y(),end.x(),end.y());
 
 }

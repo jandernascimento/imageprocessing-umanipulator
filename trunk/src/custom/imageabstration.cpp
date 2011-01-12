@@ -49,12 +49,25 @@ assert(color==ImageAbstraction::red||color==ImageAbstraction::green||color==Imag
 }
 
 QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
+
     QRgb *pixel = getPixel(x,y);
-    int red = color==ImageAbstraction::red?value:qRed(*pixel);
-    int green = color==ImageAbstraction::green?value:qGreen(*pixel);
-    int blue = color==ImageAbstraction::blue?value:qBlue(*pixel);
-    *pixel = qRgba(red,green,blue,255);
+
+    if(!this->isGrayscale()){
+
+        int red = color==ImageAbstraction::red?value:qRed(*pixel);
+        int green = color==ImageAbstraction::green?value:qGreen(*pixel);
+        int blue = color==ImageAbstraction::blue?value:qBlue(*pixel);
+        *pixel = qRgba(red,green,blue,255);
+
+    }else{
+
+        uint uvalue=value;
+        QImage::setPixel(QPoint(x,y), uvalue);
+
+    }
+
     return pixel;
+
 
 }
 
@@ -125,13 +138,11 @@ void ImageAbstraction::ApplyFilterContrast(int newmin,int newmax){
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
 
-            if(!this->isGrayscale()||true){
-                setPixel(x,y,
-                ApplyFilterContrastRule(red,x,y,newmin,newmax),
-                ApplyFilterContrastRule(green,x,y,newmin,newmax),
-                ApplyFilterContrastRule(blue,x,y,newmin,newmax));
-            }else{
-            }
+            setPixel(x,y,
+            ApplyFilterContrastRule(red,x,y,newmin,newmax),
+            ApplyFilterContrastRule(green,x,y,newmin,newmax),
+            ApplyFilterContrastRule(blue,x,y,newmin,newmax));
+
 /*
             qDebug("blue actmax:%i actmin:%i value:%i percentual:%f",
                    this->getMinColorValue(ImageAbstraction::blue),
@@ -236,8 +247,11 @@ void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percenta
 
 ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int endy){
 
+    //QImage::Format_MonoLSB
+
     //QImage *newImage=new QImage( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
     ImageAbstraction *newImage=new ImageAbstraction( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
+
 
     for(int y=starty;y<endy;y++){
         for(int x=startx;x<endx;x++){
