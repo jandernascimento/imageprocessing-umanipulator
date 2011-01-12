@@ -108,16 +108,6 @@ void MainWindow::dialogContrast(void){
 
 }
 
-void MainWindow::dialogFusion(void){
-
-    dialogfusion *df=new dialogfusion();
-
-    connect(df, SIGNAL(fusion(QString,float ,int , int )),this, SLOT(applyFusion(QString,float ,int , int)));
-
-    df->show();
-
-}
-
 void MainWindow::applyContrast(int newmin,int newmax){
 
     qDebug("Chegou");
@@ -151,9 +141,25 @@ void MainWindow::applyBlur(){
     image->ApplyConvolution(3,1);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
-void MainWindow::applyBlurCustom(){
-    //image->ApplyConvolution(3,1);
+void MainWindow::applyBlurCustom(int dim){
+    image->ApplyConvolution(dim,1);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+void MainWindow::applyBlurCustomDialog(){
+
+    dialogCustom *dc=new dialogCustom();
+    dc->show();
+    connect(dc, SIGNAL(blur(int)),this, SLOT(applyBlurCustom(int)));
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+void MainWindow::dialogFusion(void){
+
+    dialogfusion *df=new dialogfusion();
+
+    connect(df, SIGNAL(fusion(QString,float ,int , int )),this, SLOT(applyFusion(QString,float ,int , int)));
+
+    df->show();
+
 }
 
 void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
