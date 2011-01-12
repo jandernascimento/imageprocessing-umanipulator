@@ -34,3 +34,5 @@ FORMS    += mainwindow.ui \
     dialogfusion.ui \
     dialogcustom.ui
 
+RESOURCES += \
+    resource.qrc
