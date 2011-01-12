@@ -6,13 +6,18 @@
 
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
 
-    qDebug("Calling custom constructor");
-
-    //ApplyFilterGreyScale();
-
     UpdateColorRange();
 
 }
+
+ImageAbstraction::ImageAbstraction(const QSize &size, Format format):QImage(size,format){
+
+//    QImage(const QSize &size, Format format);
+
+}
+
+
+
 
 QRgb* ImageAbstraction::getPixel(int x, int y){
     QRgb *pixel = (QRgb *)this->scanLine(x);
@@ -229,9 +234,10 @@ void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percenta
     }
 }
 
-QImage* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int endy){
+ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int endy){
 
-    QImage *newImage=new QImage( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
+    //QImage *newImage=new QImage( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
 
     for(int y=starty;y<endy;y++){
         for(int x=startx;x<endx;x++){
