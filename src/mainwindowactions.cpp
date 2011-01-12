@@ -30,25 +30,6 @@ void MainWindow::quit(void){
 }
 
 void MainWindow::open(void){
-    //creates a QFileDialog without using the static function
-    //QFileDialog dialog(this);
-    //only files with these extension will be shown in the QFileDialog
-    //dialog.setNameFilter(tr("Images (*.gif *.jpg *.pnm *.png)"));
-    //presents the contents of the current directory as a list of file and directory names
-    //dialog.setViewMode(QFileDialog::List);
-    //the user must select an existing file
-    //dialog.setFileMode(QFileDialog::ExistingFile);
-    //a modal file dialog is created and shown. If the user clicked OK, the file they selected is put in fileName
-    //QStringList fileNames;
-    //if (dialog.exec()){
-      //   QMessageBox::information(this, tr("title"), tr("File choosed"));
-        // fileNames = dialog.selectedFiles();
-         //QMessageBox::information(this, tr("title"), tr("File choosed"));
-         //ImageWindow *w2=new ImageWindow(this,fileNames.at(0));
-         //w2->show();
-     //}
-
-
 
     // creates a QFileDialog using static function
     QFileInfo file = QFileDialog::getOpenFileName(this,
@@ -58,7 +39,6 @@ void MainWindow::open(void){
     filePath=file.absoluteFilePath();
 
     if (!fileSelected.isEmpty()){
-        //this->setWindowTitle(fileSelected);
 
         image=new ImageAbstraction(filePath,0);
         label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
@@ -109,8 +89,6 @@ void MainWindow::dialogContrast(void){
 }
 
 void MainWindow::applyContrast(int newmin,int newmax){
-
-    qDebug("Chegou");
 
     image->ApplyFilterContrast(newmin,newmax);
 
@@ -168,7 +146,7 @@ void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
 
     label->setPixmap(QPixmap::fromImage(*img,Qt::AutoColor));
 
-    qDebug("apply crop");
+    //qDebug("START %i,%i END %i,%i",startx,starty,endx,endy);
 
 }
 
