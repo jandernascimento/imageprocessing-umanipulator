@@ -42,6 +42,7 @@ public slots:
      void applyBlur(void);
      void applyBlurCustom(int dim);
      void applyBlurCustomDialog(void);
+     void applyMeanFilter();
 
 private:
     Ui::MainWindow *ui;

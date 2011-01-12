@@ -329,7 +329,7 @@ void ImageAbstraction::UpdateColorRange(){
 
 }
 
-double* ImageAbstraction::ApplyFilterGaussian(int dim, int sig){
+double* ImageAbstraction::makeFilterGaussian(int dim, int sig){
 
         const double pi = 3.141592;
         const double ee = 2.718281;
@@ -346,8 +346,24 @@ double* ImageAbstraction::ApplyFilterGaussian(int dim, int sig){
         return kernel;
 
 }
-void ImageAbstraction::ApplyConvolution(int dim, int sig){
-       double* kernel = ImageAbstraction::ApplyFilterGaussian(dim,sig);
+void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter){
+    double* kernel;
+    switch (filter){
+    case 'G':
+        kernel = ImageAbstraction::makeFilterGaussian(dim,sig);
+        break;
+    case 'M':
+        kernel = ImageAbstraction::makeMeanFilter(dim);
+        break;
+    default:
+        break;
+
+    }
+    /*
+    for (int i=0;i<dim;++i)
+        for (int j=0;j<dim;++j)
+            qDebug("%f", (double)(kernel[i*dim+j]));
+    */
        int j;  // row    index of the current image
        int i;  // column index of the current image
        int jk; // row    index of the kernel;
@@ -453,4 +469,13 @@ int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolor color){
                 return ye*100;
                 break;
     }
+}
+double* ImageAbstraction::makeMeanFilter(int dim){
+    qDebug("MAKING MEAN FILTER");
+    double* kernel = (double*)malloc(sizeof(double)*dim*dim);
+    for (int i=0; i<dim; ++i)
+            for (int j=0; j<dim; ++j)
+                    kernel[i*dim+j] = 1.0/(dim*dim);
+    return kernel;
+
 }

@@ -24,8 +24,8 @@ class ImageAbstraction : public QImage
           void ApplyFilterGreyScale();
           void ApplyFilterContrast(int min,int max);
           void ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy);
-          double* ApplyFilterGaussian(int dim, int sig);
-          void ApplyConvolution(int dim, int sig);
+          double* makeFilterGaussian(int dim, int sig);
+          void ApplyConvolution(int dim, int sig, char filter);
           int RGB2CMYK(int x, int y, enum ecolor color);
           ImageAbstraction* ApplyCrop(int startx,int starty,int endx,int endy);
 

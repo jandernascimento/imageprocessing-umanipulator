@@ -116,9 +116,9 @@ void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *laplacian=new QAction(("Laplacian"), this);
     QAction *custom=new QAction(("Custom"), this);
     connect(custom, SIGNAL(triggered()),this,SLOT(applyBlurCustomDialog()));
+    connect(mean, SIGNAL(triggered()),this,SLOT(applyMeanFilter()));
     menu->addAction(mean);
     menu->addAction(gradient);
-    //menu->addAction(gaussian);
     menu->addAction(laplacian);
     menu->addSeparator();
     menu->addAction(custom);
