@@ -118,11 +118,11 @@ void MainWindow::applyGrey(){
 }
 
 void MainWindow::applyBlur(){
-    image->ApplyConvolution(3,1);
+    image->ApplyConvolution(3,1,'G');
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyBlurCustom(int dim){
-    image->ApplyConvolution(dim,1);
+    image->ApplyConvolution(dim,1,'G');
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyBlurCustomDialog(){
@@ -151,4 +151,8 @@ void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
     //qDebug("START %i,%i END %i,%i",startx,starty,endx,endy);
 
 }
-
+void MainWindow::applyMeanFilter(){
+    qDebug("CLICKING ON MEAN");
+    image->ApplyConvolution(3,1,'M');
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}

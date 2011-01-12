@@ -14,8 +14,6 @@ DialogContrast::DialogContrast(QDialog *parent)
 
     connect(horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
     connect(horizontalSlider_2,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
-
-
 }
 
 
