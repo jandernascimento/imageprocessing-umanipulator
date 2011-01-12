@@ -7,20 +7,9 @@ void MainWindow::histogram(void){
     if (fileSelected == NULL)
         QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
     else{
-        this->image->UpdateColorRange();
-        qDebug("*******BLUE:%i red:%i green:%i",
-               this->image->getMaxColorValue(ImageAbstraction::blue),
-               this->image->getMaxColorValue(ImageAbstraction::red),
-               this->image->getMaxColorValue(ImageAbstraction::green));
-
         Histogram *histowin=new Histogram(this);
-        histowin->image = new ImageAbstraction(filePath,0);
-
-        QMessageBox::information(this,"",filePath);
-        //qDebug("%s",filePath.toStdString());
-
+        histowin->image = image;
         histowin->drawHistogram();
-
         histowin->show();
     }
 }
@@ -30,8 +19,6 @@ void MainWindow::quit(void){
 }
 
 void MainWindow::open(void){
-
-    // creates a QFileDialog using static function
     QFileInfo file = QFileDialog::getOpenFileName(this,
                 tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
 
@@ -40,7 +27,7 @@ void MainWindow::open(void){
 
     if (!fileSelected.isEmpty()){
 
-        image=new ImageAbstraction(filePath,0);
+        image=new ImageAbstraction(filePath);
         label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
 
         connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
