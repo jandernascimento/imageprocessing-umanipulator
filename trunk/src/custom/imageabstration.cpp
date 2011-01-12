@@ -233,18 +233,16 @@ QImage* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int endy){
 
     QImage *newImage=new QImage( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
 
-    for(int x=startx;x<endx;x++){
-        for(int y=starty;y<endy;y++){
+    for(int y=starty;y<endy;y++){
+        for(int x=startx;x<endx;x++){
 
-                QRgb *pixel = (QRgb *)newImage->scanLine(x-startx);
-                pixel=(pixel+y-starty);
+                QRgb *pixel = (QRgb *)newImage->scanLine(y-starty);
+                pixel=(pixel+x-startx);
 
-                //QRgb b=moi->pixel(QPoint(10,10));
-                *pixel=qRgba(getPixelColorIntensity(ImageAbstraction::red,x,y),
-                             getPixelColorIntensity(ImageAbstraction::green,x,y),
-                             getPixelColorIntensity(ImageAbstraction::blue,x,y),
+                *pixel=qRgba(getPixelColorIntensity(ImageAbstraction::red,y,x),
+                             getPixelColorIntensity(ImageAbstraction::green,y,x),
+                             getPixelColorIntensity(ImageAbstraction::blue,y,x),
                              255);
-
         }
     }
 

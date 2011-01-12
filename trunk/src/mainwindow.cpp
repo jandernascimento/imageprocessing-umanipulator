@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
     label->setObjectName("label");
     label->setMinimumHeight(480);
     label->setMinimumWidth(640);
+    label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
 
     QScrollArea *scroll = new QScrollArea(this);
     scroll->setWidget(label);
@@ -167,16 +168,20 @@ void MainWindow::configureSaveAs(QAction *act){
 }
 
 void MainWindow::mouseOver(QMouseEvent* event){
-  qDebug("%i,%i",event->pos().x(),event->pos().y());
+
+   int x=event->pos().x();
+   int y=event->pos().y();
+
   QRgb *pixel=image->getPixel(event->pos().x(),event->pos().y());
-  QString message=QString("RGB(%1,%2,%3)CMYK(%4, %5, %6, %7)")
+  QString message=QString("RGB(%1,%2,%3) CMYK(%4, %5, %6, %7)")
                   .arg(qRed(*pixel))
                   .arg(qGreen(*pixel))
                   .arg(qBlue(*pixel))
-                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::cyan))
-                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::magenta))
-                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::yellow))
-                  .arg(image->RGB2CMYK(event->pos().x(),event->pos().y(),ImageAbstraction::black));
+                  .arg(image->RGB2CMYK(x,y,ImageAbstraction::cyan))
+                  .arg(image->RGB2CMYK(x,y,ImageAbstraction::magenta))
+                  .arg(image->RGB2CMYK(x,y,ImageAbstraction::yellow))
+                  .arg(image->RGB2CMYK(x,y,ImageAbstraction::black));
+
   ui->statusBar->showMessage(message);
 }
 
