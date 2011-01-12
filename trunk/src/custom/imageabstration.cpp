@@ -46,7 +46,7 @@ QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
 
     QRgb *pixel = getPixel(x,y);
 
-    if(this->isGreyScale){
+    if(!this->isGreyScale){
 
         int red = color==ImageAbstraction::red?value:qRed(*pixel);
         int green = color==ImageAbstraction::green?value:qGreen(*pixel);
