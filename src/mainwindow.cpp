@@ -111,8 +111,8 @@ void MainWindow::setupImageMenu(QMenu *menu){
     ui->mainToolBar->addAction(blur);
     ui->mainToolBar->addAction(resize);
 
-    //QToolBar *q=new QToolBar("Testebar");
-    //addToolBar(q);
+    QToolBar *q=new QToolBar("Testebar");
+    addToolBar(q);
     //QIcon::addFile(QString("images/icon/images/icon32x32.png"),QSize(32,32))
     //crop->setIcon(QIcon("images/icon/images/icon32x32.png"));
     //addAction(crop);
