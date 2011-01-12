@@ -22,18 +22,19 @@ MainWindow::MainWindow(QWidget *parent) :
     label=new ImageLabel(this);
     label->setAccessibleName("label");
     label->setObjectName("label");
-    label->setMinimumHeight(480);
-    label->setMinimumWidth(640);
+    //label->setMinimumHeight(480);
+    //label->setMinimumWidth(640);
     label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+    label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
-    QScrollArea *scroll = new QScrollArea(this);
-    scroll->setWidget(label);
-    scroll->setLayoutDirection(Qt::LayoutDirectionAuto);
-    scroll->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    //QScrollArea *scroll = new QScrollArea(this);
+    //scroll->setWidget(label);
+    //scroll->setLayoutDirection(Qt::LayoutDirectionAuto);
+    //scroll->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    //label->setLayout(ui->horizontalLayout_3);
+    //ui->scrollArea->setWidget(label);
 
-
-
-    ui->horizontalLayout->addWidget(scroll);
+    ui->scrollArea->setWidget(label);
 
 }
 
@@ -233,7 +234,6 @@ MainWindow::~MainWindow()
 
 
 QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
-
 
     QList<QAction *> menulist=menu->actions();
 
