@@ -20,8 +20,8 @@
    <string>Micro Manipulator</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="resource.qrc">
-    <normaloff>:/images/icon/images/icon32x32.png</normaloff>:/images/icon/images/icon32x32.png</iconset>
+   <iconset>
+    <normaloff>:/images/icon32x32.png</normaloff>:/images/icon32x32.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -69,6 +69,12 @@
    </property>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -160,10 +166,22 @@
     <bool>true</bool>
    </property>
   </action>
+  <action name="actionDfgg">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/images/icon/images/icon32x32.png</normaloff>:/images/icon/images/icon32x32.png</iconset>
+   </property>
+   <property name="text">
+    <string>dfgg</string>
+   </property>
+  </action>
+  <action name="actionAsd">
+   <property name="text">
+    <string>asd</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

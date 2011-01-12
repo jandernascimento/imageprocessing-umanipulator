@@ -101,6 +101,22 @@ void MainWindow::setupImageMenu(QMenu *menu){
 
     crop->setCheckable(true);
 
+    crop->setIcon(QIcon(":crop"));
+    fusion->setIcon(QIcon(":fusion"));
+    blur->setIcon(QIcon(":blur"));
+    resize->setIcon(QIcon(":resize"));
+
+    ui->mainToolBar->addAction(crop);
+    ui->mainToolBar->addAction(fusion);
+    ui->mainToolBar->addAction(blur);
+    ui->mainToolBar->addAction(resize);
+
+    //QToolBar *q=new QToolBar("Testebar");
+    //addToolBar(q);
+    //QIcon::addFile(QString("images/icon/images/icon32x32.png"),QSize(32,32))
+    //crop->setIcon(QIcon("images/icon/images/icon32x32.png"));
+    //addAction(crop);
+
     configureFusion(fusion);
     connect(blur, SIGNAL(triggered()),this,SLOT(applyBlur()));
 
