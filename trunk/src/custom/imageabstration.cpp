@@ -3,7 +3,6 @@
 #include <assert.h>
 
 
-
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
 
     UpdateColorRange();
@@ -70,6 +69,27 @@ QRgb* ImageAbstraction::setPixel(int x, int y,int red, int green, int blue){
     setPixel(ImageAbstraction::red,x,y,red);
     setPixel(ImageAbstraction::green,x,y,green);
     return setPixel(ImageAbstraction::blue,x,y,blue);
+}
+
+int ImageAbstraction::getMaxNumberColor(void){
+    int max_blue=-1;
+    int max_red=-1;
+    int max_green=-1;
+    for(int i=0;i<256;i++){
+        if(colorcounterblue[i]>max_blue)
+            max_blue=colorcounterblue[i];
+        if(colorcounterred[i]>max_red)
+            max_red=colorcounterred[i];
+        if(colorcountergreen[i]>max_green)
+            max_green=colorcountergreen[i];
+    }
+
+    if(max_green>=max_red && max_green>=max_blue)
+        return max_green;
+    else if(max_blue>=max_red)
+        return max_blue;
+    else
+        return max_red;
 }
 
 int ImageAbstraction::getMaxColorValue(enum ecolor color){
@@ -264,7 +284,7 @@ void ImageAbstraction::UpdateColorRange(){
 
     this->isGreyScale=isGrayscale();
 
-    for(int count=0;count<255;count++){
+    for(int count=0;count<256;count++){
         colorcounterred[count]=0;
         colorcountergreen[count]=0;
         colorcounterblue[count]=0;
@@ -332,9 +352,23 @@ void ImageAbstraction::UpdateColorRange(){
         }
     }
 
+    /*
     qDebug("Red min:%i max:%i",getMinColorValue(ImageAbstraction::red),getMaxColorValue(ImageAbstraction::red));
     qDebug("Green min:%i max:%i",getMinColorValue(ImageAbstraction::green),getMaxColorValue(ImageAbstraction::green));
     qDebug("Blue min:%i max:%i",getMinColorValue(ImageAbstraction::blue),getMaxColorValue(ImageAbstraction::blue));
+    */
+
+    /*/printing the array
+    for(int count=0;count<256;count++){
+        qDebug("red,%i,%i",count,colorcounterred[count]);
+    }
+    for(int count=0;count<256;count++){
+        qDebug("green,%i,%i",count,colorcountergreen[count]);
+    }
+    for(int count=0;count<256;count++){
+        qDebug("blue,%i,%i",count,colorcounterblue[count]);
+    }
+    /*/
 }
 
 double* ImageAbstraction::makeFilterGaussian(int dim, int sig){

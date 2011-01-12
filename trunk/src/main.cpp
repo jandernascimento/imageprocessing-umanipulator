@@ -1,6 +1,6 @@
-#include <QtGui/QApplication>
+//#include <QtGui/QApplication>
 #include "mainwindow.h"
-#include "dialogcontrast.h"
+//#include "dialogcontrast.h"
 
 int main(int argc, char *argv[])
 {

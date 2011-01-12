@@ -17,9 +17,10 @@ public:
     ~Histogram();
     ImageAbstraction *image;
     void drawHistogram(void);
+
 private:
     Ui::Histogram *ui;    
-    void fillArray(int *n_colors,int n_items);
+    void fillArray(int *n_colors,int n_items,int maxy,int miny);
 };
 
 #endif // HISTOGRAM_H
