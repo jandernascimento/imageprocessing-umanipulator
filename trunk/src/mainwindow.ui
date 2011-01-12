@@ -20,8 +20,8 @@
    <string>Micro Manipulator</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/images/icon32x32.png</normaloff>:/images/icon32x32.png</iconset>
+   <iconset resource="resource.qrc">
+    <normaloff>:/microicon</normaloff>:/microicon</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>
@@ -79,7 +79,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar">
@@ -182,6 +182,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
