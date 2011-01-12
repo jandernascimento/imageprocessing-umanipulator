@@ -197,14 +197,16 @@ void MainWindow::mouseOver(QMouseEvent* event){
    int y=event->pos().y();
 
   QRgb *pixel=image->getPixel(event->pos().x(),event->pos().y());
-  QString message=QString("RGB(%1,%2,%3) CMYK(%4, %5, %6, %7)")
+  QString message=QString("RGB(%1,%2,%3) CMYK(%4, %5, %6, %7) Pixel(%8,%9)")
                   .arg(qRed(*pixel))
                   .arg(qGreen(*pixel))
                   .arg(qBlue(*pixel))
                   .arg(image->RGB2CMYK(x,y,ImageAbstraction::cyan))
                   .arg(image->RGB2CMYK(x,y,ImageAbstraction::magenta))
                   .arg(image->RGB2CMYK(x,y,ImageAbstraction::yellow))
-                  .arg(image->RGB2CMYK(x,y,ImageAbstraction::black));
+                  .arg(image->RGB2CMYK(x,y,ImageAbstraction::black))
+                  .arg(x)
+                  .arg(y);
 
   ui->statusBar->showMessage(message);
 }
