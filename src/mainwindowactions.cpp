@@ -144,9 +144,9 @@ void MainWindow::dialogFusion(void){
 
 void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
 
-    QImage *img=image->ApplyCrop(startx,starty,endx,endy);
+    image=image->ApplyCrop(startx,starty,endx,endy);
 
-    label->setPixmap(QPixmap::fromImage(*img,Qt::AutoColor));
+    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
 
     //qDebug("START %i,%i END %i,%i",startx,starty,endx,endy);
 

@@ -7,6 +7,7 @@ class ImageAbstraction : public QImage
      public:
           enum ecolor {red, green, blue, black, cyan, magenta, yellow};
           explicit ImageAbstraction(const QString &fileName, const char *format = 0);
+          explicit ImageAbstraction(const QSize &size, Format format);
           /** Pixels get/set **/
           QRgb* getPixel(int x, int y);
           int getPixelColorIntensity(enum ecolor color,int x, int y);
@@ -26,7 +27,7 @@ class ImageAbstraction : public QImage
           double* ApplyFilterGaussian(int dim, int sig);
           void ApplyConvolution(int dim, int sig);
           int RGB2CMYK(int x, int y, enum ecolor color);
-          QImage* ApplyCrop(int startx,int starty,int endx,int endy);
+          ImageAbstraction* ApplyCrop(int startx,int starty,int endx,int endy);
 
 
     private:
