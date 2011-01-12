@@ -46,7 +46,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     ImageWindow *imagewin;
-    DialogContrast mDialogContrast;
+    DialogContrast *mDialogContrast;
     dialogCustom mDialogCustom;
     QString fileSelected;
     QString filePath;
