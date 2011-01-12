@@ -57,6 +57,7 @@ private:
     QMenu *imagemenu;
     QMenu *colormenu;
     QMenu *teste;
+    QToolBar *secondToolBar;
     void createMenu(void);
     void setupFileMenu(QMenu *menu);
     void setupViewMenu(QMenu *menu);
