@@ -42,6 +42,7 @@ class ImageAbstraction : public QImage
           int colorcounterred[255];
           int colorcountergreen[255];
           int colorcounterblue[255];
+          bool isGreyScale;
           int ApplyFilterContrastRule(enum ecolor color,int x,int y,int min,int max);
 
 };

@@ -8,10 +8,6 @@ DialogContrast::DialogContrast(QDialog *parent)
 {
     this->setupUi(this); // this sets up GUI
 
-    QString s=QString("%1").arg(this->label->text());
-
-    qDebug(s.toAscii());
-
     connect(horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
     connect(horizontalSlider_2,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
 }
