@@ -10,6 +10,7 @@ class ImageLabel : public QLabel
     Q_OBJECT
     public:
     explicit ImageLabel(QWidget* parent=0);
+    void setRubberband(bool status);
 
     signals:
       void selected(QMouseEvent* event);
@@ -19,6 +20,7 @@ class ImageLabel : public QLabel
       void mouseMoveEvent(QMouseEvent *e);
       void mouseReleaseEvent ( QMouseEvent * event );
       QRubberBand *rubberBand;
+      bool rubberbandactivated;
       QPoint start;
       QPoint end;
 

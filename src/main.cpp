@@ -8,10 +8,5 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-    //DialogContrast dialog;// = new DialogContrast();
-
-    //dialog.show();
-    //dialog.setWindow(&w);
-
     return a.exec();
 }

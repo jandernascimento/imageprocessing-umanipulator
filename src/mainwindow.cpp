@@ -29,9 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->horizontalLayout->addWidget(scroll);
 
-    connect(label,SIGNAL(areaselected(int,int,int,int)),this,SLOT(applyCrop(int,int,int,int)));
-
-
 }
 
 void MainWindow::createMenu(){
@@ -101,8 +98,12 @@ void MainWindow::setupImageMenu(QMenu *menu){
     QAction *fusion=new QAction(("&Fusion"), this);
     QAction *resize=new QAction(("&Resize"), this);
 
+    crop->setCheckable(true);
+
     configureFusion(fusion);
     connect(blur, SIGNAL(triggered()),this,SLOT(applyBlur()));
+
+    connect(crop, SIGNAL(triggered()),this,SLOT(applyCrop()));
     menu->addAction(crop);
     menu->addAction(blur);
     menu->addAction(fusion);
@@ -112,7 +113,6 @@ void MainWindow::setupImageMenu(QMenu *menu){
 void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *mean=new QAction(("Mean"), this);
     QAction *gradient=new QAction(("Gradiant"), this);
-    //QAction *gaussian=new QAction(("Gaussian"), this);
     QAction *laplacian=new QAction(("Laplacian"), this);
     QAction *custom=new QAction(("Custom"), this);
     connect(custom, SIGNAL(triggered()),this,SLOT(applyBlurCustomDialog()));

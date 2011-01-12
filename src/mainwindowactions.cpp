@@ -95,6 +95,12 @@ void MainWindow::applyFusion(QString path, float percentage,int x, int y){
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
 }
 
+void MainWindow::applyCrop(){
+
+    connect(label,SIGNAL(areaselected(int,int,int,int)),this,SLOT(applyCrop(int,int,int,int)));
+    label->setRubberband(true);
+
+}
 
 void MainWindow::applyGrey(){
 
