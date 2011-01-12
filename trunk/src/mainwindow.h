@@ -7,7 +7,7 @@
 #include <custom/imageabstration.h>
 #include <mainwindow.h>
 #include <dialogcontrast.h>
-#include <dialogCustom.h>
+#include <dialogcustom.h>
 #include <dialogfusion.h>
 
 
