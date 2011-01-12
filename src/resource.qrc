@@ -4,7 +4,7 @@
         <file alias="crop">images/crop24x24.png</file>
         <file alias="fusion">images/fusion24x24.png</file>
         <file alias="blur">images/blur24x24.png</file>
-        <file>images/open24x24.png</file>
+        <file alias="open">images/open24x24.png</file>
         <file alias="resize">images/resize24x24.png</file>
     </qresource>
 </RCC>

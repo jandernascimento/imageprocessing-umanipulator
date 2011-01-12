@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
 
     ui->setupUi(this);
+    this->secondToolBar=new QToolBar("Toolbar");
+    addToolBar(secondToolBar);
+
     createMenu();
     showMaximized();
     label=new ImageLabel(this);
@@ -26,6 +29,8 @@ MainWindow::MainWindow(QWidget *parent) :
     scroll->setWidget(label);
     scroll->setLayoutDirection(Qt::LayoutDirectionAuto);
     scroll->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+
 
     ui->horizontalLayout->addWidget(scroll);
 
@@ -73,6 +78,10 @@ void MainWindow::setupFileMenu(QMenu *menu){
     configureSaveAs(saveasaction);
     configureQuit(quitaction);
 
+    openaction->setIcon(QIcon(":open"));
+
+    secondToolBar->addAction(openaction);
+
     menu->addAction(openaction);
     menu->addAction(saveaction);
     menu->addAction(saveasaction);
@@ -110,12 +119,6 @@ void MainWindow::setupImageMenu(QMenu *menu){
     ui->mainToolBar->addAction(fusion);
     ui->mainToolBar->addAction(blur);
     ui->mainToolBar->addAction(resize);
-
-    QToolBar *q=new QToolBar("Testebar");
-    addToolBar(q);
-    //QIcon::addFile(QString("images/icon/images/icon32x32.png"),QSize(32,32))
-    //crop->setIcon(QIcon("images/icon/images/icon32x32.png"));
-    //addAction(crop);
 
     configureFusion(fusion);
     connect(blur, SIGNAL(triggered()),this,SLOT(applyBlur()));
