@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 
-    this->secondToolBar=new QToolBar("Image actions");
+    this->secondToolBar=new QToolBar("File actions");
     addToolBar(secondToolBar);
 
     createMenu();

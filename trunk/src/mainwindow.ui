@@ -70,7 +70,7 @@
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
-    <string>File actions</string>
+    <string>Image actions</string>
    </property>
    <property name="iconSize">
     <size>
