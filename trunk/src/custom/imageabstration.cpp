@@ -270,18 +270,21 @@ ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int
 
 void ImageAbstraction::UpdateColorRange(){
 
-    for(int count=0;count<256;count++){
+    for(int count=0;count<255;count++){
         colorcounterred[count]=0;
         colorcountergreen[count]=0;
         colorcounterblue[count]=0;
     }
 
     redmax=-1;
-    redmin=300;
+    redmin=1000;
+
     greenmax=-1;
-    greenmin=300;
+    greenmin=1000;
+
     bluemax=-1;
-    bluemin=300;
+    bluemin=1000;
+
 /*
     int minimum=300;
     int maximum=-1;
@@ -338,7 +341,6 @@ void ImageAbstraction::UpdateColorRange(){
     qDebug("Red min:%i max:%i",getMinColorValue(ImageAbstraction::red),getMaxColorValue(ImageAbstraction::red));
     qDebug("Green min:%i max:%i",getMinColorValue(ImageAbstraction::green),getMaxColorValue(ImageAbstraction::green));
     qDebug("Blue min:%i max:%i",getMinColorValue(ImageAbstraction::blue),getMaxColorValue(ImageAbstraction::blue));
-
 }
 
 double* ImageAbstraction::makeFilterGaussian(int dim, int sig){

@@ -25,12 +25,6 @@ void Histogram::fillArray(int *n_colors,int n_items){
 }
 
 void Histogram::drawHistogram(void){
-    qDebug("****************2-BLUE:%i red:%i green:%i",
-           this->image->getMaxColorValue(ImageAbstraction::blue),
-           this->image->getMaxColorValue(ImageAbstraction::red),
-           this->image->getMaxColorValue(ImageAbstraction::green));
-
-
     int minx=30;
     int maxx=550; //x axis goes from 0 to 255. So maxx is equivalent to 255
     int miny=30;
