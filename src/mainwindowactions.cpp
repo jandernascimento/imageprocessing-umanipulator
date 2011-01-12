@@ -104,10 +104,12 @@ void MainWindow::applyCrop(){
         qDebug("Activating Crop");
         connect(label,SIGNAL(areaselected(int,int,int,int)),this,SLOT(applyCrop(int,int,int,int)));
         label->setRubberband(true);
+        label->setCursor(Qt::CrossCursor);
     }else{
         qDebug("Deactivating Crop");
         disconnect(label,SIGNAL(areaselected(int,int,int,int)),this,SLOT(applyCrop(int,int,int,int)));
         label->setRubberband(false);
+        label->setCursor(Qt::ArrowCursor);
     }
 
 
