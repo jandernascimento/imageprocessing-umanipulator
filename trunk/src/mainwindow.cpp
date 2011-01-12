@@ -93,6 +93,7 @@ void MainWindow::setupViewMenu(QMenu *menu){
 }
 
 void MainWindow::setupImageMenu(QMenu *menu){
+    //QAction *crop=new QAction(("&Crop"), this);
     QAction *crop=new QAction(("&Crop"), this);
     QAction *blur=new QAction(("&Blur"), this);
     QAction *fusion=new QAction(("&Fusion"), this);
@@ -104,10 +105,12 @@ void MainWindow::setupImageMenu(QMenu *menu){
     connect(blur, SIGNAL(triggered()),this,SLOT(applyBlur()));
 
     connect(crop, SIGNAL(triggered()),this,SLOT(applyCrop()));
+
     menu->addAction(crop);
     menu->addAction(blur);
     menu->addAction(fusion);
     menu->addAction(resize);
+
 }
 
 void MainWindow::setupImageFilterSubMenu(QMenu *menu){
@@ -205,3 +208,24 @@ MainWindow::~MainWindow()
 }
 
 
+QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
+
+
+    QList<QAction *> li2=menu->actions();
+
+    QListIterator<QAction *> li=QListIterator<QAction *>(li2);
+
+    while(li.hasNext()){
+
+        QAction *mainmenu=li.next();
+
+        qDebug(mainmenu->text().toAscii());
+
+        if(mainmenu->text()==option){
+              return mainmenu;
+        }
+
+
+    }
+
+}

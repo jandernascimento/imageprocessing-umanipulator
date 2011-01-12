@@ -97,8 +97,19 @@ void MainWindow::applyFusion(QString path, float percentage,int x, int y){
 
 void MainWindow::applyCrop(){
 
-    connect(label,SIGNAL(areaselected(int,int,int,int)),this,SLOT(applyCrop(int,int,int,int)));
-    label->setRubberband(true);
+
+    QAction *crop=retrieveMenuOption(QString("&Crop"),imagemenu);
+
+    if(crop->isChecked()){
+        qDebug("Activating Crop");
+        connect(label,SIGNAL(areaselected(int,int,int,int)),this,SLOT(applyCrop(int,int,int,int)));
+        label->setRubberband(true);
+    }else{
+        qDebug("Deactivating Crop");
+        disconnect(label,SIGNAL(areaselected(int,int,int,int)),this,SLOT(applyCrop(int,int,int,int)));
+        label->setRubberband(false);
+    }
+
 
 }
 

@@ -38,7 +38,7 @@ public slots:
      void applyContrast(int,int);
      void applyFusion(QString path, float percentage,int x, int y);
      void applyCrop(int startx,int starty,int endx,int endy);
-     void applyCrop(void);
+     void applyCrop();
      void applyGrey(void);
      void applyBlur(void);
      void applyBlurCustom(int dim);
@@ -72,6 +72,7 @@ private:
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);
+    QAction* retrieveMenuOption(QString name, QMenu *menu);
 };
 
 #endif // MAINWINDOW_H

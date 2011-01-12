@@ -12,12 +12,9 @@ ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):
 
 ImageAbstraction::ImageAbstraction(const QSize &size, Format format):QImage(size,format){
 
-//    QImage(const QSize &size, Format format);
+    UpdateColorRange();
 
 }
-
-
-
 
 QRgb* ImageAbstraction::getPixel(int x, int y){
     QRgb *pixel = (QRgb *)this->scanLine(x);
@@ -50,7 +47,7 @@ QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
 
     QRgb *pixel = getPixel(x,y);
 
-    if(!this->isGrayscale()){
+    if(this->isGreyScale){
 
         int red = color==ImageAbstraction::red?value:qRed(*pixel);
         int green = color==ImageAbstraction::green?value:qGreen(*pixel);
@@ -59,8 +56,8 @@ QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
 
     }else{
 
-        uint uvalue=value;
-        QImage::setPixel(QPoint(x,y), uvalue);
+       uint uvalue=value;
+       QImage::setPixel(QPoint(x,y), uvalue);
 
     }
 
@@ -220,8 +217,6 @@ int ImageAbstraction::getColorCounter(enum ecolor color,int level){
 
 void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy){
 
-    qDebug("Fusion called");
-
     int total=this->height()*this->width();
     int numbertoplot=percentage*total;
     int space=total/numbertoplot;
@@ -245,9 +240,6 @@ void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percenta
 
 ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int endy){
 
-    //QImage::Format_MonoLSB
-
-    //QImage *newImage=new QImage( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
     ImageAbstraction *newImage=new ImageAbstraction( QSize(endx-startx,endy-starty),format());//QImage::Format_RGB32
 
 
@@ -269,6 +261,8 @@ ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int
 }
 
 void ImageAbstraction::UpdateColorRange(){
+
+    this->isGreyScale=isGrayscale();
 
     for(int count=0;count<255;count++){
         colorcounterred[count]=0;
