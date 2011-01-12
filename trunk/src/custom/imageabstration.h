@@ -28,6 +28,7 @@ class ImageAbstraction : public QImage
           void ApplyConvolution(int dim, int sig, char filter);
           int RGB2CMYK(int x, int y, enum ecolor color);
           ImageAbstraction* ApplyCrop(int startx,int starty,int endx,int endy);
+          double* makeMeanFilter(int dim);
 
 
     private:
