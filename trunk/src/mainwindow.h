@@ -7,7 +7,9 @@
 #include <custom/imageabstration.h>
 #include <mainwindow.h>
 #include <dialogcontrast.h>
+#include <dialogCustom.h>
 #include <dialogfusion.h>
+
 
 namespace Ui {
     class MainWindow;
@@ -38,12 +40,14 @@ public slots:
      void applyCrop(int startx,int starty,int endx,int endy);
      void applyGrey(void);
      void applyBlur(void);
-     void applyBlurCustom(void);
+     void applyBlurCustom(int dim);
+     void applyBlurCustomDialog(void);
 
 private:
     Ui::MainWindow *ui;
     ImageWindow *imagewin;
     DialogContrast mDialogContrast;
+    dialogCustom mDialogCustom;
     QString fileSelected;
     QString filePath;
     QMenu *filemenu;

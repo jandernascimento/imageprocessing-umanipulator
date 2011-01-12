@@ -19,6 +19,7 @@ private:
     //MainWindow *win;
 
 public slots:
+
     void contrastChanged(int value);
 
 signals:
