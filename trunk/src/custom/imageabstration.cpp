@@ -27,8 +27,6 @@ QRgb* ImageAbstraction::getPixel(int x, int y){
 
 int ImageAbstraction::getPixelColorIntensity(enum ecolor color,int x, int y){
 
-assert(color==ImageAbstraction::red||color==ImageAbstraction::green||color==ImageAbstraction::blue);
-
     switch(color){
         case ImageAbstraction::red:
             return qRed(*getPixel(x,y));
@@ -419,7 +417,7 @@ void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter){
        }
        free(kernel);
 }
-int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolor color){
+int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolorcmyk color){
     float r = getPixelColorIntensity(ImageAbstraction::red,x,y);
     float g = getPixelColorIntensity(ImageAbstraction::green,x,y);
     float b = getPixelColorIntensity(ImageAbstraction::blue,x,y);
