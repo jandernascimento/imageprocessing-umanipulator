@@ -5,7 +5,8 @@
 class ImageAbstraction : public QImage
 {
      public:
-          enum ecolor {red, green, blue, black, cyan, magenta, yellow};
+          enum ecolor {red, green, blue};
+          enum ecolorcmyk {cyan, magenta, yellow, black};
           explicit ImageAbstraction(const QString &fileName, const char *format = 0);
           explicit ImageAbstraction(const QSize &size, Format format);
           /** Pixels get/set **/
@@ -26,7 +27,7 @@ class ImageAbstraction : public QImage
           void ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy);
           double* makeFilterGaussian(int dim, int sig);
           void ApplyConvolution(int dim, int sig, char filter);
-          int RGB2CMYK(int x, int y, enum ecolor color);
+          int RGB2CMYK(int x, int y, enum ecolorcmyk color);
           ImageAbstraction* ApplyCrop(int startx,int starty,int endx,int endy);
           double* makeMeanFilter(int dim);
 
