@@ -7,9 +7,10 @@ void MainWindow::histogram(void){
     if (fileSelected == NULL)
         QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
     else{
+        image->UpdateColorRange();
         Histogram *histowin=new Histogram(this);
         histowin->image = image;
-        histowin->drawHistogram();
+        histowin->drawAllHistograms();
         histowin->show();
     }
 }

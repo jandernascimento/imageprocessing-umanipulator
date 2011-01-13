@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 }
 
-void MainWindow::createMenu(){
+void MainWindow::createMenu(void){
 
     //file
     filemenu=menuBar()->addMenu("&File");
