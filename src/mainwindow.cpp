@@ -124,8 +124,9 @@ void MainWindow::setupImageMenu(QMenu *menu){
 
     configureFusion(fusion);
     connect(blur, SIGNAL(triggered()),this,SLOT(applyBlur()));
-
     connect(crop, SIGNAL(triggered()),this,SLOT(applyCrop()));
+    connect(resize, SIGNAL(triggered()),this,SLOT(applyScale()));
+
 
     menu->addAction(crop);
     menu->addAction(blur);

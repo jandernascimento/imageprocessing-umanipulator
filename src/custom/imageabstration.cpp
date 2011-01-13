@@ -15,6 +15,10 @@ ImageAbstraction::ImageAbstraction(const QSize &size, Format format):QImage(size
 
 }
 
+ImageAbstraction::ImageAbstraction(const QImage &im):QImage(im){
+    UpdateColorRange();
+}
+
 QRgb* ImageAbstraction::getPixel(int x, int y){
     QRgb *pixel = (QRgb *)this->scanLine(x);
     pixel=(pixel+y);
@@ -525,3 +529,12 @@ double* ImageAbstraction::makeMeanFilter(int dim){
     return kernel;
 
 }
+
+ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercentage){
+
+    ImageAbstraction *ia=new ImageAbstraction(this->scaled(QSize(xpercentage*width(),ypercentage*height())));
+
+    return ia;
+
+}
+
