@@ -249,7 +249,11 @@ void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percenta
 
             if(++pcounter==space){
                 QRgb *pix=getPixel(x,y);
-                QRgb *pixext=fimage->getPixel(x-posx,y-posy);
+
+                int pad=0;
+                if((x%2)==0) { pad=1;}
+
+                QRgb *pixext=fimage->getPixel(x-posx+pad,y-posy);
                 *pix=qRgba(qRed(*pixext),qGreen(*pixext),qBlue(*pixext),255);
                 pcounter=0;
             }
