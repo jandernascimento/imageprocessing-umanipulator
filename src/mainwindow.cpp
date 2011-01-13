@@ -22,8 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
     label=new ImageLabel(this);
     label->setAccessibleName("label");
     label->setObjectName("label");
-    //label->setMinimumHeight(480);
-    //label->setMinimumWidth(640);
     label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
     label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
