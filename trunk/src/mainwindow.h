@@ -39,6 +39,8 @@ public slots:
      void applyFusion(QString path, float percentage,int x, int y);
      void applyCrop(int startx,int starty,int endx,int endy);
      void applyCrop();
+     void applyScale();
+     void applyScale(float width,float height);
      void applyGrey(void);
      void applyBlur(void);
      void applyBlurCustom(int dim);

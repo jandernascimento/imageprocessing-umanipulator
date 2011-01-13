@@ -2,6 +2,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include "histogram.h"
+#include "dialogscale.h"
 
 void MainWindow::histogram(void){
     if (fileSelected == NULL)
@@ -155,11 +156,20 @@ void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
 
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
 
-    //qDebug("START %i,%i END %i,%i",startx,starty,endx,endy);
-
 }
 void MainWindow::applyMeanFilter(){
     qDebug("CLICKING ON MEAN");
     image->ApplyConvolution(3,1,'M');
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+
+void MainWindow::applyScale(){
+    DialogScale *ds=new DialogScale(this);
+    connect(ds,SIGNAL(ScaleFired(float,float)),this,SLOT(applyScale(float,float)));
+    ds->show();
+}
+
+void MainWindow::applyScale(float width,float height){
+   this->image=image->ApplyScale(width,height);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
