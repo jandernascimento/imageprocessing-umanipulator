@@ -396,6 +396,61 @@ double* ImageAbstraction::makeFilterGaussian(int dim, int sig){
         return kernel;
 
 }
+
+int ImageAbstraction::findMax(int* array, int len)
+{
+    int max = array[0];
+    for (int i=1;i<len; ++i)
+        if(array[i]>max)
+            max = array[i];
+    return max;
+}
+int ImageAbstraction::findMin(int* array, int len)
+{
+    int min = array[0];
+    for (int i=1;i<len; ++i)
+        if(array[i]<min)
+            min = array[i];
+    return min;
+}
+void ImageAbstraction::minMax(int* oldArr, int oldMin, int oldMax, int newMin, int newMax, int len)
+{
+    for (int i=0;i<len; ++i)
+        oldArr[i] = (((oldArr[i]-oldMin)/(oldMax-oldMin))*(newMax-newMin))+newMin;
+}
+
+double* ImageAbstraction::makeGradFilter(int dim)
+{
+    qDebug("MAKING GRAD FILTER");
+    double* kernel = (double*)malloc(sizeof(double)*dim*dim);
+    kernel[0] = -.25;
+    kernel[1] = 0.0;
+    kernel[2] = .25;
+    kernel[3] = 0;
+    kernel[4] = 0;
+    kernel[5] = 0;
+    kernel[6] = .25;
+    kernel[7] = 0.0;
+    kernel[8] = -.25;              ;
+    return kernel;
+}
+double* ImageAbstraction::makeLaplacianFilter(int dim)
+{
+    qDebug("MAKING LAPLACIAN FILTER");
+    double* kernel = (double*)malloc(sizeof(double)*dim*dim);
+    kernel[0] = 1;
+    kernel[1] = 1;
+    kernel[2] = 1;
+    kernel[3] = 1;
+    kernel[4] = -8;
+    kernel[5] = 1;
+    kernel[6] = 1;
+    kernel[7] = 1;
+    kernel[8] = 1;
+
+    return kernel;
+}
+
 void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter){
     double* kernel;
     switch (filter){
@@ -532,9 +587,34 @@ double* ImageAbstraction::makeMeanFilter(int dim){
 
 ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercentage){
 
-    ImageAbstraction *ia=new ImageAbstraction(this->scaled(QSize(xpercentage*width(),ypercentage*height())));
+    //ImageAbstraction *ia=new ImageAbstraction(this->scaled(QSize(xpercentage*width(),ypercentage*height())));
 
-    return ia;
+
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
+
+    int newimageline;
+    int newimagecolumn;
+
+    for(int y=0;y<height();y+=(ypercentage*height())){
+        for(int x=0;x<width();x++){
+
+                QRgb *pixel = (QRgb *)newImage->scanLine(newimageline);
+                pixel=(pixel+newimagecolumn);
+
+                *pixel=qRgba(getPixelColorIntensity(ImageAbstraction::red,x,y),
+                             getPixelColorIntensity(ImageAbstraction::green,x,y),
+                             getPixelColorIntensity(ImageAbstraction::blue,x,y),
+                             255);
+                newimagecolumn++;
+        }
+        newimageline++;
+    }
+
+    return newImage;
+
+
+
+    //return ia;
 
 }
 

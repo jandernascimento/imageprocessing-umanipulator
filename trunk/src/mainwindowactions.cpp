@@ -173,3 +173,14 @@ void MainWindow::applyScale(float width,float height){
    this->image=image->ApplyScale(width,height);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
+
+void MainWindow::applyLaplacianFilter(){
+    qDebug("CLICKING ON LAPLACIAN");
+    image->ApplyConvolution(3,1,'L');
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+void MainWindow::applyGradFilter(){
+    qDebug("CLICKING ON GRAD");
+    image->ApplyConvolution(3,1,'R');
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
