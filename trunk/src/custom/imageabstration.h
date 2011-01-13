@@ -20,6 +20,7 @@ class ImageAbstraction : public QImage
           int getMinColorValue(enum ecolor color);
           int getMaxColorValue(enum ecolor color);
           int getColorCounter(enum ecolor color,int level);
+          int getMaxNumberColor(void);
 
           /** Filter and masks **/
           void ApplyFilterGreyScale();
@@ -30,7 +31,7 @@ class ImageAbstraction : public QImage
           int RGB2CMYK(int x, int y, enum ecolorcmyk color);
           ImageAbstraction* ApplyCrop(int startx,int starty,int endx,int endy);
           double* makeMeanFilter(int dim);
-          int getMaxNumberColor(void);
+
 
 
     private:

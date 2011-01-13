@@ -291,13 +291,13 @@ void ImageAbstraction::UpdateColorRange(){
     }
 
     redmax=-1;
-    redmin=1000;
+    redmin=300;
 
     greenmax=-1;
-    greenmin=1000;
+    greenmin=300;
 
     bluemax=-1;
-    bluemin=1000;
+    bluemin=300;
 
 /*
     int minimum=300;

@@ -2,7 +2,8 @@
 #define HISTOGRAM_H
 
 #include <QDialog>
-#include "custom/imageabstration.h"
+#include <custom/imageabstration.h>
+#include <QGraphicsScene>
 
 namespace Ui {
     class Histogram;
@@ -16,11 +17,13 @@ public:
     explicit Histogram(QWidget *parent = 0);
     ~Histogram();
     ImageAbstraction *image;
-    void drawHistogram(void);
+    void drawAllHistograms();
+    void drawHistogram(enum ImageAbstraction::ecolor color,QGraphicsScene *scene);
 
 private:
     Ui::Histogram *ui;    
-    void fillArray(int *n_colors,int n_items,int maxy,int miny);
+    void fillArrayRealValues(enum ImageAbstraction::ecolor color,int *n_colors);
+    void fillArrayCalculatedValues(enum ImageAbstraction::ecolor color,int *n_colors,int max_number_pixels,int limit_y);
 };
 
 #endif // HISTOGRAM_H
