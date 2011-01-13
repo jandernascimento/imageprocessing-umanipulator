@@ -76,4 +76,4 @@ private:
     QAction* retrieveMenuOption(QString name, QMenu *menu);
 };
 
-#endif // MAINWINDOW_H
+#endif

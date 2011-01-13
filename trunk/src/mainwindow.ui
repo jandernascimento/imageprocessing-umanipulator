@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Micro Manipulator</string>
+   <string>Micro Manipulator </string>
   </property>
   <property name="windowIcon">
    <iconset resource="resource.qrc">
