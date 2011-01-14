@@ -10,7 +10,7 @@ dialogCustom::dialogCustom(QWidget *parent) :
 }
 void dialogCustom::okpressed(void){
 
-    emit blur(ui->spinBox->text().toInt());
+    emit custom(ui->spinBox->text().toInt(),ui->radioButton->isChecked(),ui->radioButton_2->isChecked(),ui->radioButton_5->isChecked());
 }
 dialogCustom::~dialogCustom()
 {

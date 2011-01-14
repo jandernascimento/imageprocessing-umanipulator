@@ -43,7 +43,7 @@ public slots:
      void applyScale(float width,float height);
      void applyGrey(void);
      void applyBlur(void);
-     void applyBlurCustom(int dim);
+     void applyBlurCustom(int dim, bool r1,bool r2,bool r3);
      void applyBlurCustomDialog(void);
      void applyMeanFilter();
      void applyLaplacianFilter();
