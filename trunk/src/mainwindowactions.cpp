@@ -171,7 +171,7 @@ void MainWindow::applyScale(){
 
 void MainWindow::applyScale(float width,float height){
    this->image=image->ApplyScale(width,height);
-    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+   label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
 void MainWindow::applyLaplacianFilter(){
