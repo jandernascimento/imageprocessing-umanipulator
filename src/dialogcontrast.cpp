@@ -15,13 +15,26 @@ DialogContrast::DialogContrast(QDialog *parent)
 
 void DialogContrast::contrastChanged(int value)
 {
-   /* QMessageBox::about(this,"About myQtApp",
+   label->setText(QString("Minimum (%1)").arg(horizontalSlider->value()));
+
+   label_2->setText(QString("Maximum (%1)").arg(horizontalSlider_2->value()));
+
+    /* QMessageBox::about(this,"About myQtApp",
                 "This app was coded for educational purposes.\n"
                 "Number 1 is: " + QString::number(spinBox1->value()) + "\n\n"
                 "Bye.\n"); */
-    QString v=QString("%1").arg(value);
 
-    qDebug(v.toAscii());
+    if(horizontalSlider->value()>horizontalSlider_2->value()){
+
+        int pad=0;
+
+        if((horizontalSlider->value()+25)>255){
+           pad=(horizontalSlider->value()+25)-255;
+        }
+
+        horizontalSlider->setValue(horizontalSlider->value()-pad);
+        horizontalSlider_2->setValue(horizontalSlider->value()+25);
+    }
 
     emit constrastChanged(this->horizontalSlider->value(),this->horizontalSlider_2->value());
 
