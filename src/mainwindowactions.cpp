@@ -3,7 +3,10 @@
 #include <QMessageBox>
 #include "histogram.h"
 #include "dialogscale.h"
-#include "dialogkernel.h"
+#include "dialogkernel3.h"
+#include "dialogkernel4.h"
+#include "dialogkernel5.h"
+
 
 void MainWindow::histogram(void){
     if (fileSelected == NULL)
@@ -127,18 +130,48 @@ void MainWindow::applyGrey(){
 }
 
 void MainWindow::applyBlur(){
-    image->ApplyConvolution(3,1,'G',0);
+    image->makeFilterGaussian(3,1);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
+void MainWindow::applyCustomKernel3(double d1, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9){
+    double* kernel = (double*)(malloc(sizeof(double)*9));
+    kernel[0] = d1;
+    kernel[1] = d2;
+    kernel[2] = d3;
+    kernel[3] = d4;
+    kernel[4] = d5;
+    kernel[5] = d6;
+    kernel[6] = d7;
+    kernel[7] = d8;
+    kernel[8] = d9;
+    image->ApplyConvolution(3,1,kernel,'C');
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+
 void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
     if (r1)
-        image->ApplyConvolution(dim,1,'G',0);
+        image->makeFilterGaussian(dim,1);
     if (r2)
-        image->ApplyConvolution(dim,1,'M',0);
+        image->makeMeanFilter(dim);
     if (r3)
     {
+        if (dim == 3)
+        {
+            dialogkernel3 *dk3 = new dialogkernel3();
+            connect(dk3, SIGNAL(kernel3(double,double,double,double,double,double,double,double,double)),this,SLOT(applyCustomKernel3(double,double,double,double,double,double,double,double,double)));
+            dk3->show();
+        }
+        else if (dim==4)
+        {
 
-
+                dialogkernel4 *dk4 = new dialogkernel4();
+                dk4->show();
+        }
+        else if (dim == 5)
+        {
+                dialogkernel5 *dk5 = new dialogkernel5();
+                dk5->show();
+        }
     }
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
@@ -168,7 +201,7 @@ void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
 }
 void MainWindow::applyMeanFilter(){
     qDebug("CLICKING ON MEAN");
-    image->ApplyConvolution(3,1,'M',0);
+    image->makeMeanFilter(3);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
@@ -185,19 +218,8 @@ void MainWindow::applyScale(float width,float height){
 
 void MainWindow::applyLaplacianFilter(){
     qDebug("CLICKING ON LAPLACIAN");
-    for (int i=0;i<10;++i)
-        image->ApplyConvolution(3,1,'L',0);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyGradFilter(){
     qDebug("CLICKING ON GRAD");
-    //for (int i=0;i<5;++i)
-    {
-        image->ApplyConvolution(3,1,'R',0);
-        image->ApplyConvolution(3,1,'R',1);
-        image->ApplyConvolution(3,1,'R',2);
-        image->ApplyConvolution(3,1,'R',3);
-        image->ApplyConvolution(3,1,'R',4);
-    }
-    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
