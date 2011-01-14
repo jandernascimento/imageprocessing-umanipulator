@@ -397,61 +397,116 @@ double* ImageAbstraction::makeFilterGaussian(int dim, int sig){
 
 }
 
-int ImageAbstraction::findMax(int* array, int len)
+double ImageAbstraction::findMax(double* array, int len)
 {
-    int max = array[0];
+    double max = array[0];
     for (int i=1;i<len; ++i)
         if(array[i]>max)
             max = array[i];
     return max;
 }
-int ImageAbstraction::findMin(int* array, int len)
+double ImageAbstraction::findMin(double* array, int len)
 {
-    int min = array[0];
+    double min = array[0];
     for (int i=1;i<len; ++i)
-        if(array[i]<min)
+        if (array[i]<min)
             min = array[i];
     return min;
 }
-void ImageAbstraction::minMax(int* oldArr, int oldMin, int oldMax, int newMin, int newMax, int len)
+void ImageAbstraction::minMax(double* oldArr, int oldMin, int oldMax, int newMin, int newMax, int len)
 {
+    double tmp;
     for (int i=0;i<len; ++i)
-        oldArr[i] = (((oldArr[i]-oldMin)/(oldMax-oldMin))*(newMax-newMin))+newMin;
+    {
+        tmp = (((oldArr[i]-oldMin)/(double)(oldMax-oldMin))*(newMax-newMin))+newMin;
+        oldArr[i] = tmp;
+    }
 }
 
-double* ImageAbstraction::makeGradFilter(int dim)
+double* ImageAbstraction::makeGradFilter(int dim, int kernelType)
 {
     qDebug("MAKING GRAD FILTER");
     double* kernel = (double*)malloc(sizeof(double)*dim*dim);
-    kernel[0] = -.25;
-    kernel[1] = 0.0;
-    kernel[2] = .25;
-    kernel[3] = 0;
-    kernel[4] = 0;
-    kernel[5] = 0;
-    kernel[6] = .25;
-    kernel[7] = 0.0;
-    kernel[8] = -.25;              ;
+    if (kernelType==0)
+    {
+        kernel[0] = -1;
+        kernel[1] = -2;
+        kernel[2] = -1;
+        kernel[3] = 0;
+        kernel[4] = 0;
+        kernel[5] = 0;
+        kernel[6] = 1;
+        kernel[7] = 2;
+        kernel[8] = 1;
+     }
+     if (kernelType==1)
+     {
+        kernel[0] = -1;
+        kernel[1] = 0;
+        kernel[2] = 1;
+        kernel[3] = -2;
+        kernel[4] = 0;
+        kernel[5] = 2;
+        kernel[6] = -1;
+        kernel[7] = 0;
+        kernel[8] = 1;
+     }
+     if (kernelType==2)
+     {
+        kernel[0] = 1;
+        kernel[1] = 0;
+        kernel[2] = -1;
+        kernel[3] = 2;
+        kernel[4] = 0;
+        kernel[5] = -2;
+        kernel[6] = 1;
+        kernel[7] = 0;
+        kernel[8] = -1;
+     }
+     if (kernelType==3)
+     {
+        kernel[0] = 1;
+        kernel[1] = 2;
+        kernel[2] = 1;
+        kernel[3] = 0;
+        kernel[4] = 0;
+        kernel[5] = 0;
+        kernel[6] = -1;
+        kernel[7] = -2;
+        kernel[8] = -1;
+     }
+     if (kernelType==4)
+     {
+        kernel[0] = 0;
+        kernel[1] = -1;
+        kernel[2] = -2;
+        kernel[3] = 1;
+        kernel[4] = 0;
+        kernel[5] = -1;
+        kernel[6] = 2;
+        kernel[7] = 1;
+        kernel[8] = 0;
+     }
     return kernel;
 }
 double* ImageAbstraction::makeLaplacianFilter(int dim)
 {
     qDebug("MAKING LAPLACIAN FILTER");
     double* kernel = (double*)malloc(sizeof(double)*dim*dim);
-    kernel[0] = 1;
-    kernel[1] = 1;
-    kernel[2] = 1;
-    kernel[3] = 1;
-    kernel[4] = -8;
-    kernel[5] = 1;
-    kernel[6] = 1;
-    kernel[7] = 1;
-    kernel[8] = 1;
+    kernel[0] = 0;
+    kernel[1] = -1;
+    kernel[2] = 0;
+    kernel[3] = -1;
+    kernel[4] = 4;
+    kernel[5] = -1;
+    kernel[6] = 0;
+    kernel[7] = -1;
+    kernel[8] = 0;
 
     return kernel;
 }
 
-void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter){
+void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter, int kernelType){
     double* kernel;
     switch (filter){
     case 'G':
@@ -460,15 +515,21 @@ void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter){
     case 'M':
         kernel = ImageAbstraction::makeMeanFilter(dim);
         break;
+    case 'R':
+        kernel = ImageAbstraction::makeGradFilter(dim,kernelType);
+        minMax(kernel,findMin(kernel,dim*dim),findMax(kernel,dim*dim),0,1,dim*dim);
+        break;
+    case 'L':
+        kernel = ImageAbstraction::makeLaplacianFilter(3);
+        minMax(kernel,findMin(kernel,dim*dim),findMax(kernel,dim*dim),0,1,dim*dim);
+        break;
     default:
         break;
 
     }
-    /*
     for (int i=0;i<dim;++i)
         for (int j=0;j<dim;++j)
-            qDebug("%f", (double)(kernel[i*dim+j]));
-    */
+            qDebug("%f KERNEL", (double)(kernel[i*dim+j]));
        int j;  // row    index of the current image
        int i;  // column index of the current image
        int jk; // row    index of the kernel;
@@ -477,13 +538,14 @@ void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter){
        int kernelCenteri; // index of the central column of the kernel
        int kernelCenterj; // index of the central row of the kernel
        double kernelTotalValue;
-
        kernelCenteri = dim / 2;
        kernelCenterj = dim / 2;
        kernelTotalValue = 0.0;
        for (j = 0; j < dim; j++)
          for(i = 0; i < dim; i++)
            kernelTotalValue += (double)(kernel[j*dim+i]);
+       if (kernelTotalValue<=0)
+           kernelTotalValue=1;
        // convolution computation
        for (j = 0; j < this->height(); j++) {
          for (i = 0; i < this->width(); i++) {
@@ -494,7 +556,7 @@ void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter){
              for (ik = 0; ik < dim; ik++) {
                int ii = i + ik - kernelCenteri;
                int jj = j + jk - kernelCenterj;
-               if ((jj > 0) && (jj <this->height() ) && (ii > 0) && (ii < this->width()))
+               if ((jj >= 0) && (jj <this->height() ) && (ii >= 0) && (ii < this->width()))
                {
                    newval[0] += getPixelColorIntensity(ImageAbstraction::red,jj,ii) * (double)(kernel[jk*dim+ik]);
                    newval[1] += getPixelColorIntensity(ImageAbstraction::green,jj,ii) * (double)(kernel[jk*dim+ik]);
@@ -609,11 +671,7 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
         }
         newimageline++;
     }
-
     return newImage;
-
-
-
     //return ia;
 
 }

@@ -126,11 +126,11 @@ void MainWindow::applyGrey(){
 }
 
 void MainWindow::applyBlur(){
-    image->ApplyConvolution(3,1,'G');
+    image->ApplyConvolution(3,1,'G',0);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyBlurCustom(int dim){
-    image->ApplyConvolution(dim,1,'G');
+    image->ApplyConvolution(dim,1,'G',0);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyBlurCustomDialog(){
@@ -159,7 +159,7 @@ void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
 }
 void MainWindow::applyMeanFilter(){
     qDebug("CLICKING ON MEAN");
-    image->ApplyConvolution(3,1,'M');
+    image->ApplyConvolution(3,1,'M',0);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
@@ -176,11 +176,19 @@ void MainWindow::applyScale(float width,float height){
 
 void MainWindow::applyLaplacianFilter(){
     qDebug("CLICKING ON LAPLACIAN");
-    image->ApplyConvolution(3,1,'L');
+    for (int i=0;i<10;++i)
+        image->ApplyConvolution(3,1,'L',0);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyGradFilter(){
     qDebug("CLICKING ON GRAD");
-    image->ApplyConvolution(3,1,'R');
+    //for (int i=0;i<5;++i)
+    {
+        image->ApplyConvolution(3,1,'R',0);
+        image->ApplyConvolution(3,1,'R',1);
+        image->ApplyConvolution(3,1,'R',2);
+        image->ApplyConvolution(3,1,'R',3);
+        image->ApplyConvolution(3,1,'R',4);
+    }
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
