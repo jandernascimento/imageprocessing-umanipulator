@@ -154,6 +154,8 @@ void ImageAbstraction::ApplyFilterGreyScale(){
 
 void ImageAbstraction::ApplyFilterContrast(int newmin,int newmax){
 
+    qDebug("New min:%i,max:%i",newmin,newmax);
+
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
 
@@ -192,33 +194,15 @@ int ImageAbstraction::ApplyFilterContrastRule(enum ecolor color,int x,int y,int 
         break;
     }
 
-
     int actmin=this->getMinColorValue(color);
     int actmax=this->getMaxColorValue(color);
 
-
     int actdelta=actmax-actmin;
     int newdelta=max-min;
-    //float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
-    float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
-    int newcolor=actmin+mul*(colorvalue-actmin);
+    float mul=((float)newdelta)/((float)actdelta);//((actmax+level))/(actmax-actmin);
+    int newcolor=min+mul*((float)(colorvalue-actmin));
 
     return newcolor;
-
-    /*
-    float brightness=-1*((float)min)/((float)255);
-
-    float value=((float)colorvalue)/((float)255);
-
-    float contrast=((float)max)/((float)255);
-
-    if (brightness < 0.0)  value = value * ( 1.0 + brightness);
-                      else value = value + ((1.0 - value) * brightness);
-    //value = (value - 0.5) * (tan ((contrast + 1) * 2.1415/4) ) + 0.5;
-
-    return (int)(value*(float)255);
-    */
-
 }
 
 int ImageAbstraction::getColorCounter(enum ecolor color,int level){
@@ -651,26 +635,40 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
 
     //ImageAbstraction *ia=new ImageAbstraction(this->scaled(QSize(xpercentage*width(),ypercentage*height())));
 
-
     ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
 
-    int newimageline;
-    int newimagecolumn;
+    qDebug("old size %i,%i",width(),height());
+    qDebug("new size %i,%i",newImage->width(),newImage->height());
 
-    for(int y=0;y<height();y+=(ypercentage*height())){
-        for(int x=0;x<width();x++){
 
-                QRgb *pixel = (QRgb *)newImage->scanLine(newimageline);
-                pixel=(pixel+newimagecolumn);
+    for(int y=0;y<newImage->height();y++){
 
-                *pixel=qRgba(getPixelColorIntensity(ImageAbstraction::red,x,y),
-                             getPixelColorIntensity(ImageAbstraction::green,x,y),
-                             getPixelColorIntensity(ImageAbstraction::blue,x,y),
-                             255);
-                newimagecolumn++;
+        for(int x=0;x<newImage->width();x++){
+
+                //int l=((float)height())*((float)y)/((float)newImage->height());
+                //int k=((float)width())*((float)x)/((float)newImage->width());
+                int l=((float)(height()*y))/((float)newImage->height());
+                int k=((float)(width()*x))/((float)newImage->width());
+
+                //qDebug("access %i,%i",l,k);
+
+                //if((l+1)>newImage->height()||(k+1)>newImage->height()) break;
+
+                if(l<height()&&k<width() && y<newImage->height() && x<newImage->width())
+                newImage->setPixel(y,x,getPixelColorIntensity(ImageAbstraction::red,l,k),
+                             getPixelColorIntensity(ImageAbstraction::green,l,k),
+                             getPixelColorIntensity(ImageAbstraction::blue,l,k)
+                             );
+
+
+
+
+
+                //if(x==(newImage->width()-1)) break;
+                //break;
         }
-        newimageline++;
     }
+
     return newImage;
     //return ia;
 

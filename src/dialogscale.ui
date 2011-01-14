@@ -51,10 +51,10 @@
       <item>
        <widget class="QSpinBox" name="spinBox">
         <property name="minimum">
-         <number>5</number>
+         <number>50</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>200</number>
         </property>
        </widget>
       </item>
@@ -78,7 +78,10 @@
          <number>5</number>
         </property>
         <property name="maximum">
-         <number>100</number>
+         <number>200</number>
+        </property>
+        <property name="value">
+         <number>50</number>
         </property>
        </widget>
       </item>
@@ -93,9 +96,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>buttonBox</zorder>
-  <zorder>verticalLayoutWidget</zorder>
-  <zorder>horizontalLayoutWidget</zorder>
  </widget>
  <resources/>
  <connections>
