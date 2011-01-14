@@ -17,7 +17,7 @@ public:
 public slots:
     void okpressed(void);
 signals:
-    void blur(int dim);
+    void custom(int dim, bool r1, bool r2, bool r3);
 
 private:
     Ui::dialogCustom *ui;

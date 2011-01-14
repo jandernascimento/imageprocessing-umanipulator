@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     histogram.cpp \
     dialogfusion.cpp \
     dialogcustom.cpp \
-    dialogscale.cpp
+    dialogscale.cpp \
+    dialogsetkernel.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
@@ -28,14 +29,16 @@ HEADERS  += mainwindow.h \
     histogram.h \
     dialogfusion.h \
     dialogcustom.h \
-    dialogscale.h
+    dialogscale.h \
+    dialogsetkernel.h
 
 FORMS    += mainwindow.ui \
     dialogcontrast.ui \
     histogram.ui \
     dialogfusion.ui \
     dialogcustom.ui \
-    dialogscale.ui
+    dialogscale.ui \
+    dialogsetkernel.ui
 
 RESOURCES += \
     resource.qrc

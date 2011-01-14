@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include "histogram.h"
 #include "dialogscale.h"
+#include "dialogkernel.h"
 
 void MainWindow::histogram(void){
     if (fileSelected == NULL)
@@ -129,15 +130,23 @@ void MainWindow::applyBlur(){
     image->ApplyConvolution(3,1,'G',0);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
-void MainWindow::applyBlurCustom(int dim){
-    image->ApplyConvolution(dim,1,'G',0);
+void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
+    if (r1)
+        image->ApplyConvolution(dim,1,'G',0);
+    if (r2)
+        image->ApplyConvolution(dim,1,'M',0);
+    if (r3)
+    {
+
+
+    }
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyBlurCustomDialog(){
 
     dialogCustom *dc=new dialogCustom();
     dc->show();
-    connect(dc, SIGNAL(blur(int)),this, SLOT(applyBlurCustom(int)));
+    connect(dc, SIGNAL(custom(int,bool,bool,bool)),this, SLOT(applyBlurCustom(int,bool,bool,bool)));
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::dialogFusion(void){
