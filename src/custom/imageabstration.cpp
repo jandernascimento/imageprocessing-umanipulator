@@ -629,43 +629,38 @@ double* ImageAbstraction::makeMeanFilter(int dim){
 ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercentage){
 
     //ImageAbstraction *ia=new ImageAbstraction(this->scaled(QSize(xpercentage*width(),ypercentage*height())));
+    //return ia;
+
 
     ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
 
+    qDebug("percentage %f,%f",xpercentage,ypercentage);
     qDebug("old size %i,%i",width(),height());
     qDebug("new size %i,%i",newImage->width(),newImage->height());
-
 
     for(int y=0;y<newImage->height();y++){
 
         for(int x=0;x<newImage->width();x++){
 
-                //int l=((float)height())*((float)y)/((float)newImage->height());
-                //int k=((float)width())*((float)x)/((float)newImage->width());
-                int l=((float)(height()*y))/((float)newImage->height());
-                int k=((float)(width()*x))/((float)newImage->width());
+                //int l=((float)(height()*y))/((float)newImage->height());
+                //int k=((float)(width()*x))/((float)newImage->width());
 
-                //qDebug("access %i,%i",l,k);
+                int l=height()*y/newImage->height();
+                int k=width()*x/newImage->width();
 
-                //if((l+1)>newImage->height()||(k+1)>newImage->height()) break;
+                qDebug("in(%i,%i and %i,%i) %i,%i->%i,%i",newImage->height(),newImage->width(),height(),width(),l,k,y,x);
 
-                if(l<height()&&k<width() && y<newImage->height() && x<newImage->width())
+                //if(l<height()&&k<width() && y<newImage->height() && x<newImage->width())
                 newImage->setPixel(y,x,getPixelColorIntensity(ImageAbstraction::red,l,k),
                              getPixelColorIntensity(ImageAbstraction::green,l,k),
                              getPixelColorIntensity(ImageAbstraction::blue,l,k)
                              );
 
-
-
-
-
-                //if(x==(newImage->width()-1)) break;
-                //break;
         }
     }
 
     return newImage;
-    //return ia;
+
 
 }
 
