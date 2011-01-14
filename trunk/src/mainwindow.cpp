@@ -149,7 +149,6 @@ void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     menu->addAction(laplacian);
     menu->addSeparator();
     menu->addAction(custom);
-
 }
 
 void MainWindow::setupImageAdvancedSubMenu(QMenu *menu){
