@@ -225,26 +225,21 @@ int ImageAbstraction::getColorCounter(enum ecolor color,int level){
 
 void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy){
 
-    int total=this->height()*this->width();
-    int numbertoplot=percentage*total;
-    int space=total/numbertoplot;
     int pcounter=0;
 
     for(int x=posx;x<this->height();x++){
         for(int y=posy;y<this->width();y++){
 
-            if(y>fimage->width()) break;
-
-            if(++pcounter==space){
+            if(y>fimage->width()||x>fimage->height()) break;
                 QRgb *pix=getPixel(x,y);
 
-                int pad=0;
-                if((x%2)==0) { pad=1;}
+                QRgb *pixext=fimage->getPixel(x-posx,y-posy);
 
-                QRgb *pixext=fimage->getPixel(x-posx+pad,y-posy);
-                *pix=qRgba(qRed(*pixext),qGreen(*pixext),qBlue(*pixext),255);
+                *pix=qRgba(((float)1-percentage)*qRed(*pix)+percentage*qRed(*pixext),
+                           ((float)1-percentage)*qGreen(*pix)+percentage*qGreen(*pixext),
+                           ((float)1-percentage)*qBlue(*pix)+percentage*qBlue(*pixext),
+                           255);
                 pcounter=0;
-            }
 
         }
     }
