@@ -48,6 +48,16 @@ public slots:
      void applyMeanFilter();
      void applyLaplacianFilter();
      void applyGradFilter();
+     void applyCustomKernel3(double d1,
+                            double d2,
+                            double d3,
+                            double d4,
+                            double d5,
+                            double d6,
+                            double d7,
+                            double d8,
+                            double d9
+                            );
 
 private:
     Ui::MainWindow *ui;

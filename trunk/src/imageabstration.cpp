@@ -3,13 +3,11 @@
 #include <assert.h>
 
 
-
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
 
     UpdateColorRange();
 
 }
-
 
 ImageAbstraction::ImageAbstraction(const QSize &size, Format format):QImage(size,format){
 
@@ -156,8 +154,6 @@ void ImageAbstraction::ApplyFilterGreyScale(){
 
 void ImageAbstraction::ApplyFilterContrast(int newmin,int newmax){
 
-    qDebug("New min:%i,max:%i",newmin,newmax);
-
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
 
@@ -196,15 +192,33 @@ int ImageAbstraction::ApplyFilterContrastRule(enum ecolor color,int x,int y,int 
         break;
     }
 
+
     int actmin=this->getMinColorValue(color);
     int actmax=this->getMaxColorValue(color);
 
+
     int actdelta=actmax-actmin;
     int newdelta=max-min;
-    float mul=((float)newdelta)/((float)actdelta);//((actmax+level))/(actmax-actmin);
-    int newcolor=min+mul*((float)(colorvalue-actmin));
+    //float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
+    float mul=(float)newdelta/(float)actdelta;//((actmax+level))/(actmax-actmin);
+    int newcolor=actmin+mul*(colorvalue-actmin);
 
     return newcolor;
+
+    /*
+    float brightness=-1*((float)min)/((float)255);
+
+    float value=((float)colorvalue)/((float)255);
+
+    float contrast=((float)max)/((float)255);
+
+    if (brightness < 0.0)  value = value * ( 1.0 + brightness);
+                      else value = value + ((1.0 - value) * brightness);
+    //value = (value - 0.5) * (tan ((contrast + 1) * 2.1415/4) ) + 0.5;
+
+    return (int)(value*(float)255);
+    */
+
 }
 
 int ImageAbstraction::getColorCounter(enum ecolor color,int level){
@@ -227,21 +241,26 @@ int ImageAbstraction::getColorCounter(enum ecolor color,int level){
 
 void ImageAbstraction::ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy){
 
+    int total=this->height()*this->width();
+    int numbertoplot=percentage*total;
+    int space=total/numbertoplot;
     int pcounter=0;
 
     for(int x=posx;x<this->height();x++){
         for(int y=posy;y<this->width();y++){
 
-            if(y>fimage->width()||x>fimage->height()) break;
+            if(y>fimage->width()) break;
+
+            if(++pcounter==space){
                 QRgb *pix=getPixel(x,y);
 
-                QRgb *pixext=fimage->getPixel(x-posx,y-posy);
+                int pad=0;
+                if((x%2)==0) { pad=1;}
 
-                *pix=qRgba(((float)1-percentage)*qRed(*pix)+percentage*qRed(*pixext),
-                           ((float)1-percentage)*qGreen(*pix)+percentage*qGreen(*pixext),
-                           ((float)1-percentage)*qBlue(*pix)+percentage*qBlue(*pixext),
-                           255);
+                QRgb *pixext=fimage->getPixel(x-posx+pad,y-posy);
+                *pix=qRgba(qRed(*pixext),qGreen(*pixext),qBlue(*pixext),255);
                 pcounter=0;
+            }
 
         }
     }
@@ -360,7 +379,7 @@ void ImageAbstraction::UpdateColorRange(){
     /*/
 }
 
-void ImageAbstraction::makeFilterGaussian(int dim, int sig){
+double* ImageAbstraction::makeFilterGaussian(int dim, int sig){
 
         const double pi = 3.141592;
         const double ee = 2.718281;
@@ -374,58 +393,148 @@ void ImageAbstraction::makeFilterGaussian(int dim, int sig){
                         tmp2 = -1.0*(((i-center)*(i-center)+(j-center)*(j-center))/(2.0*sig*sig));
                         kernel[i*dim+j] = tmp1*pow(ee,tmp2);
                 }
-        ImageAbstraction::ApplyConvolution(dim, sig, kernel, 'G');
-        free(kernel);
+        return kernel;
 
 }
 
-int ImageAbstraction::findMax(int* array, int len)
+double ImageAbstraction::findMax(double* array, int len)
 {
-    int max = array[0];
+    double max = array[0];
     for (int i=1;i<len; ++i)
         if(array[i]>max)
             max = array[i];
     return max;
 }
-int ImageAbstraction::findMin(int* array, int len)
+double ImageAbstraction::findMin(double* array, int len)
 {
-    int min = array[0];
+    double min = array[0];
     for (int i=1;i<len; ++i)
         if (array[i]<min)
             min = array[i];
     return min;
 }
-void ImageAbstraction::minMax(int* oldArr, int oldMin, int oldMax, int newMin, int newMax, int len)
+void ImageAbstraction::minMax(double* oldArr, int oldMin, int oldMax, int newMin, int newMax, int len)
 {
     double tmp;
     for (int i=0;i<len; ++i)
     {
         tmp = (((oldArr[i]-oldMin)/(double)(oldMax-oldMin))*(newMax-newMin))+newMin;
-        oldArr[i] = (int)tmp;
+        oldArr[i] = tmp;
     }
 }
 
 double* ImageAbstraction::makeGradFilter(int dim, int kernelType)
 {
     qDebug("MAKING GRAD FILTER");
+    double* kernel = (double*)malloc(sizeof(double)*dim*dim);
+    if (kernelType==0)
+    {
+        kernel[0] = -1;
+        kernel[1] = -2;
+        kernel[2] = -1;
+        kernel[3] = 0;
+        kernel[4] = 0;
+        kernel[5] = 0;
+        kernel[6] = 1;
+        kernel[7] = 2;
+        kernel[8] = 1;
+     }
+     if (kernelType==1)
+     {
+        kernel[0] = -1;
+        kernel[1] = 0;
+        kernel[2] = 1;
+        kernel[3] = -2;
+        kernel[4] = 0;
+        kernel[5] = 2;
+        kernel[6] = -1;
+        kernel[7] = 0;
+        kernel[8] = 1;
+     }
+     if (kernelType==2)
+     {
+        kernel[0] = 1;
+        kernel[1] = 0;
+        kernel[2] = -1;
+        kernel[3] = 2;
+        kernel[4] = 0;
+        kernel[5] = -2;
+        kernel[6] = 1;
+        kernel[7] = 0;
+        kernel[8] = -1;
+     }
+     if (kernelType==3)
+     {
+        kernel[0] = 1;
+        kernel[1] = 2;
+        kernel[2] = 1;
+        kernel[3] = 0;
+        kernel[4] = 0;
+        kernel[5] = 0;
+        kernel[6] = -1;
+        kernel[7] = -2;
+        kernel[8] = -1;
+     }
+     if (kernelType==4)
+     {
+        kernel[0] = 0;
+        kernel[1] = -1;
+        kernel[2] = -2;
+        kernel[3] = 1;
+        kernel[4] = 0;
+        kernel[5] = -1;
+        kernel[6] = 2;
+        kernel[7] = 1;
+        kernel[8] = 0;
+     }
+    return kernel;
 }
 double* ImageAbstraction::makeLaplacianFilter(int dim)
 {
     qDebug("MAKING LAPLACIAN FILTER");
+    double* kernel = (double*)malloc(sizeof(double)*dim*dim);
+    kernel[0] = 0;
+    kernel[1] = -1;
+    kernel[2] = 0;
+    kernel[3] = -1;
+    kernel[4] = 4;
+    kernel[5] = -1;
+    kernel[6] = 0;
+    kernel[7] = -1;
+    kernel[8] = 0;
+
+    return kernel;
 }
-int ImageAbstraction::ApplyConvolution(int dim, int sig, double* kernel, char kernelType){
-        for (int i=0;i<dim;++i)
-            for (int j=0;j<dim;++j)
-                qDebug("%f KERNEL", (double)(kernel[i*dim+j]));
+
+void ImageAbstraction::ApplyConvolution(int dim, int sig, char filter, int kernelType){
+    double* kernel;
+    switch (filter){
+    case 'G':
+        kernel = ImageAbstraction::makeFilterGaussian(dim,sig);
+        break;
+    case 'M':
+        kernel = ImageAbstraction::makeMeanFilter(dim);
+        break;
+    case 'R':
+        kernel = ImageAbstraction::makeGradFilter(dim,kernelType);
+        minMax(kernel,findMin(kernel,dim*dim),findMax(kernel,dim*dim),0,1,dim*dim);
+        break;
+    case 'L':
+        kernel = ImageAbstraction::makeLaplacianFilter(3);
+        minMax(kernel,findMin(kernel,dim*dim),findMax(kernel,dim*dim),0,1,dim*dim);
+        break;
+    default:
+        break;
+
+    }
+    for (int i=0;i<dim;++i)
+        for (int j=0;j<dim;++j)
+            qDebug("%f KERNEL", (double)(kernel[i*dim+j]));
        int j;  // row    index of the current image
        int i;  // column index of the current image
        int jk; // row    index of the kernel;
        int ik; // column index of the kernel;
        int newval[3]; // new colors
-       int size = this->height()*this->width();
-       int* tmpImageR = (int*)(malloc(sizeof(int)*size)); // separated by colors
-       int* tmpImageG = (int*)(malloc(sizeof(int)*size)); // separated by colors
-       int* tmpImageB = (int*)(malloc(sizeof(int)*size)); // separated by colors
        int kernelCenteri; // index of the central column of the kernel
        int kernelCenterj; // index of the central row of the kernel
        double kernelTotalValue;
@@ -458,28 +567,10 @@ int ImageAbstraction::ApplyConvolution(int dim, int sig, double* kernel, char ke
            newval[0] = newval[0] / kernelTotalValue;
            newval[1] = newval[1] / kernelTotalValue;
            newval[2] = newval[2] / kernelTotalValue;
-
-           tmpImageR[i*this->height()+j] = newval[0];
-           //qDebug("%i %i",(i*this->height())+j,tmpImageR[(i*this->height())+j]);
-           tmpImageG[i*this->height()+j] = newval[1];
-           //qDebug("%i %i",j*this->height()+i,tmpImageG[j*this->height()+i]);
-           tmpImageB[i*this->height()+j] = newval[2];
-            //qDebug("%i %i",j*this->height()+i,tmpImageB[j*this->height()+i]);
-
-            //qDebug("%i %i %i", this->height(),this->width(),size);
-           //setPixel(j,i,newval[0],newval[1],newval[2]);
-
-
+           setPixel(j,i,newval[0],newval[1],newval[2]);
          }
        }
-       minMax(tmpImageR,findMin(tmpImageR,size),findMax(tmpImageR,size),0,255,size);
-       minMax(tmpImageG,findMin(tmpImageG,size),findMax(tmpImageG,size),0,255,size);
-       minMax(tmpImageB,findMin(tmpImageB,size),findMax(tmpImageB,size),0,255,size);
-       for (int i=0; i<this->height();++i)
-           for (int j=0;j<this->width();++j)
-               setPixel(i,j,tmpImageR[j*this->height()+i],tmpImageG[j*this->height()+i],tmpImageB[j*this->height()+i]);
-
-       return 1;
+       free(kernel);
 }
 int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolorcmyk color){
     float r = getPixelColorIntensity(ImageAbstraction::red,x,y);
@@ -546,52 +637,42 @@ int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolorcmyk color){
                 break;
     }
 }
-void ImageAbstraction::makeMeanFilter(int dim){
+double* ImageAbstraction::makeMeanFilter(int dim){
     qDebug("MAKING MEAN FILTER");
     double* kernel = (double*)malloc(sizeof(double)*dim*dim);
     for (int i=0; i<dim; ++i)
             for (int j=0; j<dim; ++j)
                     kernel[i*dim+j] = 1.0/(dim*dim);
-    ImageAbstraction::ApplyConvolution(3,1,kernel,'M');
-    free(kernel);
+    return kernel;
 
 }
 
 ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercentage){
 
     //ImageAbstraction *ia=new ImageAbstraction(this->scaled(QSize(xpercentage*width(),ypercentage*height())));
-    //return ia;
 
 
     ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
 
-    qDebug("percentage %f,%f",xpercentage,ypercentage);
-    qDebug("old size %i,%i",width(),height());
-    qDebug("new size %i,%i",newImage->width(),newImage->height());
+    int newimageline;
+    int newimagecolumn;
 
-    for(int y=0;y<newImage->height();y++){
+    for(int y=0;y<height();y+=(ypercentage*height())){
+        for(int x=0;x<width();x++){
 
-        for(int x=0;x<newImage->width();x++){
+                QRgb *pixel = (QRgb *)newImage->scanLine(newimageline);
+                pixel=(pixel+newimagecolumn);
 
-                //int l=((float)(height()*y))/((float)newImage->height());
-                //int k=((float)(width()*x))/((float)newImage->width());
-
-                int l=height()*y/newImage->height();
-                int k=width()*x/newImage->width();
-
-                qDebug("in(%i,%i and %i,%i) %i,%i->%i,%i",newImage->height(),newImage->width(),height(),width(),l,k,y,x);
-
-                //if(l<height()&&k<width() && y<newImage->height() && x<newImage->width())
-                newImage->setPixel(y,x,getPixelColorIntensity(ImageAbstraction::red,l,k),
-                             getPixelColorIntensity(ImageAbstraction::green,l,k),
-                             getPixelColorIntensity(ImageAbstraction::blue,l,k)
-                             );
-
+                *pixel=qRgba(getPixelColorIntensity(ImageAbstraction::red,x,y),
+                             getPixelColorIntensity(ImageAbstraction::green,x,y),
+                             getPixelColorIntensity(ImageAbstraction::blue,x,y),
+                             255);
+                newimagecolumn++;
         }
+        newimageline++;
     }
-
     return newImage;
-
+    //return ia;
 
 }
 

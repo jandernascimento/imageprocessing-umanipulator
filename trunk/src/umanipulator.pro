@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     dialogfusion.cpp \
     dialogcustom.cpp \
     dialogscale.cpp \
-    dialogsetkernel.cpp
+    dialogkernel3.cpp \
+    dialogkernel4.cpp \
+    dialogkernel5.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
@@ -30,7 +32,10 @@ HEADERS  += mainwindow.h \
     dialogfusion.h \
     dialogcustom.h \
     dialogscale.h \
-    dialogsetkernel.h
+    dialogkernel3.h \
+    dialogkernel4.h \
+    dialogkernel5.h
+
 
 FORMS    += mainwindow.ui \
     dialogcontrast.ui \
@@ -38,7 +43,10 @@ FORMS    += mainwindow.ui \
     dialogfusion.ui \
     dialogcustom.ui \
     dialogscale.ui \
-    dialogsetkernel.ui
+    dialogkernel3.ui \
+    dialogkernel4.ui \
+    dialogkernel5.ui
+
 
 RESOURCES += \
     resource.qrc
