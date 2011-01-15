@@ -32,7 +32,9 @@ class ImageAbstraction : public QImage
           int findMax(int* array, int len);
           int findMin(int* array, int len);
           void minMax(int* oldArr, int oldMin, int oldMax, int newMin, int newMax, int len);
-          double* makeGradFilter(int dim, int kernelType);
+          void minMaxDouble(double* oldArr, double oldMin, double oldMax, double newMin, double newMax, int len);
+          double* makeGradFilterX(int dim, int kernelType);
+          double* makeGradFilterY(int dim, int kernelType);
           double* makeLaplacianFilter(int dim);
           int ApplyConvolution(int dim, int sig, double* kernel, char kernelType);
           int RGB2CMYK(int x, int y, enum ecolorcmyk color);
