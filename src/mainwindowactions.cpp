@@ -6,6 +6,7 @@
 #include "dialogkernel3.h"
 #include "dialogkernel4.h"
 #include "dialogkernel5.h"
+#include "dialoglog.h"
 
 
 void MainWindow::histogram(void){
@@ -144,7 +145,17 @@ void MainWindow::applyCustomKernel3(double d1, double d2, double d3, double d4, 
     kernel[6] = d7;
     kernel[7] = d8;
     kernel[8] = d9;
-    image->ApplyConvolution(3,1,kernel,'C');
+    image->ApplyConvolution(3,kernel,'C');
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+void MainWindow::applyCustomLoG(){
+    dialogLoG *dl = new dialogLoG();
+    connect(dl, SIGNAL(log(int, double)),this,SLOT(applyLoG(int, double)));
+    dl->show();
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+void MainWindow::applyLoG(int dim, double sig){
+    image->makeLoG(dim,sig);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
@@ -153,6 +164,15 @@ void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
         image->makeFilterGaussian(dim,1);
     if (r2)
         image->makeMeanFilter(dim);
+    if (r3)
+    {/*
+        qDebug("LOG IS ACTIVATED");
+        dialogLoG *dLoG = new dialogLoG();
+        connect(dLoG, SIGNAL(log(double)),this,SLOT(applyCustomLoG(double)));
+        dLoG->show();
+        //image->makeLoG(dim,1.4);
+        */
+    }
     if (r3)
     {
         if (dim == 3)

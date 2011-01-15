@@ -49,6 +49,8 @@ public slots:
      void applyLaplacianFilter();
      void applyGradFilterX();
      void applyGradFilterY();
+     void applyCustomLoG();
+     void applyLoG(int dim, double sig);
      void applyCustomKernel3(double d1,
                             double d2,
                             double d3,
