@@ -94,12 +94,12 @@ void MainWindow::setupFileMenu(QMenu *menu){
 
 void MainWindow::setupViewMenu(QMenu *menu){
 
-    QAction *colorbaraction=new QAction(("&Color information bar"), this);
+    //QAction *colorbaraction=new QAction(("&Color information bar"), this);
     QAction *histogramaction=new QAction(("&Histogram"), this);
 
     configureHistogram(histogramaction);
 
-    menu->addAction(colorbaraction);
+    //menu->addAction(colorbaraction);
     menu->addAction(histogramaction);
 
 }
@@ -119,8 +119,8 @@ void MainWindow::setupImageMenu(QMenu *menu){
     resize->setIcon(QIcon(":resize"));
 
     ui->mainToolBar->addAction(crop);
-    ui->mainToolBar->addAction(fusion);
     ui->mainToolBar->addAction(blur);
+    ui->mainToolBar->addAction(fusion);
     ui->mainToolBar->addAction(resize);
 
     configureFusion(fusion);
@@ -164,14 +164,25 @@ void MainWindow::setupImageAdvancedSubMenu(QMenu *menu){
 }
 
 void MainWindow::setupColorMenu(QMenu *menu){
+
+    QToolBar *colorToolBar=new QToolBar("Color actions");
+
     QAction *contrast=new QAction(("&Contrast and equalization"), this);
     QAction *convertGrey=new QAction(("Convert to &grey scale"), this);
+
+    contrast->setIcon(QIcon(":contrast"));
+    convertGrey->setIcon(QIcon(":greyscale"));
 
     configureContrast(contrast);
     configureGrey(convertGrey);
 
     menu->addAction(contrast);
     menu->addAction(convertGrey);
+
+    colorToolBar->addAction(convertGrey);
+    colorToolBar->addAction(contrast);
+
+    addToolBar(colorToolBar);
 }
 
 void MainWindow::configureQuit(QAction *act){    
