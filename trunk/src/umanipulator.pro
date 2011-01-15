@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     dialogscale.cpp \
     dialogkernel3.cpp \
     dialogkernel4.cpp \
-    dialogkernel5.cpp
+    dialogkernel5.cpp \
+    dialoglog.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
@@ -34,7 +35,8 @@ HEADERS  += mainwindow.h \
     dialogscale.h \
     dialogkernel3.h \
     dialogkernel4.h \
-    dialogkernel5.h
+    dialogkernel5.h \
+    dialoglog.h
 
 
 FORMS    += mainwindow.ui \
@@ -45,7 +47,8 @@ FORMS    += mainwindow.ui \
     dialogscale.ui \
     dialogkernel3.ui \
     dialogkernel4.ui \
-    dialogkernel5.ui
+    dialogkernel5.ui \
+    dialoglog.ui
 
 
 RESOURCES += \
