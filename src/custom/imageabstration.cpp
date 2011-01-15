@@ -576,19 +576,15 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
     //ImageAbstraction *ia=new ImageAbstraction(this->scaled(QSize(xpercentage*width(),ypercentage*height())));
     //return ia;
 
-
     ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
 
-    qDebug("percentage %f,%f",xpercentage,ypercentage);
-    qDebug("old size %i,%i",width(),height());
-    qDebug("new size %i,%i",newImage->width(),newImage->height());
+    //qDebug("percentage %f,%f",xpercentage,ypercentage);
+    //qDebug("old size %i,%i",width(),height());
+    //qDebug("new size %i,%i",newImage->width(),newImage->height());
 
     for(int y=0;y<newImage->height();y++){
 
         for(int x=0;x<newImage->width();x++){
-
-                //int l=((float)(height()*y))/((float)newImage->height());
-                //int k=((float)(width()*x))/((float)newImage->width());
 
                 float yoldfloat=((float)(height()*y))/((float)newImage->height());
                 float xoldfloat=((float)(width()*x))/((float)newImage->width());
@@ -596,11 +592,12 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
                 int yold=(int)round(yoldfloat);
                 int xold=(int)round(xoldfloat);
 
+                /*
                 qDebug("in(%i,%i and %i,%i) %f,%f->%i,%i",newImage->height(),newImage->width(),
                     height(),width(),
                     yoldfloat,xoldfloat,
                     y,x);
-
+                */
 
                 /*** INTERPOLATION: start **/
 
@@ -610,35 +607,39 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
                 int yup=ceil(yoldfloat);
                 int ylow=floor(yoldfloat);
 
-
-                //int red=getPixelColorIntensity(ImageAbstraction::red,yold,xold);//(getPixelColorIntensity(ImageAbstraction::red,y,xup)+getPixelColorIntensity(ImageAbstraction::red,y,xlow))/2;
-                //int green=getPixelColorIntensity(ImageAbstraction::green,yold,xold);//(getPixelColorIntensity(ImageAbstraction::green,y,xup)+getPixelColorIntensity(ImageAbstraction::green,y,xlow))/2;
-                //int blue=getPixelColorIntensity(ImageAbstraction::blue,yold,xold);//(getPixelColorIntensity(ImageAbstraction::blue,y,xup)+getPixelColorIntensity(ImageAbstraction::blue,y,xlow))/2;
-
                 int red=(getPixelColorIntensity(ImageAbstraction::red,yold,xup)+
-                        getPixelColorIntensity(ImageAbstraction::red,yold,xlow))/2;
+                        getPixelColorIntensity(ImageAbstraction::red,yold,xlow)+
+                        getPixelColorIntensity(ImageAbstraction::red,yup,xold)+
+                        getPixelColorIntensity(ImageAbstraction::red,ylow,xold)
+                        )/4;
 
                 int green=(getPixelColorIntensity(ImageAbstraction::green,yold,xup)+
-                        getPixelColorIntensity(ImageAbstraction::green,yold,xlow))/2;
-                int blue=(getPixelColorIntensity(ImageAbstraction::blue,yold,xup)+
-                        getPixelColorIntensity(ImageAbstraction::blue,yold,xlow))/2;
+                        getPixelColorIntensity(ImageAbstraction::green,yold,xlow)+
+                        getPixelColorIntensity(ImageAbstraction::green,yup,xold)+
+                        getPixelColorIntensity(ImageAbstraction::green,ylow,xold)
+                        )/4;
 
+                int blue=(getPixelColorIntensity(ImageAbstraction::blue,yold,xup)+
+                        getPixelColorIntensity(ImageAbstraction::blue,yold,xlow)+
+                        getPixelColorIntensity(ImageAbstraction::blue,yup,xold)+
+                        getPixelColorIntensity(ImageAbstraction::blue,ylow,xold)
+                        )/4;
 
                 newImage->setPixel(y,x,red,
                          green,
                          blue
                          );
 
-                //continue;
-
-
                 /*** INTERPOLATION: end **/
-/*
+
+                /**
                 newImage->setPixel(y,x,getPixelColorIntensity(ImageAbstraction::red,yold,xold),
                              getPixelColorIntensity(ImageAbstraction::green,yold,xold),
                              getPixelColorIntensity(ImageAbstraction::blue,yold,xold)
                              );
-*/
+
+                             **/
+
         }
     }
 
