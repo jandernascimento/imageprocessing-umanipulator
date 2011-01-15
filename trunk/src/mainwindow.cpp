@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->scrollArea->setWidget(label);
 
+
 }
 
 void MainWindow::createMenu(void){
