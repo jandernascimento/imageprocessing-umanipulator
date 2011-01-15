@@ -221,10 +221,16 @@ void MainWindow::applyScale(float width,float height){
 
 void MainWindow::applyLaplacianFilter(){
     qDebug("CLICKING ON LAPLACIAN");
+    image->makeLaplacianFilter(3);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
-void MainWindow::applyGradFilter(){
-    qDebug("CLICKING ON GRAD");
-    image->makeGradFilter(3,0);
+void MainWindow::applyGradFilterX(){
+    qDebug("CLICKING ON GRAD X");
+    image->makeGradFilterX(3,0);
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
+void MainWindow::applyGradFilterY(){
+    qDebug("CLICKING ON GRAD Y");
+    image->makeGradFilterY(3,0);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }

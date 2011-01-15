@@ -47,7 +47,8 @@ public slots:
      void applyBlurCustomDialog(void);
      void applyMeanFilter();
      void applyLaplacianFilter();
-     void applyGradFilter();
+     void applyGradFilterX();
+     void applyGradFilterY();
      void applyCustomKernel3(double d1,
                             double d2,
                             double d3,

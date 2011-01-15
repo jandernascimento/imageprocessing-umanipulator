@@ -138,15 +138,18 @@ void MainWindow::setupImageMenu(QMenu *menu){
 
 void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *mean=new QAction(("Mean"), this);
-    QAction *gradient=new QAction(("Gradiant"), this);
+    QAction *gradientX=new QAction(("Vertical Gradiant"), this);
+    QAction *gradientY=new QAction(("Horizontal Gradiant"), this);
     QAction *laplacian=new QAction(("Laplacian"), this);
     QAction *custom=new QAction(("Custom"), this);
     connect(custom, SIGNAL(triggered()),this,SLOT(applyBlurCustomDialog()));
     connect(mean, SIGNAL(triggered()),this,SLOT(applyMeanFilter()));
     connect(laplacian, SIGNAL(triggered()),this,SLOT(applyLaplacianFilter()));
-    connect(gradient, SIGNAL(triggered()),this,SLOT(applyGradFilter()));
+    connect(gradientX, SIGNAL(triggered()),this,SLOT(applyGradFilterX()));
+    connect(gradientY, SIGNAL(triggered()),this,SLOT(applyGradFilterY()));
     menu->addAction(mean);
-    menu->addAction(gradient);
+    menu->addAction(gradientX);
+    menu->addAction(gradientY);
     menu->addAction(laplacian);
     menu->addSeparator();
     menu->addAction(custom);
