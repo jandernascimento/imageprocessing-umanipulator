@@ -160,12 +160,15 @@ void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
             dialogkernel3 *dk3 = new dialogkernel3();
             connect(dk3, SIGNAL(kernel3(double,double,double,double,double,double,double,double,double)),this,SLOT(applyCustomKernel3(double,double,double,double,double,double,double,double,double)));
             dk3->show();
+
         }
         else if (dim==4)
         {
 
                 dialogkernel4 *dk4 = new dialogkernel4();
+                //dk4->addAction();
                 dk4->show();
+
         }
         else if (dim == 5)
         {
@@ -222,4 +225,6 @@ void MainWindow::applyLaplacianFilter(){
 }
 void MainWindow::applyGradFilter(){
     qDebug("CLICKING ON GRAD");
+    image->makeGradFilter(3,0);
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
