@@ -60,8 +60,8 @@ private:
     ImageWindow *imagewin;
     DialogContrast *mDialogContrast;
     dialogCustom mDialogCustom;
-    QString fileSelected;
     QString filePath;
+    QString fileName;
     QMenu *filemenu;
     QMenu *viewmenu;
     QMenu *imagemenu;
@@ -69,7 +69,8 @@ private:
     QMenu *helpmenu;
     QMenu *teste;
     QToolBar *secondToolBar;
-    void saveImage(QString fileName);
+    void saveImage();
+    void openFile(void);
     void createMenu(void);
     void setupFileMenu(QMenu *menu);
     void setupViewMenu(QMenu *menu);
