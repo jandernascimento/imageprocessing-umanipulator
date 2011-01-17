@@ -1,0 +1,6 @@
+http://en.wikipedia.org/wiki/Edge_detection
+http://www.cscjournals.org/csc/manuscript/Journals/IJIP/volume3/Issue1/IJIP-15.pdf
+http://www.pages.drexel.edu/~nk752/Research/cannyTut2.html //impl
+http://www.pages.drexel.edu/~weg22/can_tut.html //steps
+http://www.cs.ucf.edu/~mikel/Research/Edge_Detection.htm
+http://vision.cs.arizona.edu/nvs/courses/ece532/oxygendoc/html/edge_8c-source.html //impl
