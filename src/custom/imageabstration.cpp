@@ -363,10 +363,6 @@ void ImageAbstraction::UpdateColorRange(){
 
 void ImageAbstraction::makeFilterGaussian(int dim, double sig){
 
-        //**//
-        dim=5;
-        sig=1.4;
-        //**//
         const double pi = 3.141592;
         const double ee = 2.718281;
         double* kernel = (double*)malloc(sizeof(double)*dim*dim);
@@ -380,14 +376,6 @@ void ImageAbstraction::makeFilterGaussian(int dim, double sig){
                         kernel[i*dim+j] = tmp1*pow(ee,tmp2);
                 }
         ImageAbstraction::ApplyConvolution(dim, kernel, 'G');
-        //**//
-        qDebug("Raquel-dimensao:%i",dim);
-        for (int i=0; i<dim; ++i)
-                for (int j=0; j<dim; ++j){
-                    qDebug("%f ",kernel[i*dim+j]);
-                }
-
-        //**//
         free(kernel);
 
 }
