@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     dialogkernel4.cpp \
     dialogkernel5.cpp \
     dialoglog.cpp \
-    custom/globals.cpp \
     dialogsetkernel.cpp
 
 HEADERS  += mainwindow.h \
@@ -39,7 +38,6 @@ HEADERS  += mainwindow.h \
     dialogkernel4.h \
     dialogkernel5.h \
     dialoglog.h \
-    custom/globals.h \
     dialogsetkernel.h
 
 
