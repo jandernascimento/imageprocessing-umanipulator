@@ -245,10 +245,6 @@ void MainWindow::mouseOver(QMouseEvent* event){
   ui->statusBar->showMessage(message);
 }
 
-void MainWindow::save(QString fileName){
-    this->image->save(fileName,0,-1);
-}
-
 void MainWindow::configureHistogram(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(histogram()));
 }

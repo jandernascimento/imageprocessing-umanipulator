@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void save(QString fileName);
     ImageAbstraction *image;
     ImageLabel *label;
 
@@ -69,6 +68,7 @@ private:
     QMenu *helpmenu;
     QMenu *teste;
     QToolBar *secondToolBar;
+    void saveImage(QString fileName);
     void createMenu(void);
     void setupFileMenu(QMenu *menu);
     void setupViewMenu(QMenu *menu);
