@@ -1,13 +1,13 @@
 #include "dialogsetkernel.h"
 #include "ui_dialogsetkernel.h"
-#include<QtCore>
-#include<QValidator>
+
 int thisDim;
 dialogSetKernel::dialogSetKernel(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::dialogSetKernel)
 {
     ui->setupUi(this);
+    //ui->tableWidget->itemAt(0,0)->setText("HAMID");
     connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(okpressed()));
 
 }
@@ -22,6 +22,9 @@ void dialogSetKernel::okpressed(void)
 }
 void dialogSetKernel::setSize(int dim)
 {
+    //qDebug("ROW %i",ui->tableWidget->rowCount());
+    //qDebug("CLOUMN %i",ui->tableWidget->columnCount());
+    //ui->tableWidget->windowFlags().
     thisDim = dim;
 }
 

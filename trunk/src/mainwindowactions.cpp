@@ -6,8 +6,7 @@
 #include "dialogabout.h"
 #include "dialogsetkernel.h"
 #include "dialoglog.h"
-#include <QDoubleSpinBox>
-#include<QTableWidget>
+
 
 
 void MainWindow::histogram(void){
@@ -174,12 +173,6 @@ void MainWindow::applyLoG(int dim, double sig){
     image->makeLoG(dim,sig);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
-void MainWindow::applySag(int dim)
-{
-    qDebug("In appply asasasndfdsnj");
-    image->makeMeanFilter(dim);
-    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
-}
 
 void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
     if (r1)
@@ -189,6 +182,7 @@ void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
     if (r3)
     {
         dialogSetKernel *dsk = new dialogSetKernel();
+        //dsk->childAt(0,0)->childAt(0,0)->setVisible(true);
         dsk->setSize(dim);
         dsk->show();
         connect(dsk, SIGNAL(setKernel(double*,int)),this,SLOT(applySetKernel(double*,int)));
