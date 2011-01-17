@@ -2,9 +2,6 @@
 #include "math.h"
 #include <assert.h>
 
-
-
-
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
 
     UpdateColorRange();

@@ -53,6 +53,7 @@ public slots:
      void applyLoG(int dim, double sig);
      void applySetKernel(QString str);
      void applySag(int dim);
+     void edgedetect(void);
 
 private:
     Ui::MainWindow *ui;
