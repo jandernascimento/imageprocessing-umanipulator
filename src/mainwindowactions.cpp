@@ -25,6 +25,7 @@ void MainWindow::quit(void){
 }
 
 void MainWindow::open(void){
+
     QFileInfo file = QFileDialog::getOpenFileName(this,
                 tr("Open Image"), "", tr("Image Files (*.gif *.jpg *.pnm *.png)"), 0, QFileDialog::DontUseNativeDialog);
 
@@ -38,13 +39,33 @@ void MainWindow::open(void){
 
         connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
     }
+    //*/
+    /*/
+    QFileDialog dialog(this);
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    dialog.setNameFilter(tr("Image Files (*.gif *.jpg *.pnm *.png)"));
+    dialog.setViewMode(QFileDialog::List);
+    QStringList fileNames;
+    if (dialog.exec()){
+         fileNames = dialog.selectedFiles();
+
+         image=new ImageAbstraction(fileNames.at(0));
+         label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+
+         connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
+    }//*/
+}
+
+void MainWindow::saveImage(QString fileName){
+    this->image->save(fileName,0,-1);
 }
 
 void MainWindow::save(void){
     if (fileSelected == NULL)
         QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
-    else
-        this->save(fileSelected);
+    else{
+        this->saveImage(fileSelected);
+    }
 
 }
 
@@ -62,6 +83,23 @@ void MainWindow::saveas(void){
 
             save();
         }
+
+
+        /*nao testado ainda/
+        QFileDialog dialog(this);
+        dialog.setFileMode(QFileDialog::AnyFile);
+        dialog.setNameFilter(tr("Image Files (*.gif *.jpg *.pnm *.png)"));
+        dialog.setViewMode(QFileDialog::List);
+        QStringList fileNames;
+        if (dialog.exec()){
+             fileNames = dialog.selectedFiles();
+
+             image=new ImageAbstraction(fileNames.at(0));
+             label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+
+             connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
+        }//*/
+
     }
 }
 

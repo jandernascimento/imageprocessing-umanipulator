@@ -363,6 +363,10 @@ void ImageAbstraction::UpdateColorRange(){
 
 void ImageAbstraction::makeFilterGaussian(int dim, double sig){
 
+        //**//
+        //dim=5;
+        //sig=1.4;
+        //**//
         const double pi = 3.141592;
         const double ee = 2.718281;
         double* kernel = (double*)malloc(sizeof(double)*dim*dim);
