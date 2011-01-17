@@ -97,7 +97,23 @@ We should write our abstract here..
 
 \section{Resizing}
 
-	\textit{Fill me}.
+	Image resizing consist in convert an image to a size in which may or not respect the previous ratio.
+	When dealing with reducing the size of an image is quite simple to do it, but when dealing with enlarging 
+	the image, we have problems with unknown pixels. Too fast?
+	When we stretch an image, we have few known pixels (dots which are image composition, think like the cells of a human being).
+
+	There is a lot of algorithms that helps to guess (fill the gaps) those unknow pixels. for instance:
+
+	\begin{itemize}
+	  \item Nearest neighbor
+	  \item Linear interpolation
+	  \item Bilinear interpolation
+	  \item Bicubic interpolation
+	\end{itemize}
+
+	The simplest algorithm, nearest neighbor, simply copy the color intensity of the neighbor pixels. But the results are not quite good since 
+	the images get squared.
+	The adopted algorithm is, \textbf{Bilinear interpolation},  due its speed and simplicity.
 
 \section{Histogram}
 
