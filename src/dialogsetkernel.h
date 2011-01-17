@@ -2,6 +2,7 @@
 #define DIALOGSETKERNEL_H
 
 #include <QDialog>
+#include <QFormLayout>
 
 namespace Ui {
     class dialogSetKernel;
@@ -19,7 +20,7 @@ public:
 public slots:
     void okpressed(void);
 signals:
-    void setKernel(QString d);
+    void setKernel(double* vals,int dim);
 
 private:
     Ui::dialogSetKernel *ui;
