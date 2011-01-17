@@ -32,6 +32,7 @@ public slots:
      void save(void);
      void quit(void);
      void dialogContrast(void);
+     void dialogAbout(void);
      void dialogFusion(void);
      void mouseOver(QMouseEvent* event);
      void histogram(void);
@@ -65,6 +66,7 @@ private:
     QMenu *viewmenu;
     QMenu *imagemenu;
     QMenu *colormenu;
+    QMenu *helpmenu;
     QMenu *teste;
     QToolBar *secondToolBar;
     void createMenu(void);
@@ -74,6 +76,7 @@ private:
     void setupImageFilterSubMenu(QMenu *menu);
     void setupImageAdvancedSubMenu(QMenu *menu);
     void setupColorMenu(QMenu *menu);
+    void setupHelpMenu(QMenu *menu);
     void configureOpen(QAction *act);
     void configureSave(QAction *act);
     void configureContrast(QAction *act);

@@ -12,5 +12,6 @@
         <file alias="savedisabled">images/save24x24disabled.png</file>
         <file alias="greyscale">images/greyscale24x24.png</file>
         <file alias="contrast">images/contrast24x24.png</file>
+        <file alias="copyleft">images/copyleft24x24.png</file>
     </qresource>
 </RCC>
