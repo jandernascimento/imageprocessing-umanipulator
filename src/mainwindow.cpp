@@ -91,7 +91,7 @@ void MainWindow::setupFileMenu(QMenu *menu){
 
     QAction *aa=this->secondToolBar->addAction("TMP");
 
-    connect(aa,SIGNAL(triggered()),this,SLOT(jander()));
+    connect(aa,SIGNAL(triggered()),this,SLOT(edgedetect()));
 
     secondToolBar->addAction(aa);
 
