@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include "histogram.h"
 #include "dialogscale.h"
+#include "dialogabout.h"
 #include "dialogsetkernel.h"
 #include "dialoglog.h"
 
@@ -82,12 +83,19 @@ void MainWindow::dialogContrast(void){
 
 }
 
+void MainWindow::dialogAbout(void){
+    //About
+    DialogAbout *da=new DialogAbout();
+    da->show();
+
+}
+
+
 void MainWindow::applyContrast(int newmin,int newmax){
 
     image->ApplyFilterContrast(newmin,newmax);
 
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
-
 
 }
 

@@ -64,6 +64,10 @@ void MainWindow::createMenu(void){
     colormenu=menuBar()->addMenu("&Color");
     setupColorMenu(colormenu);
 
+    //Help
+    helpmenu=menuBar()->addMenu("&Help");
+    setupHelpMenu(helpmenu);
+
 
 }
 
@@ -188,6 +192,16 @@ void MainWindow::setupColorMenu(QMenu *menu){
     addToolBar(colorToolBar);
 }
 
+void MainWindow::setupHelpMenu(QMenu *menu){
+
+    QAction *about=new QAction(("&About"), this);
+
+    connect(about,SIGNAL(triggered()),this,SLOT(dialogAbout()));
+
+    menu->addAction(about);
+
+}
+
 void MainWindow::configureQuit(QAction *act){    
     connect(act, SIGNAL(triggered()),this,SLOT(quit()));
 }
@@ -267,5 +281,8 @@ QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
 
 
     }
+
+    return NULL;
+
 
 }
