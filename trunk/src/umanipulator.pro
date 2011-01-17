@@ -24,6 +24,7 @@ SOURCES += main.cpp\
     dialogkernel4.cpp \
     dialogkernel5.cpp \
     dialoglog.cpp \
+    dialogabout.cpp \
     dialogsetkernel.cpp
 
 HEADERS  += mainwindow.h \
@@ -38,6 +39,7 @@ HEADERS  += mainwindow.h \
     dialogkernel4.h \
     dialogkernel5.h \
     dialoglog.h \
+    dialogabout.h \
     dialogsetkernel.h
 
 
@@ -51,6 +53,7 @@ FORMS    += mainwindow.ui \
     dialogkernel4.ui \
     dialogkernel5.ui \
     dialoglog.ui \
+    dialogabout.ui \
     dialogsetkernel.ui
 
 
