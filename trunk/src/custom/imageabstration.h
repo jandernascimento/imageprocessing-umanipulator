@@ -28,7 +28,7 @@ class ImageAbstraction : public QImage
           void ApplyFilterContrast(int min,int max);
           void ApplyFilterFusion(ImageAbstraction *fimage,float percentage,int posx,int posy);
           ImageAbstraction* ApplyScale(float xpercentage,float ypercentage);
-          void makeFilterGaussian(int dim, int sig);
+          void makeFilterGaussian(int dim, double sig);
           void makeLoG(int dim, double sig);
           int findMax(int* array, int len);
           int findMin(int* array, int len);
@@ -42,6 +42,7 @@ class ImageAbstraction : public QImage
           ImageAbstraction* ApplyCrop(int startx,int starty,int endx,int endy);
           void makeMeanFilter(int dim);
           void applyGradConvolution(char ax);
+          void makeCustomKernel(int dim);
           void makeCustomKernel3(double d1,
                                  double d2,
                                  double d3,

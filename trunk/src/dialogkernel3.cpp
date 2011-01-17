@@ -9,11 +9,12 @@ dialogkernel3::dialogkernel3(QWidget *parent) :
     connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(okpressed()));
 
 
+
 }
 void dialogkernel3::okpressed()
 {
 
-    kernel3(ui->doubleSpinBox->text().toDouble(),
+    emit kernel3(ui->doubleSpinBox->text().toDouble(),
             ui->doubleSpinBox_2->text().toDouble(),
             ui->doubleSpinBox_3->text().toDouble(),
             ui->doubleSpinBox_4->text().toDouble(),

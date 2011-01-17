@@ -52,45 +52,30 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
+  <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>10</x>
      <y>160</y>
-     <width>113</width>
+     <width>191</width>
      <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>Please set the size</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
+    <string>Please set the size of the LoG kernel</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit_2">
+  <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>200</y>
-     <width>171</width>
-     <height>20</height>
+     <width>181</width>
+     <height>21</height>
     </rect>
    </property>
-   <property name="acceptDrops">
-    <bool>true</bool>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
    <property name="text">
-    <string>Please set the standard deviation</string>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
+    <string>Please Set the std of the kernel</string>
    </property>
   </widget>
  </widget>

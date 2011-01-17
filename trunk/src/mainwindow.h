@@ -51,16 +51,8 @@ public slots:
      void applyGradFilterY();
      void applyCustomLoG();
      void applyLoG(int dim, double sig);
-     void applyCustomKernel3(double d1,
-                            double d2,
-                            double d3,
-                            double d4,
-                            double d5,
-                            double d6,
-                            double d7,
-                            double d8,
-                            double d9
-                            );
+     void applySetKernel(QString str);
+     void applySag(int dim);
 
 private:
     Ui::MainWindow *ui;
