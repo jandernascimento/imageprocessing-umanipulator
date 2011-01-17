@@ -2,24 +2,16 @@
 <ui version="4.0">
  <class>dialogSetKernel</class>
  <widget class="QDialog" name="dialogSetKernel">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>897</width>
-    <height>516</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>480</y>
-     <width>341</width>
-     <height>32</height>
+     <x>110</x>
+     <y>250</y>
+     <width>156</width>
+     <height>23</height>
     </rect>
    </property>
    <property name="orientation">
@@ -29,196 +21,155 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_4">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_5">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_6">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_7">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_8">
-   <property name="geometry">
-    <rect>
-     <x>420</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_9">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_10">
-   <property name="geometry">
-    <rect>
-     <x>540</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_11">
-   <property name="geometry">
-    <rect>
-     <x>600</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_12">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_13">
-   <property name="geometry">
-    <rect>
-     <x>720</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_14">
-   <property name="geometry">
-    <rect>
-     <x>780</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="doubleSpinBox_15">
-   <property name="geometry">
-    <rect>
-     <x>840</x>
-     <y>0</y>
-     <width>62</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QTableWidget" name="tableWidget">
    <property name="geometry">
     <rect>
-     <x>70</x>
-     <y>50</y>
-     <width>271</width>
-     <height>91</height>
+     <x>30</x>
+     <y>30</y>
+     <width>331</width>
+     <height>211</height>
     </rect>
    </property>
-   <property name="rowCount">
-    <number>2</number>
-   </property>
-   <property name="columnCount">
-    <number>2</number>
-   </property>
    <row>
     <property name="text">
-     <string>New Row</string>
+     <string>1</string>
     </property>
    </row>
    <row>
     <property name="text">
-     <string>New Row</string>
+     <string>2</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>3</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>7</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>9</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>10</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>11</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>12</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>13</string>
+    </property>
+   </row>
+   <row>
+    <property name="text">
+     <string>15</string>
     </property>
    </row>
    <column>
     <property name="text">
-     <string>New Column</string>
+     <string>1</string>
     </property>
    </column>
    <column>
     <property name="text">
-     <string>New Column</string>
+     <string>2</string>
     </property>
    </column>
-   <item row="0" column="0">
+   <column>
     <property name="text">
-     <string/>
+     <string>3</string>
     </property>
-   </item>
+   </column>
+   <column>
+    <property name="text">
+     <string>4</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>5</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>6</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>7</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>8</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>9</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>10</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>11</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>12</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>13</string>
+    </property>
+   </column>
+   <column>
+    <property name="text">
+     <string>15</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>

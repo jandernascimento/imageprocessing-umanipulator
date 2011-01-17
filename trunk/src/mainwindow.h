@@ -9,6 +9,7 @@
 #include <dialogcontrast.h>
 #include <dialogcustom.h>
 #include <dialogfusion.h>
+#include <QFormLayout>
 
 
 namespace Ui {
@@ -51,9 +52,10 @@ public slots:
      void applyGradFilterY();
      void applyCustomLoG();
      void applyLoG(int dim, double sig);
-     void applySetKernel(QString str);
+     void applySetKernel(double* vals, int dim);
      void applySag(int dim);
      void edgedetect(void);
+
 
 private:
     Ui::MainWindow *ui;
