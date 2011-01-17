@@ -7,6 +7,7 @@ dialogCustom::dialogCustom(QWidget *parent) :
 {
     ui->setupUi(this);
     connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(okpressed()));
+    //qDebug("%i",this->children().length());
 }
 void dialogCustom::okpressed(void){
 

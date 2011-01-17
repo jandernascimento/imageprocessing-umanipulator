@@ -14,6 +14,12 @@ class dialogSetKernel : public QDialog
 public:
     explicit dialogSetKernel(QWidget *parent = 0);
     ~dialogSetKernel();
+    void setSize(int dim);
+
+public slots:
+    void okpressed(void);
+signals:
+    void setKernel(QString d);
 
 private:
     Ui::dialogSetKernel *ui;

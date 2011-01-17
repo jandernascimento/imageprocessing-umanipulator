@@ -23,7 +23,9 @@ SOURCES += main.cpp\
     dialogkernel3.cpp \
     dialogkernel4.cpp \
     dialogkernel5.cpp \
-    dialoglog.cpp
+    dialoglog.cpp \
+    custom/globals.cpp \
+    dialogsetkernel.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
@@ -36,7 +38,9 @@ HEADERS  += mainwindow.h \
     dialogkernel3.h \
     dialogkernel4.h \
     dialogkernel5.h \
-    dialoglog.h
+    dialoglog.h \
+    custom/globals.h \
+    dialogsetkernel.h
 
 
 FORMS    += mainwindow.ui \
@@ -48,7 +52,8 @@ FORMS    += mainwindow.ui \
     dialogkernel3.ui \
     dialogkernel4.ui \
     dialogkernel5.ui \
-    dialoglog.ui
+    dialoglog.ui \
+    dialogsetkernel.ui
 
 
 RESOURCES += \

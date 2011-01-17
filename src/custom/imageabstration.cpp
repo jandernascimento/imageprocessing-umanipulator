@@ -4,6 +4,7 @@
 
 
 
+
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
 
     UpdateColorRange();
@@ -360,7 +361,7 @@ void ImageAbstraction::UpdateColorRange(){
     /*/
 }
 
-void ImageAbstraction::makeFilterGaussian(int dim, int sig){
+void ImageAbstraction::makeFilterGaussian(int dim, double sig){
 
         const double pi = 3.141592;
         const double ee = 2.718281;
@@ -623,7 +624,18 @@ void ImageAbstraction::makeMeanFilter(int dim){
     for (int i=0; i<dim; ++i)
             for (int j=0; j<dim; ++j)
                     kernel[i*dim+j] = 1.0/(dim*dim);
-    ImageAbstraction::ApplyConvolution(3,kernel,'M');
+    ImageAbstraction::ApplyConvolution(dim,kernel,'M');
+    free(kernel);
+
+}
+void ImageAbstraction::makeCustomKernel(int dim){
+
+    qDebug("MAKING CUSTOM FILTER");
+    double* kernel = (double*)malloc(sizeof(double)*dim*dim);
+    for (int i=0; i<dim; ++i)
+            for (int j=0; j<dim; ++j)
+                    kernel[i*dim+j] = 1.0;
+    ImageAbstraction::ApplyConvolution(dim,kernel,'M');
     free(kernel);
 
 }
@@ -705,4 +717,5 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
 
 
 }
+
 

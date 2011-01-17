@@ -3,9 +3,7 @@
 #include <QMessageBox>
 #include "histogram.h"
 #include "dialogscale.h"
-#include "dialogkernel3.h"
-#include "dialogkernel4.h"
-#include "dialogkernel5.h"
+#include "dialogsetkernel.h"
 #include "dialoglog.h"
 
 
@@ -134,18 +132,11 @@ void MainWindow::applyBlur(){
     image->makeFilterGaussian(3,1);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
-void MainWindow::applyCustomKernel3(double d1, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9){
-    double* kernel = (double*)(malloc(sizeof(double)*9));
-    kernel[0] = d1;
-    kernel[1] = d2;
-    kernel[2] = d3;
-    kernel[3] = d4;
-    kernel[4] = d5;
-    kernel[5] = d6;
-    kernel[6] = d7;
-    kernel[7] = d8;
-    kernel[8] = d9;
-    image->ApplyConvolution(3,kernel,'C');
+void MainWindow::applySetKernel(QString str){
+    if (str.toDouble()==0)
+        qDebug("NULLLLLLL");
+    //qDebug("%f VALUE OF (1,1)",d);
+
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyCustomLoG(){
@@ -158,24 +149,25 @@ void MainWindow::applyLoG(int dim, double sig){
     image->makeLoG(dim,sig);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
+void MainWindow::applySag(int dim)
+{
+    qDebug("In appply asasasndfdsnj");
+    image->makeMeanFilter(dim);
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
 
 void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
     if (r1)
-        image->makeFilterGaussian(dim,1);
+        image->makeFilterGaussian(dim,1.0);
     if (r2)
         image->makeMeanFilter(dim);
     if (r3)
-    {/*
-        qDebug("LOG IS ACTIVATED");
-        dialogLoG *dLoG = new dialogLoG();
-        connect(dLoG, SIGNAL(log(double)),this,SLOT(applyCustomLoG(double)));
-        dLoG->show();
-        //image->makeLoG(dim,1.4);
-        */
-    }
-    if (r3)
     {
-        if (dim == 3)
+        dialogSetKernel *dsk = new dialogSetKernel();
+        connect(dsk, SIGNAL(setKernel(QString)),this,SLOT(applySetKernel(QString)));
+        //dsk->setSize(3);
+        dsk->show();
+        /*if (dim == 3)
         {
             dialogkernel3 *dk3 = new dialogkernel3();
             connect(dk3, SIGNAL(kernel3(double,double,double,double,double,double,double,double,double)),this,SLOT(applyCustomKernel3(double,double,double,double,double,double,double,double,double)));
@@ -186,15 +178,13 @@ void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
         {
 
                 dialogkernel4 *dk4 = new dialogkernel4();
-                //dk4->addAction();
+
+                connect(dk4, SIGNAL(kernel4(int)),this,SLOT(applySag(int)));
                 dk4->show();
 
-        }
-        else if (dim == 5)
-        {
-                dialogkernel5 *dk5 = new dialogkernel5();
-                dk5->show();
-        }
+
+
+        }*/
     }
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }

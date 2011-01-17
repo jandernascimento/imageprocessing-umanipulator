@@ -14,7 +14,13 @@ class dialogkernel4 : public QDialog
 public:
     explicit dialogkernel4(QWidget *parent = 0);
     ~dialogkernel4();
+    void setKernelSize(int dim);
 
+public slots:
+
+    void okpressed(void);
+signals:
+    void kernel4(int d);
 private:
     Ui::dialogkernel4 *ui;
 };
