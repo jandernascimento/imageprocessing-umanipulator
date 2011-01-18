@@ -1,32 +1,66 @@
 #include "mainwindow.h"
 #include "custom/imageabstration.h"
 
-/*intelligentresizing::intelligentresizing()
-{
-}*/
-
-void MainWindow::findPaths2(void){
-    createEnergyMatrix();
-    //highlightPath();
+void MainWindow::printMatrix(int * energy_matrix){
+    for (int lin = 0; lin < image->height(); lin++)
+        for (int col = 0; col < image->width(); col++) {
+            int current_pixel   = energy_matrix[image->width()*lin+col];
+            qDebug("%i",current_pixel);
+        }
 }
 
-/*void MainWindow::highlightPath(void){
-
-}*/
-
-void MainWindow::createEnergyMatrix(void){
-    int line,column,current_pixel,neighbor_pixel1,neighbor_pixel2,neighbor_pixel3,prev_column,next_column,prev_line;
+void MainWindow::findPaths2(void){
     int size=(image->height())*(image->width());
     int * energy_matrix=(int *) malloc(sizeof(int) * size);
 
-
-    //printing the initial matrix of the image
+    /*/printing the initial matrix of the image
+    qDebug("1-initial values...");
     for (int lin = 0; lin < image->height(); lin++)
         for (int col = 0; col < image->width(); col++) {
-            current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,col,lin);
+            int current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,lin,col);
             qDebug("%i",current_pixel);
         }
-    //
+    //*/
+
+    createEnergyMatrix(energy_matrix);
+    //qDebug("2-energy matrix...");
+    //printMatrix(energy_matrix);
+
+    for(int i=0;i<50;i++)
+        highlightPaths(energy_matrix);
+    /*/
+    qDebug("3-path...");
+    for (int lin = 0; lin < image->height(); lin++)
+        for (int col = 0; col < image->width(); col++) {
+            int current_pixel   = image->getPixelColorIntensity(ImageAbstraction::red,lin,col);
+            qDebug("%i",current_pixel);
+        }
+    //*/
+
+    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+    free(energy_matrix);
+}
+
+//for each line, it seeks the min value and marks with the red color
+void MainWindow::highlightPaths(int * energy_matrix){
+    int min_value=0; //stores the column of the min value
+    int green_level,blue_level;
+    for(int lin=image->height()-1;lin>=0;lin--){
+        for(int col=0;col<image->width();col++)
+            if   (energy_matrix[image->width()*lin+min_value] == -1
+                  ||
+                  energy_matrix[image->width()*lin+col] < energy_matrix[image->width()*lin+min_value])
+                min_value=col;
+
+        image->setPixel(lin,min_value,255,0,0);
+
+        energy_matrix[image->width()*lin+min_value]= -1;
+    }
+
+}
+
+void MainWindow::createEnergyMatrix(int * energy_matrix){
+    int line,column,current_pixel,neighbor_pixel1,neighbor_pixel2,neighbor_pixel3,prev_column,next_column,prev_line;
 
     //reference: http://en.wikipedia.org/wiki/Seam_carving
     //first, find vertical seams
@@ -34,7 +68,7 @@ void MainWindow::createEnergyMatrix(void){
     //first line:
     line=0;
     for(int col = 0; col < image->width(); col++) {
-        current_pixel = image->getPixelColorIntensity(ImageAbstraction::blue,col,line);
+        current_pixel = image->getPixelColorIntensity(ImageAbstraction::blue,line,col);
         energy_matrix[image->width()*line+col]=current_pixel;
     }
 
@@ -46,7 +80,7 @@ void MainWindow::createEnergyMatrix(void){
         prev_column=column;
         next_column=findMinValue(column+1,column+1,image->width()-1);
         do{
-            current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,column,line);
+            current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,line,column);
             neighbor_pixel1 = energy_matrix[image->width()*prev_line+prev_column];
             neighbor_pixel2 = energy_matrix[image->width()*prev_line+column];
             neighbor_pixel3 = energy_matrix[image->width()*prev_line+next_column];
@@ -61,18 +95,6 @@ void MainWindow::createEnergyMatrix(void){
         line++;
         prev_line=line-1;
     }while(line<image->height());
-    //
-
-    //printing the initial matrix of the image
-    qDebug("...");
-    for (int lin = 0; lin < image->height(); lin++)
-        for (int col = 0; col < image->width(); col++) {
-            current_pixel   = energy_matrix[image->width()*lin+col];
-            qDebug("%i",current_pixel);
-        }
-    //
-
-    free(energy_matrix);
 }
 
 int MainWindow::findMinValue(int value1,int value2, int value3){
