@@ -45,29 +45,50 @@ We should write our abstract here..
 
 	\subsection{Fundamental}
 
-		\textit{Fill me}.
-
+		By definition, a filter is a device or process which removes some unwanted features from an image (more precisely, form a signal).
+		A low-pass(high-pass) filter is regarded as a classic example of filters in image processings area. Generally, filters are used to be convolved 
+		(the convolution is described in the 
+		next part) with an image in order to produce a new image. This new image, in turn, would be used for some other processings. The next subsection will
+		intoduce the convolution and its basics.
+		
 		\subsubsection{Convolution}
 
-			\textit{Fill me}.
+			Convolutions are used to perform many useful image processing tasks such as noise reduction and edge detection. Generally,
+			convolution is regardesd as a mathematical operation on two functions f and g which produces a modified version of one of the functions.
+			Generally, but not necessarly, the first function (signal) is the input and is bigger than the second one.
+			The following formula describes the continous convolution formula:
+			
+			
+			When dealing with finite-length sequences, one cannot use the ordinary convolution formula (called linear convolution).
+			In such cases, the circular convolution which results in zeros outside of the range of the signal is used. The mathematical formula of descrete 
+			convolution could be seen in the following:
+			
+			In image processing field, basically, the image is the first function which is convolved with the second function, called kernel or filter.
+			In this context we use the terms kernel and filter interchangably.
+			There are a wide range of filters which are used to perform different tasks on a given image. The next subsection would go through some of these 
+			filters which are used in the application in addition to a brief description for each.
 
-		\subsubsection{Kernel}
+		\subsection{Used filters}
+		
+		\subsubsection{Gaussian}
 
-			\textit{Fill me}.
-
-	\subsection{Used filters}
+			The Gaussian kernel is a 2D convolution operator which is used to blur an image and remove noise. Mostly, applying a convolution using a Gaussian
+			kernel is called Gaussioan smoothing.Generally, the Gaussian kernel is centered at
+			zero (pick at 0). The following describes the Gaussian formula in 2D space:
+			
+			Gaussian smoothing acts almost the same as the mean filter, which will be in the following part.
+		\subsubsection{Mean}
+			Mean filter is an easy to implement kernel which is used to reduce the noise in an image by reducing the amount of intensity variation between one
+			pixel and the next. The idea of the mean filter is to replace the value of each pixel with the average of its neighbors including itself. 
+			
 		
 		\subsubsection{Gradient}
 
 			\textit{Fill me}.
 		
-		\subsubsection{Mean}
 
-			\textit{Fill me}.
 
-		\subsubsection{Gaussian}
 
-			\textit{Fill me}.
 
 		\subsubsection{Laplacian}
 
