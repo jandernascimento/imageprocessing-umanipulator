@@ -272,6 +272,23 @@ void MainWindow::applyLoG(int dim, double sig){
     image->makeLoG(dim,sig);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
+void MainWindow::applyTEMP(){
+    image->makeLaplacianFilter(5);
+    int r,g,b;
+    for (int i=0;i<image->height();++i)
+        for (int j=0; j<image->width();++j)
+        {
+            r = image->getPixelColorIntensity(ImageAbstraction::red,i,j);
+            g = image->getPixelColorIntensity(ImageAbstraction::green,i,j);
+            b = image->getPixelColorIntensity(ImageAbstraction::blue,i,j);
+            if ((r+g+b)/3>128)
+                image->setPixel(i,j,0,0,0);
+            else
+                image->setPixel(i,j,255,255,255);
+
+        }
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
 
 void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
     if (r1)
