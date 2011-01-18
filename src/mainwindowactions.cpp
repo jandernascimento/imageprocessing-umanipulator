@@ -7,7 +7,46 @@
 #include "dialogsetkernel.h"
 #include "dialoglog.h"
 
+void MainWindow::findPaths(void){
+    QMessageBox::information(this,"","oi");
+}
 
+void MainWindow::edgeDetection(void){
+
+    int size=3;
+    double *gx=(double *)malloc(sizeof(double)*(size*size));
+    double *gy=(double *)malloc(sizeof(double)*(size*size));
+
+    //[size*line+col]
+    gx[size*0+0]=-1;  gx[size*0+1]=0;  gx[size*0+2]=1;
+    gx[size*1+0]=-2;  gx[size*1+1]=0;  gx[size*1+2]=2;
+    gx[size*2+0]=-1;  gx[size*2+1]=0;  gx[size*2+2]=1;
+
+    gy[size*0+0]= 1; gy[size*0+1]= 2; gy[size*0+2]= 1;
+    gy[size*1+0]= 0; gy[size*1+1]= 0; gy[size*1+2]= 0;
+    gy[size*2+0]=-1; gy[size*2+1]=-2; gy[size*2+2]=-1;
+
+    image->ApplyConvolution(size,gx,'c'); //this 'c' does not matter
+    image->ApplyConvolution(size,gy,'c');
+
+    for (int j = 0; j < image->height(); j++) {
+      for (int i = 0; i < image->width(); i++) {
+
+          QRgb *pixel=image->getPixel(j,i);
+
+          int col=image->getPixelColorIntensity(ImageAbstraction::blue,j,i);
+
+          if(col<122 || col >129)
+            *pixel=qRgba(255,255,255,255);
+          else
+            *pixel=qRgba(0,0,0,255);
+
+      }
+    }
+
+    //updating the image in the interface
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+}
 
 void MainWindow::histogram(void){
     if (fileName == NULL)

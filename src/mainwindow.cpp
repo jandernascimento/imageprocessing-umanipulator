@@ -89,11 +89,15 @@ void MainWindow::setupFileMenu(QMenu *menu){
     secondToolBar->addAction(openaction);
     secondToolBar->addAction(saveasaction);
 
-    QAction *aa=this->secondToolBar->addAction("TMP");
-
-    connect(aa,SIGNAL(triggered()),this,SLOT(edgedetect()));
-
+    //**//
+    QAction *aa=this->secondToolBar->addAction("TMP-edge");
+    connect(aa,SIGNAL(triggered()),this,SLOT(edgeDetection()));
     secondToolBar->addAction(aa);
+
+    QAction *bb=this->secondToolBar->addAction("TMP-paths");
+    connect(bb,SIGNAL(triggered()),this,SLOT(findPaths()));
+    secondToolBar->addAction(bb);
+    //**//
 
     menu->addAction(openaction);
     menu->addAction(saveaction);
@@ -284,41 +288,4 @@ QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
 
     }
     return NULL;
-}
-
-void MainWindow::edgedetect(void){
-
-    double *l=(double *)malloc(sizeof(double)*9);
-    double *p=(double *)malloc(sizeof(double)*9);
-
-    l[3*0+0]=-1; l[3*0+1]=0; l[3*0+2]=1;
-    l[3*1+0]=-2; l[3*1+1]=0; l[3*1+2]=2;
-    l[3*2+0]=-1; l[3*2+1]=0; l[3*2+2]=1;
-
-    p[3*0+0]=1; p[3*0+1]=2; p[3*0+2]=1;
-    p[3*1+0]=0; p[3*1+1]=0; p[3*1+2]=0;
-    p[3*2+0]=-1; p[3*2+1]=-2; p[3*2+2]=-1;
-
-    image->ApplyConvolution(3,l,'c');
-    image->ApplyConvolution(3,p,'c');
-
-    for (int j = 0; j < image->height(); j++) {
-      for (int i = 0; i < image->width(); i++) {
-
-          QRgb *pixel=image->getPixel(j,i);
-
-          int col=image->getPixelColorIntensity(ImageAbstraction::blue,j,i);
-
-          if(col<122 || col >129)
-            *pixel=qRgba(255,255,255,255);
-          else
-            *pixel=qRgba(0,0,0,255);
-
-      }
-    }
-
-
-    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
-
-
 }
