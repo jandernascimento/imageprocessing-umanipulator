@@ -78,7 +78,7 @@
 		
 		\subsubsection{Gradient}
 
-			Applying gradient filter to an image is one the edge dection approaches. Before, explaining the gradient filter and its properties, we will see
+			Applying gradient filter to an image is one of the edge dection approaches. Before, explaining the gradient filter and its properties, we will see
 			short description of edge detection concept. Technically, edge is a part of image where a sharp change is occured in the brightness of the pixels. More informally, edges are the boundaries of
 			the objects in an image. Detecting edges in an image is a non-avoidable issue in some image processing tasks such as intelligent resizing.
 			
@@ -88,14 +88,17 @@
 
 			There are several filter based on gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters.
 			In this application the Prewitt kernel is used for gradient-based edge detection.
+			As it is mentioned previously, gradient approach is based on the first derivation of the input. Based on the properties of
+			the foist derivation, the edges of a givent input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
+			determined in order for the edges to be detected. However, since a thresholding is used, the edges might be too thick to be considered
+			as an edge. As a result, we may need to apply a localization method (for example, using Laplacian filter) to find zero
+			crossing points and separate actual edges from other non-edge parts.
 		
-
-
-
-
 		\subsubsection{Laplacian}
-
-			\textit{Fill me}.
+			The Laplacian filter is computed based on the second derivation of the input. As a result, it is highly sensitive to noise. Consequently,
+			it is generally applied after noise reduction filters. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution is
+			assosiative.
+			
 
 \section{Color space}          
 
