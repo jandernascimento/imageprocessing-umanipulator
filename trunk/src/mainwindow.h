@@ -71,7 +71,10 @@ private:
     QMenu *helpmenu;
     QMenu *teste;
     QToolBar *secondToolBar;
+    void detectEdges2(void);
+    void findPaths2(void);
     int findMinValue(int value1,int value2, int value3);
+    void createEnergyMatrix(void);
     void saveImage();
     void openFile(void);
     void createMenu(void);

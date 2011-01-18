@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     dialogscale.cpp \
     dialoglog.cpp \
     dialogabout.cpp \
-    dialogsetkernel.cpp
+    dialogsetkernel.cpp \
+    intelligentresizing.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
