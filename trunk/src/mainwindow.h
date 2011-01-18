@@ -73,8 +73,10 @@ private:
     QToolBar *secondToolBar;
     void detectEdges2(void);
     void findPaths2(void);
+    void highlightPaths(int * energy_matrix);
     int findMinValue(int value1,int value2, int value3);
-    void createEnergyMatrix(void);
+    void createEnergyMatrix(int * energy_matrix);
+    void printMatrix(int * energy_matrix);
     void saveImage();
     void openFile(void);
     void createMenu(void);
