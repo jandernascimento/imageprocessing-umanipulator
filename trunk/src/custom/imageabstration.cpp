@@ -50,7 +50,7 @@ QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
 
     QRgb *pixel = getPixel(x,y);
 
-    if(!this->isGreyScale){
+    if(!this->isGreyScale||this->colorCount()==0){
 
         int red = color==ImageAbstraction::red?value:qRed(*pixel);
         int green = color==ImageAbstraction::green?value:qGreen(*pixel);
@@ -59,8 +59,10 @@ QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
 
     }else{
 
-       uint uvalue=value;
-       QImage::setPixel(QPoint(x,y), uvalue);
+        uint uvalue=value;
+
+        QImage::setPixel(QPoint(x,y), uvalue);
+
 
     }
 
@@ -70,6 +72,7 @@ QRgb* ImageAbstraction::setPixel(enum ecolor color, int x, int y, int value){
 }
 
 QRgb* ImageAbstraction::setPixel(int x, int y,int red, int green, int blue){
+
     setPixel(ImageAbstraction::red,x,y,red);
     setPixel(ImageAbstraction::green,x,y,green);
     return setPixel(ImageAbstraction::blue,x,y,blue);
@@ -269,6 +272,8 @@ ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int
 
 void ImageAbstraction::UpdateColorRange(){
 
+    qDebug("%i x %i",this->width(),this->height());
+
     this->isGreyScale=isGrayscale();
 
     for(int count=0;count<256;count++){
@@ -286,10 +291,6 @@ void ImageAbstraction::UpdateColorRange(){
     bluemax=-1;
     bluemin=300;
 
-/*
-    int minimum=300;
-    int maximum=-1;
-*/
     for(int x=0;x<this->height();x++){
         for(int y=0;y<this->width();y++){
             int blue=qBlue(*getPixel(x,y));
@@ -306,56 +307,10 @@ void ImageAbstraction::UpdateColorRange(){
 
             colorcounterred[red]++;
             colorcountergreen[green]++;
-            colorcounterblue[blue]++;
-            /*
-            if(qRed(*getPixel(x,y))<minimum){
-                minimum=qRed(*getPixel(x,y));
-            }
-            if(qGreen(*getPixel(x,y))<minimum){
-                minimum=qGreen(*getPixel(x,y));
-            }
-            if(qBlue(*getPixel(x,y))<minimum){
-                minimum=qBlue(*getPixel(x,y));
-            }
-
-            if(qRed(*getPixel(x,y))>maximum){
-                maximum=qRed(*getPixel(x,y));
-            }
-            if(qGreen(*getPixel(x,y))>maximum){
-                maximum=qGreen(*getPixel(x,y));
-            }
-            if(qBlue(*getPixel(x,y))>maximum){
-                maximum=qBlue(*getPixel(x,y));
-            }
-
-            redmax=maximum;
-            redmin=minimum;
-            greenmax=maximum;
-            greenmin=minimum;
-            bluemax=maximum;
-            bluemin=minimum;
-            */
+            colorcounterblue[blue]++;        
 
         }
     }
-
-    /*
-    qDebug("Red min:%i max:%i",getMinColorValue(ImageAbstraction::red),getMaxColorValue(ImageAbstraction::red));
-    qDebug("Green min:%i max:%i",getMinColorValue(ImageAbstraction::green),getMaxColorValue(ImageAbstraction::green));
-    qDebug("Blue min:%i max:%i",getMinColorValue(ImageAbstraction::blue),getMaxColorValue(ImageAbstraction::blue));
-    */
-
-    /*/printing the array
-    for(int count=0;count<256;count++){
-        qDebug("red,%i,%i",count,colorcounterred[count]);
-    }
-    for(int count=0;count<256;count++){
-        qDebug("green,%i,%i",count,colorcountergreen[count]);
-    }
-    for(int count=0;count<256;count++){
-        qDebug("blue,%i,%i",count,colorcounterblue[count]);
-    }
-    /*/
 }
 
 void ImageAbstraction::makeFilterGaussian(int dim, double sig){
