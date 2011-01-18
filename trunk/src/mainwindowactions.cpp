@@ -15,7 +15,35 @@ void MainWindow::findPaths(void){
 
     //reference: http://en.wikipedia.org/wiki/Seam_carving
     //first, find vertical seams
-    for (int lin = 0; lin < image->height(); lin++)
+
+    //first line:
+    for(int col = 0; col < image->width(); col++) {
+        int lin=0;
+        int current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,col,lin);
+        energy_matrix[image->width()*lin+col]=current_pixel;
+    }
+    //first col:
+    for(int lin = 1; lin < image->height(); lin++) {
+        int col=0;
+        int current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,col,lin);
+        int neighbor_pixel2 = image->getPixelColorIntensity(ImageAbstraction::blue,col,lin-1);
+        int neighbor_pixel3 = image->getPixelColorIntensity(ImageAbstraction::blue,col+1,lin-1);
+        energy_matrix[image->width()*lin+col]=findMinValue(current_pixel+neighbor_pixel2,
+                                                           current_pixel+neighbor_pixel2,
+                                                           current_pixel+neighbor_pixel3);
+    }
+    //last col:
+    for(int lin = 1; lin < image->height(); lin++) {
+        int col=image->width()-1;
+        int current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,col,lin);
+        int neighbor_pixel1 = image->getPixelColorIntensity(ImageAbstraction::blue,col-1,lin-1);
+        int neighbor_pixel2 = image->getPixelColorIntensity(ImageAbstraction::blue,col,lin-1);
+        energy_matrix[image->width()*lin+col]=findMinValue(current_pixel+neighbor_pixel1,
+                                                           current_pixel+neighbor_pixel2,
+                                                           current_pixel+neighbor_pixel2);
+    }
+    //next lines:
+    for (int lin = 1; lin < image->height(); lin++)
         for (int col = 0; col < image->width(); col++) {
             int current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,col,lin);
             int neighbor_pixel1 = image->getPixelColorIntensity(ImageAbstraction::blue,col-1,lin-1);
@@ -28,6 +56,7 @@ void MainWindow::findPaths(void){
         }
 
     free(energy_matrix);
+    qDebug("finished");
 }
 
 int MainWindow::findMinValue(int value1,int value2, int value3){
