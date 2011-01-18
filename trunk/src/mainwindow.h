@@ -54,7 +54,8 @@ public slots:
      void applyLoG(int dim, double sig);
      void applySetKernel(double* vals, int dim);
 
-     void edgedetect(void);
+     void edgeDetection(void);
+     void findPaths(void);
 
 
 private:
