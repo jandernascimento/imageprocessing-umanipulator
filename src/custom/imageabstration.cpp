@@ -427,16 +427,27 @@ double* ImageAbstraction::makeLaplacianFilter(int dim)
 {
     qDebug("MAKING LAPLACIAN FILTER");
     double* kernel = (double*)(malloc(sizeof(double)*dim*dim));
-    kernel[0] = 0;
-    kernel[1] = -1;
-    kernel[2] = 0;
-    kernel[3] = -1;
-    kernel[4] = 4;
-    kernel[5] = -1;
-    kernel[6] = 0;
-    kernel[7] = -1;
-    kernel[8] = 0;
-    ImageAbstraction::ApplyConvolution(3,kernel,'R');
+    if (dim==3)
+    {
+        kernel[0] = 0;
+        kernel[1] = -1;
+        kernel[2] = 0;
+        kernel[3] = -1;
+        kernel[4] = 4;
+        kernel[5] = -1;
+        kernel[6] = 0;
+        kernel[7] = -1;
+        kernel[8] = 0;
+        ImageAbstraction::ApplyConvolution(3,kernel,'R');
+    }
+    else
+    {
+        for (int i=0;i<dim*dim;++i)
+            kernel[i] = -1;
+        kernel[12] = 24;
+        ImageAbstraction::ApplyConvolution(5,kernel,'R');
+    }
+
 }
 int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType){
         //minMaxDouble(kernel,-1,1,0,1,9);
@@ -507,7 +518,42 @@ int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType)
             for (int j=0;j<this->width();++j)
                 setPixel(i,j,tmpImageR[j*this->height()+i],tmpImageG[j*this->height()+i],tmpImageB[j*this->height()+i]);
 
+    //ImageAbstraction* imageCopy = new ImageAbstraction(this));
+       //qDebug("W: %i H:%i",imageCopy->width(),imageCopy->height());
        return 1;
+}
+double ImageAbstraction::getMean()
+{
+    double sum = 0;
+    int r,g,b;
+    for (int i=0;i<this->height();++i)
+        for (int j=0; j<this->width();++j)
+        {
+            r = this->getPixelColorIntensity(ImageAbstraction::red,i,j);
+            g = this->getPixelColorIntensity(ImageAbstraction::green,i,j);
+            b = this->getPixelColorIntensity(ImageAbstraction::blue,i,j);
+            sum += (r+g+b)/3;
+        }
+        return sum/(this->height()*this->width());
+
+}
+
+double ImageAbstraction::getStd()
+{
+    double std = 0.0;
+    double myMean = getMean();
+    double tmp = 0;
+    int r,g,b;
+    for (int i=0;i<this->height();++i)
+        for (int j=0; j<this->width();++j)
+        {
+            r = this->getPixelColorIntensity(ImageAbstraction::red,i,j);
+            g = this->getPixelColorIntensity(ImageAbstraction::green,i,j);
+            b = this->getPixelColorIntensity(ImageAbstraction::blue,i,j);
+            tmp += pow((r+g+b/3)-myMean,2);
+        }
+    std = sqrt(tmp/((this->height()*this->width())-1));
+    return std;
 }
 int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolorcmyk color){
     float r = getPixelColorIntensity(ImageAbstraction::red,x,y);
