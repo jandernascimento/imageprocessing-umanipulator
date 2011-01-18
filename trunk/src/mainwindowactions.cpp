@@ -8,7 +8,9 @@
 #include "dialoglog.h"
 
 void MainWindow::findPaths(void){
-    QMessageBox::information(this,"","oi");
+    qDebug("heigth: %i, width: %i",image->height(),image->width());
+
+    double *energy_matrix=(double *)malloc(sizeof(double)*(image->height()*image->width()));
 }
 
 void MainWindow::edgeDetection(void){
@@ -43,6 +45,9 @@ void MainWindow::edgeDetection(void){
 
       }
     }
+
+    free(gy);
+    free(gx);
 
     //updating the image in the interface
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
