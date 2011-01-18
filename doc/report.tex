@@ -40,16 +40,15 @@
 	\subsection{Fundamental}
 
 		By definition, a filter is a device or process which removes some unwanted features from an image (more precisely, form a signal).
-		A low-pass(high-pass) filter is regarded as a classic example of filters in image processings area. Generally, filters are used to be convolved 
-		(the convolution is described in the 
-		next part) with an image in order to produce a new image. This new image, in turn, would be used for some other processings. The next subsection will
-		intoduce the convolution and its basics.
+		low-pass and high-pass filters are regarded as a classic example of filters in image processings field. Generally, filters are used to be convolved 
+		(the convolution is described in the next part) with an image in order to produce a new, modifed image. This new image, in turn, could
+		be used for some other processings. The next subsection will introduce the convolution and its basics.
 		
 		\subsubsection{Convolution}
 
 			Convolutions are used to perform many useful image processing tasks such as noise reduction and edge detection. Generally,
-			convolution is regardesd as a mathematical operation on two functions f and g which produces a modified version of one of the functions.
-			Generally, but not necessarly, the first function (signal) is the input and is bigger than the second one.
+			convolution is a mathematical operation on two functions f and g to produce a modified version of one of the functions.
+			Basically, but not necessarly, the first function (signal) is the input and is bigger than the second one.
 			The following formula describes the continous convolution formula:
 			
 			
@@ -57,10 +56,11 @@
 			In such cases, the circular convolution which results in zeros outside of the range of the signal is used. The mathematical formula of descrete 
 			convolution could be seen in the following:
 			
-			In image processing field, basically, the image is the first function which is convolved with the second function, called kernel or filter.
+			In image processing field, generally, the input image is the first function of the convolution, and the second 
+			function is considered as the kernel or filter.
 			In this context we use the terms kernel and filter interchangably.
-			There are a wide range of filters which are used to perform different tasks on a given image. The next subsection would go through some of these 
-			filters which are used in the application in addition to a brief description for each.
+			There is a wide range of filters which are used to perform different tasks on a given image. The next subsection would go through some of these 
+			filters which are used in the application in addition to a brief description for eachf them.
 
 		\subsection{Used filters}
 		
@@ -78,21 +78,24 @@
 		
 		\subsubsection{Gradient}
 
-			Applying gradient filter to an image is one of the edge dection approaches. Before, explaining the gradient filter and its properties, we will see
-			short description of edge detection concept. Technically, edge is a part of image where a sharp change is occured in the brightness of the pixels. More informally, edges are the boundaries of
+			Applying gradient filter to an image is one of the edge dection approaches. Before explaining the gradient filter and its properties, we will see
+			short description of edge detection concept. 
+			
+			Technically, edge is a part of image where a sharp change is occured in the brightness of the pixels.
+			More informally, edges are the boundaries of
 			the objects in an image. Detecting edges in an image is a non-avoidable issue in some image processing tasks such as intelligent resizing.
 			
-			Mathematically, gradient is the first derivation of the image. In other words, it is a vector with a certain magnitude and direction. The magnitude of the gradient provides information about strength
-			of the edge. Additionally, the direction of the gradient is always prependicular to the direction of the edge. Clearly, the gradient filter could be
+			Mathematically, gradient is the first derivation of the image. In other words, it is a vector with a certain magnitude and direction. 
+			The magnitude of the gradient provides information about strength
+			of the edge, and the direction of the gradient is always prependicular to the direction of the edge. Clearly, the gradient filter could be
 			applied horizentally and vertically. The gradient vector is given below:
 
 			There are several filter based on gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters.
-			In this application the Prewitt kernel is used for gradient-based edge detection.
 			As it is mentioned previously, gradient approach is based on the first derivation of the input. Based on the properties of
-			the foist derivation, the edges of a givent input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
+			the first derivation, the edges of a givent input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
 			determined in order for the edges to be detected. However, since a thresholding is used, the edges might be too thick to be considered
-			as an edge. As a result, we may need to apply a localization method (for example, using Laplacian filter) to find zero
-			crossing points and separate actual edges from other non-edge parts.
+			as an edge. As a result, we may need to apply a localization method (for instance, using Laplacian filter) to find zero
+			crossing points and separate actual edges from other non-edge points.
 		
 		\subsubsection{Laplacian}
 			The Laplacian filter is computed based on the second derivation of the input. As a result, it is highly sensitive to noise. Consequently,
