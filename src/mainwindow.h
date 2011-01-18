@@ -53,6 +53,7 @@ public slots:
      void applyCustomLoG();
      void applyLoG(int dim, double sig);
      void applySetKernel(double* vals, int dim);
+     void applyTEMP();
      void detectEdges(void);
      void findPaths(void);
 

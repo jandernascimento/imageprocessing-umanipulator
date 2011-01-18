@@ -157,7 +157,9 @@ void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *laplacian=new QAction(("Laplacian"), this);
     QAction *LoG=new QAction(("LoG"), this);
     QAction *custom=new QAction(("Custom"), this);
+    QAction *TEMP=new QAction(("TEMP"), this);
     connect(custom, SIGNAL(triggered()),this,SLOT(applyBlurCustomDialog()));
+    connect(TEMP, SIGNAL(triggered()),this,SLOT(applyTEMP()));
     connect(mean, SIGNAL(triggered()),this,SLOT(applyMeanFilter()));
     connect(laplacian, SIGNAL(triggered()),this,SLOT(applyLaplacianFilter()));
     connect(LoG, SIGNAL(triggered()),this,SLOT(applyCustomLoG()));
@@ -168,6 +170,7 @@ void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     menu->addAction(gradientY);
     menu->addAction(laplacian);
     menu->addAction(LoG);
+    menu->addAction(TEMP);
     menu->addSeparator();
     menu->addAction(custom);
 }
