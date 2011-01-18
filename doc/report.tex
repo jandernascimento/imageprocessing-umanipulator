@@ -2,6 +2,8 @@
 
 \usepackage{listings}
 \usepackage{color}
+\usepackage{graphicx}
+\usepackage{float}
 
 \begin{document}
 
@@ -13,15 +15,7 @@
 
 \maketitle
 
-\begin{abstract}
-
-We should write our abstract here..
-
-\end{abstract}
-
 \tableofcontents
-
-\vfill
 
 \section{Image type}
 
@@ -130,7 +124,7 @@ We should write our abstract here..
 	There is a lot of algorithms that helps to guess (fill the gaps) those unknown pixels. for instance:
 
 	\begin{itemize}
-	  \item Nearest neighbor
+	  \item Nearest neighbor interpolation
 	  \item Linear interpolation
 	  \item Bilinear interpolation
 	  \item Bicubic interpolation
@@ -138,9 +132,34 @@ We should write our abstract here..
 
 	The adopted algorithm is, \textbf{Bilinear interpolation},  due its speed and simplicity.
 	
-	\subsection{Bilinear interpolation}
+\subsection{From Linear to Bilinear interpolation}
 
-	To better understand the bilinear interpolation we must take a look at linear interpolation.
+	The Linear interpolation may be done horizontally or vertically, or even both. If a horizontal or vertical interpolation is done, we call it
+	Linear interpolation, case both interpolations are applied its called Bilinear interpolation.	
+	The pixel interpolation is done by calculating the mean of the known pixels around (vertical and horizontal axis) the unknown pixel. 
+
+
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=1]{images/bilinear_interpolation_1}
+		\caption{original image \label{bilinear1}}
+	\end{figure}
+
+	On \ref{bilinear1} we can see the original image where all pixel are known pixels. Now what happen if we stretch this image 
+	from a 2x2 to a 3x3\ref{bilinear2} image?
+	
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=1]{images/bilinear_interpolation_2}
+		\caption{original image \label{bilinear2}}
+	\end{figure}
+
+	As we can see, after stretch the image to a desired dimension we create some unknown pixels. To those pixels we can apply the Bilinear interpolation 
+	to guess the color intensity we should use.
+
+	Consider the values for the colors(c) red(r), green(g), blue(b) and yellow(y) respectively 20, 40, 60 and 80. The unknown pixel would be \[ f(?)=\frac{r+b}{2} + \frac{g+y}{2} \]
+
+	This example is not realistic, because in most of the cases we must fill more than one gap in between known pixels. The same example in a more realistic way would be
 	
 	
 
