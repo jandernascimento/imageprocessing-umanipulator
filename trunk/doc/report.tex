@@ -161,7 +161,7 @@
 	\end{figure}
 
 	On \ref{bilinear1} we can see the original image where all pixel are known pixels. Now what happen if we stretch this image 
-	from a 2x2 to a 3x3\ref{bilinear2} image?
+	from a 2x2 to a 3x3 image?
 	
 	\begin{figure} [H]
 		\centering
@@ -169,15 +169,35 @@
 		\caption{original image \label{bilinear2}}
 	\end{figure}
 
-	As we can see, after stretch the image to a desired dimension we create some unknown pixels. To those pixels we can apply the Bilinear interpolation 
-	to guess the color intensity we should use.
+	As we can see, after stretch the image to a desired dimension we create some unknown pixels. To those pixels we can apply the linear interpolation 
+	to guess the color intensity we should use based in the color of it's neighbor pixels (not by simply copying the neighbor).
 
-	Consider the values for the colors(c) red(r), green(g), blue(b) and yellow(y) respectively 20, 40, 60 and 80. The unknown pixel would be \[ f(?)=\frac{r+b}{2} + \frac{g+y}{2} \]
-
-	This example is not realistic, because in most of the cases we must fill more than one gap in between known pixels. The same example in a more realistic way would be
+	Example above is not realistic, for several reasons. First of them is that in most of the cases we must fill more than one gap in between known pixels,
+	second is that in real cases we consider the pixel in the horizontal and vertical direction, instead of diagonal axis. Third reason is that in the 
+	previous example the distance between the unknown pixel to the known pixel were always the same, so a regular division would. 
+	Check this other example, a bit more realistic:
 	
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=1]{images/bilinear_interpolation_3}
+		\caption{original image \label{bilinear3}}
+	\end{figure}
 	
+	Here we can see that the interpolation cannot be only the mean of the pixel, since the unknown pixel is closer to the point A and B, it's reasonable 
+	this unknow pixel receives more red and green color than the other ones.
 
+	Consider \textit{distance(p1,p2)} a function that returns the distance between two pixels, 
+	and \textit{color(p1)} a function that returns the color of the pixel p1 . We perform first the Linear interpolation horizontally, so:
+
+	\[ f_h(p)=color(B)*\frac{distance(P,D)}{distance(B,D)}+color(D)*\frac{distance(B,P)}{distance(B,D)}  \]
+
+	We can perform this operation in the vertical axis as well:
+
+	\[ f_v(p)=color(A)*\frac{distance(P,C)}{distance(A,C)}+color(C)*\frac{distance(A,P)}{distance(A,C)}  \]
+
+	Combibing these two approaches we have the bilinear interpolation.
+
+	
 \section{Histogram}
 
 	\subsection{Color histogram}
