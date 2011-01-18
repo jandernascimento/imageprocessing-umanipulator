@@ -99,10 +99,14 @@ We should write our abstract here..
 
 	Image resizing consist in convert an image to a size in which may or not respect the previous ratio.
 	When dealing with reducing the size of an image is quite simple to do it, but when dealing with enlarging 
-	the image, we have problems with unknown pixels. Too fast?
+	the image, the process is a little bit complex.
+
+	Reducing the dimension of an image consist in removing as many lines and as many columns as necessary to reach target dimension, of course this
+	process may create some side-effect in the image, 
+
 	When we stretch an image, we have few known pixels (dots which are image composition, think like the cells of a human being).
 
-	There is a lot of algorithms that helps to guess (fill the gaps) those unknow pixels. for instance:
+	There is a lot of algorithms that helps to guess (fill the gaps) those unknown pixels. for instance:
 
 	\begin{itemize}
 	  \item Nearest neighbor
@@ -111,9 +115,13 @@ We should write our abstract here..
 	  \item Bicubic interpolation
 	\end{itemize}
 
-	The simplest algorithm, nearest neighbor, simply copy the color intensity of the neighbor pixels. But the results are not quite good since 
-	the images get squared.
 	The adopted algorithm is, \textbf{Bilinear interpolation},  due its speed and simplicity.
+	
+	\subsection{Bilinear interpolation}
+
+	To better understand the bilinear interpolation we must take a look at linear interpolation.
+	
+	
 
 \section{Histogram}
 
