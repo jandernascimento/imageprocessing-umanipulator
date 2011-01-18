@@ -91,7 +91,7 @@ void MainWindow::setupFileMenu(QMenu *menu){
 
     //**//
     QAction *aa=this->secondToolBar->addAction("TMP-edge");
-    connect(aa,SIGNAL(triggered()),this,SLOT(edgeDetection()));
+    connect(aa,SIGNAL(triggered()),this,SLOT(detectEdges()));
     secondToolBar->addAction(aa);
 
     QAction *bb=this->secondToolBar->addAction("TMP-paths");

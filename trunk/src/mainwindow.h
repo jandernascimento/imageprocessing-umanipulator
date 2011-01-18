@@ -54,10 +54,6 @@ public slots:
      void applyLoG(int dim, double sig);
      void applySetKernel(double* vals, int dim);
 
-     void edgeDetection(void);
-     void findPaths(void);
-
-
 private:
     Ui::MainWindow *ui;
     ImageWindow *imagewin;
@@ -72,6 +68,9 @@ private:
     QMenu *helpmenu;
     QMenu *teste;
     QToolBar *secondToolBar;
+    void detectEdges(void);
+    void findPaths(void);
+    int findMinValue(int value1,int value2, int value3);
     void saveImage();
     void openFile(void);
     void createMenu(void);
