@@ -101,7 +101,22 @@
 
 \section{Cropping}
 
-	\textit{Fill me}.
+	Cropping is a technique where the main purpose is to change or improve the visibility of a certain object in an image, 
+	this is done by removing external frames. 
+
+	The new target becomes the main object of the image generating a new image with the dimension of the target area.  
+
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=1]{images/crop_1}
+		\caption{Non cropped image \label{crop_1}}
+	\end{figure}
+
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=1]{images/crop_2}
+		\caption{Cropped image \label{crop_2}}
+	\end{figure}
 
 \section{Fusion}
 
@@ -165,7 +180,8 @@
 		\caption{more realistic image\label{bilinear3}}
 	\end{figure}
 	
-	In the example above we can see that the interpolation cannot be only the mean of the pixel, since the unknown pixel is closer to the point A and B, it's reasonable 
+	In the example above we can see that the interpolation cannot be only the mean of the pixel, since the unknown pixel 
+	is closer to the point A and B, it's reasonable 
 	this unknown pixel receives A and B color than the other ones.
 
 	Consider \textit{distance(p1,p2)} a function that returns the distance between two pixels, 
