@@ -43,16 +43,8 @@ class ImageAbstraction : public QImage
           void makeMeanFilter(int dim);
           void applyGradConvolution(char ax);
           void makeCustomKernel(int dim);
-          void makeCustomKernel3(double d1,
-                                 double d2,
-                                 double d3,
-                                 double d4,
-                                 double d5,
-                                 double d6,
-                                 double d7,
-                                 double d8,
-                                 double d9);
-
+          double getMean();
+          double getStd();
 
 
     private:
