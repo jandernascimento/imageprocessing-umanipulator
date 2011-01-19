@@ -97,6 +97,7 @@
 			crossing points and separate actual edges from other non-edge points. The following illustrates the Prewitt operator in x-direction. The y-direction, clearly, is the transpose of the x-direction.
 
 
+\begin{figure}[H]
 \begin{center}
  \begin{tabular}{ | l | c | r | }
     \hline
@@ -106,13 +107,14 @@
     \hline
   \end{tabular}
 \end{center}
+\caption{Prewitt operator in x-direction}\end{figure}
 
 		
 		\subsubsection{Laplacian}
 			The Laplacian filter is computed based on the second derivation of the input. The following matrix is an approximation of a 3*3 Laplacian filter; however, a 5*5 filter is used in the developed application based on better results it resulted in for
 most of the tested images.
 
-
+\begin{figure}[H]
 	\begin{center}
   \begin{tabular}{ | l | c | r | }
     \hline
@@ -122,6 +124,7 @@ most of the tested images.
     \hline
   \end{tabular}
 \end{center}
+\caption{an example of a 3 by 3 Laplacian filter}\end{figure}
 
 
 			 As a result, it is highly sensitive to noise. Consequently,
