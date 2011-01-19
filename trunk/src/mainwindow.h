@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    void scaleImage(double factor);
     ~MainWindow();
     ImageAbstraction *image;
     ImageLabel *label;
