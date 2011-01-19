@@ -288,3 +288,20 @@ QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
     }
     return NULL;
 }
+
+void MainWindow::scaleImage(double factor)
+//! [23] //! [24]
+{
+   /*
+    Q_ASSERT(imageLabel->pixmap());
+    scaleFactor *= factor;
+
+    imageLabel->resize(scaleFactor * imageLabel->pixmap()->size());
+
+    adjustScrollBar(scrollArea->horizontalScrollBar(), factor);
+    adjustScrollBar(scrollArea->verticalScrollBar(), factor);
+
+    zoomInAct->setEnabled(scaleFactor < 3.0);
+    zoomOutAct->setEnabled(scaleFactor > 0.333);
+*/
+}

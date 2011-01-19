@@ -13,5 +13,7 @@
         <file alias="greyscale">images/greyscale24x24.png</file>
         <file alias="contrast">images/contrast24x24.png</file>
         <file alias="copyleft">images/copyleft24x24.png</file>
+        <file alias="minus">images/zoomminus24x24.png</file>
+        <file alias="plus">images/zoomplus24x24.png</file>
     </qresource>
 </RCC>
