@@ -71,7 +71,15 @@
 			\[G(x,y) = \frac{1}{2\pi\sigma^{2}}e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}\]
 
 			
-			Gaussian smoothing acts almost the same as the mean filter, which will be in the following part.
+			Gaussian smoothing acts almost the same as the mean filter, which will be in the following part. The following figures illustrates a noisy image and its blurred copy using a 5 by 5 Gaussian kernel
+
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=.3]{images/noisy_removed}
+		\caption{Left side: noisy image Right side: blurred image \label{crop_1}}
+	\end{figure}
+
+
 		\subsubsection{Mean}
 			Mean filter is an easy to implement kernel which is used to reduce the noise in an image by reducing the amount of intensity variation between one
 			pixel and the next. The idea of the mean filter is to replace the value of each pixel with the average of its neighbors including itself. As an example,
@@ -130,12 +138,17 @@ most of the tested images.
 
 
 			 As a result, it is highly sensitive to noise. Consequently,
-			it is generally applied after noise reduction filters. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution is
+			it is generally applied after noise reduction filters. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution operation is
 			associative. The following is the LoG formula in 2D space:
 
 			\[LoG(x,y) = -\frac{1}{\pi\sigma^{4}}[1-\frac{x^{2}+y^{2}}{2\sigma^{2}}]e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}\]
 
-			
+			The figure below shows an image and its edge-detected version based on a 5 by 5 Laplacian filter.
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=.3]{images/edged}
+		\caption{Left side: original image Right side: edge-detected image based on Laplacian filter \label{crop_1}}
+	\end{figure}
 
 \section{Color space}    
 	A color model is a model by which the color are represented by a few numbers, typically three or four. Using primary colors, a vast variety of colors could be made. Two well-known models are RGB and CYMK.      
