@@ -294,8 +294,13 @@ most of the tested images.
 
 		To perform the normalization, the only variables we must know to perform this operation is the minimum and maximum color in the current histogram, 
 		and minimum and maximum color in the enhanced histogram, or we may translate as a new position for the minimum and maximum colors. It is possible
-		to write mathematically in the following formula:
-		
+		to write mathematically the formula:
+
+
+		\begin{equation}
+			normalize(p)=new_{min}+\frac{new_{max}-new_{min}}{current_{max}-current_{min}}*(p-current_{min})
+			\label{eq:normalization}
+		\end{equation}
 		
 		
 \section{Image type}
