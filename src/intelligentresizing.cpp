@@ -49,9 +49,9 @@ void MainWindow::findPaths2(void){
 void MainWindow::highlightPaths(int * energy_matrix){
     int col_min_value=0; //stores the column of the min value
     int * path=(int *) malloc(sizeof(int) * image->height());
-    int n_paths=50;
     int cont_paths=0;
     int valid_path;
+    int n_paths=1;
 
 
 
@@ -66,8 +66,7 @@ void MainWindow::highlightPaths(int * energy_matrix){
                 col_min_value=col;
         path[item]=col_min_value;
         item++;
-        /*image->setPixel(lin,col_min_value,255,0,0);
-        energy_matrix[image->width()*lin+col_min_value]= INT_MAX;*/
+        energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
 
         //build the paths, from mininum value up, with its neighbors
         for(int lin=image->height()-2;lin>=0;lin--){
@@ -96,6 +95,7 @@ void MainWindow::highlightPaths(int * energy_matrix){
                 col_min_value = findColumnMinValue(energy_matrix, lin, col_min_value, prev_column, next_column);
                 path[item]=col_min_value;
                 item++;
+                energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
             }
         }
         cont_paths++;
@@ -104,7 +104,7 @@ void MainWindow::highlightPaths(int * energy_matrix){
             for(int lin=image->height()-1;lin>=0;lin--){
                 image->setPixel(lin,path[item],255,0,0);
                 item++;
-                //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
+                //energy_matrix[image->width()*lin+path[item]]= INT_MAX;
             }
 
         }
@@ -173,44 +173,4 @@ int MainWindow::findColumnMinValue(int * energy_matrix,int lin,int prev_col,int 
         return col;
     else
         return next_col;
-}
-
-void MainWindow::detectEdges2(void){
-
-    int size=3;
-    double *gx=(double *)malloc(sizeof(double)*(size*size));
-    double *gy=(double *)malloc(sizeof(double)*(size*size));
-
-    //[line+col]
-    gx[size*0+0]=-1;  gx[size*0+1]=0;  gx[size*0+2]=1;
-    gx[size*1+0]=-2;  gx[size*1+1]=0;  gx[size*1+2]=2;
-    gx[size*2+0]=-1;  gx[size*2+1]=0;  gx[size*2+2]=1;
-
-    gy[size*0+0]= 1; gy[size*0+1]= 2; gy[size*0+2]= 1;
-    gy[size*1+0]= 0; gy[size*1+1]= 0; gy[size*1+2]= 0;
-    gy[size*2+0]=-1; gy[size*2+1]=-2; gy[size*2+2]=-1;
-
-    image->ApplyConvolution(size,gx,'c'); //this 'c' does not matter
-    image->ApplyConvolution(size,gy,'c');
-
-    for (int j = 0; j < image->height(); j++) {
-      for (int i = 0; i < image->width(); i++) {
-
-          QRgb *pixel=image->getPixel(j,i);
-
-          int col=image->getPixelColorIntensity(ImageAbstraction::blue,j,i);
-
-          if(col<122 || col >129)
-            *pixel=qRgba(255,255,255,255);
-          else
-            *pixel=qRgba(0,0,0,255);
-
-      }
-    }
-
-    free(gy);
-    free(gx);
-
-    //updating the image in the interface
-    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }

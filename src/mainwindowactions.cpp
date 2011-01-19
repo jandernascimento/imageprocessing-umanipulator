@@ -12,10 +12,6 @@ void MainWindow::findPaths(void){
     findPaths2();
 }
 
-void MainWindow::detectEdges(void){
-    detectEdges2();
-}
-
 void MainWindow::histogram(void){
     if (fileName == NULL)
         QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));

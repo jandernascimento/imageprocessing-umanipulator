@@ -90,10 +90,6 @@ void MainWindow::setupFileMenu(QMenu *menu){
     secondToolBar->addAction(saveasaction);
 
     //**//
-    QAction *aa=this->secondToolBar->addAction("TMP-edge");
-    connect(aa,SIGNAL(triggered()),this,SLOT(detectEdges()));
-    secondToolBar->addAction(aa);
-
     QAction *bb=this->secondToolBar->addAction("TMP-paths");
     connect(bb,SIGNAL(triggered()),this,SLOT(findPaths()));
     secondToolBar->addAction(bb);
