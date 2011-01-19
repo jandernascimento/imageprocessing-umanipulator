@@ -2,11 +2,13 @@
 #include "custom/imageabstration.h"
 
 void MainWindow::printMatrix(int * energy_matrix){
-    for (int lin = 0; lin < image->height(); lin++)
+    for (int lin = 0; lin < image->height(); lin++){
+        qDebug("line: %i",lin);
         for (int col = 0; col < image->width(); col++) {
             int current_pixel   = energy_matrix[image->width()*lin+col];
-            qDebug("%i",current_pixel);
+            qDebug("col,%i,%i",col,current_pixel);
         }
+    }
 }
 
 void MainWindow::findPaths2(void){
@@ -15,18 +17,20 @@ void MainWindow::findPaths2(void){
 
     /*/printing the initial matrix of the image
     qDebug("1-initial values...");
-    for (int lin = 0; lin < image->height(); lin++)
+    for (int lin = 0; lin < image->height(); lin++){
+        qDebug("line: %i",lin);
         for (int col = 0; col < image->width(); col++) {
             int current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,lin,col);
-            qDebug("%i",current_pixel);
+            qDebug("col,%i,%i",col, current_pixel);
         }
+    }
     //*/
 
     createEnergyMatrix(energy_matrix);
     //qDebug("2-energy matrix...");
     //printMatrix(energy_matrix);
 
-    for(int i=0;i<50;i++)
+    //for(int i=0;i<50;i++)
         highlightPaths(energy_matrix);
     /*/
     qDebug("3-path...");
@@ -43,33 +47,87 @@ void MainWindow::findPaths2(void){
 
 //for each line, it seeks the min value and marks with the red color
 void MainWindow::highlightPaths(int * energy_matrix){
-    int min_value=0; //stores the column of the min value
-    int green_level,blue_level;
-    for(int lin=image->height()-1;lin>=0;lin--){
+    int col_min_value=0; //stores the column of the min value
+    int * path=(int *) malloc(sizeof(int) * image->height());
+    int n_paths=50;
+    int cont_paths=0;
+    int valid_path;
+
+
+
+    //search paths
+    do{
+        valid_path=1;
+        //seek the min value at last line
+        int item=0;
+        int lin=image->height()-1;
         for(int col=0;col<image->width();col++)
-            if   (energy_matrix[image->width()*lin+min_value] == -1
-                  ||
-                  energy_matrix[image->width()*lin+col] < energy_matrix[image->width()*lin+min_value])
-                min_value=col;
+            if (energy_matrix[image->width()*lin+col] < energy_matrix[image->width()*lin+col_min_value])
+                col_min_value=col;
+        path[item]=col_min_value;
+        item++;
+        /*image->setPixel(lin,col_min_value,255,0,0);
+        energy_matrix[image->width()*lin+col_min_value]= INT_MAX;*/
 
-        image->setPixel(lin,min_value,255,0,0);
+        //build the paths, from mininum value up, with its neighbors
+        for(int lin=image->height()-2;lin>=0;lin--){
+            //*************************************************************************************//
+            //************************DO IT BETTER*************************************************//
+            //*************************************************************************************//
+            int prev_column=col_min_value-1;
+            int next_column=col_min_value+1;
+            if(col_min_value==0)
+                prev_column=col_min_value;
+            else if(col_min_value==image->width()-1)
+                next_column=col_min_value;
+            //
+            //ignoring paths that have white in all neighbors
+            if (energy_matrix[image->width()*lin+prev_column] == 255
+                &&
+                energy_matrix[image->width()*lin+col_min_value] == 255
+                &&
+                energy_matrix[image->width()*lin+next_column] == 255)
+            {
+                cont_paths--;
+                valid_path=0;
+                break;
+            }
+            else{
+                col_min_value = findColumnMinValue(energy_matrix, lin, col_min_value, prev_column, next_column);
+                path[item]=col_min_value;
+                item++;
+            }
+        }
+        cont_paths++;
+        if (valid_path){//painting valid path
+            item=0;
+            for(int lin=image->height()-1;lin>=0;lin--){
+                image->setPixel(lin,path[item],255,0,0);
+                item++;
+                //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
+            }
 
-        energy_matrix[image->width()*lin+min_value]= -1;
-    }
+        }
+    }while(cont_paths<n_paths);
+
+    free(path);
 
 }
 
 void MainWindow::createEnergyMatrix(int * energy_matrix){
-    int line,column,current_pixel,neighbor_pixel1,neighbor_pixel2,neighbor_pixel3,prev_column,next_column,prev_line;
+    int first_line,last_line,line,column,current_pixel,neighbor_pixel1,neighbor_pixel2,neighbor_pixel3,prev_column,next_column,prev_line;
 
     //reference: http://en.wikipedia.org/wiki/Seam_carving
     //first, find vertical seams
 
-    //first line:
-    line=0;
+    //first and last line:
+    first_line=0;
+    //last_line=image->height()-1;
     for(int col = 0; col < image->width(); col++) {
-        current_pixel = image->getPixelColorIntensity(ImageAbstraction::blue,line,col);
-        energy_matrix[image->width()*line+col]=current_pixel;
+        current_pixel = image->getPixelColorIntensity(ImageAbstraction::blue,first_line,col);
+        energy_matrix[image->width()*first_line+col]=current_pixel;
+
+        //energy_matrix[image->width()*last_line+col]=INT_MAX;
     }
 
     //next lines:
@@ -84,8 +142,8 @@ void MainWindow::createEnergyMatrix(int * energy_matrix){
             neighbor_pixel1 = energy_matrix[image->width()*prev_line+prev_column];
             neighbor_pixel2 = energy_matrix[image->width()*prev_line+column];
             neighbor_pixel3 = energy_matrix[image->width()*prev_line+next_column];
-            energy_matrix[image->width()*line+column]=findMinValue(current_pixel+neighbor_pixel1,
-                                                                   current_pixel+neighbor_pixel2,
+            energy_matrix[image->width()*line+column]=findMinValue(current_pixel+neighbor_pixel2,
+                                                                   current_pixel+neighbor_pixel1,
                                                                    current_pixel+neighbor_pixel3);
             column++;
             prev_column=column-1;
@@ -104,6 +162,17 @@ int MainWindow::findMinValue(int value1,int value2, int value3){
         return value2;
     else
         return value3;
+}
+
+int MainWindow::findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col){
+    if      (energy_matrix[image->width()*lin+prev_col] <= energy_matrix[image->width()*lin+col]
+            &&
+            energy_matrix[image->width()*lin+prev_col] <= energy_matrix[image->width()*lin+next_col])
+        return prev_col;
+    else if (energy_matrix[image->width()*lin+col] <= energy_matrix[image->width()*lin+next_col])
+        return col;
+    else
+        return next_col;
 }
 
 void MainWindow::detectEdges2(void){
@@ -145,4 +214,3 @@ void MainWindow::detectEdges2(void){
     //updating the image in the interface
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
-
