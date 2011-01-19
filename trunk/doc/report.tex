@@ -135,19 +135,23 @@ most of the tested images.
 
 			
 
-\section{Color space}          
+\section{Color space}    
+	A color model is a model by which the color are represented by a few numbers, typically three or four. Using primary colors, a vast variety of colors could be made. Two well-known models are RGB and CYMK.      
 
 	\subsection{RGB}
-		
-		\textit{Fill me}.
+		In RGB model red, green and blue lights areadded together to make a wide range of colors. This model is generally used in electronic systems such as CRTs and LCDs. In case of an 8-bit value for each color, more than 16 million different colors
+		could be made using this model. The RGB model is considered as an additive model, which means the white color is a result of combination of all lights while black is a result of absence of all the lights.
+	
 
 	\subsection{CYMK}
 
-		\textit{Fill me}.
+		CMYK (Cyan, Magenta, Yellow, Key black) is another color model which is used in color printing. Unlike the RGB, CMYK is a subtractive; that is, white is is the natural color of the paperand black is a full mixture of all colors.
+		As a result, to save money on ink, the dark colors and the blac is produced using the black ink.
 
 	\subsection{Gray scale conversion}
 
-		\textit{Fill me}.
+		In order to conver an image to gray scale from an RGB image, we need to consider that how far a pixel is from black. To achieve this goal, one can substitue all the colors of a pixel with the average of the three colors. Using
+		this method, a pure black pixel would remain black, and a white pixel would still remain white. Other pixels, however, would be have a gray view between black and white.
 
 \section{Cropping}
 
