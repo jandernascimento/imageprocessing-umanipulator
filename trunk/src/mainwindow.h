@@ -54,7 +54,6 @@ public slots:
      void applyLoG(int dim, double sig);
      void applySetKernel(double* vals, int dim);
      void applyTEMP();
-     void detectEdges(void);
      void findPaths(void);
 
 private:
@@ -71,7 +70,6 @@ private:
     QMenu *helpmenu;
     QMenu *teste;
     QToolBar *secondToolBar;
-    void detectEdges2(void);
     void findPaths2(void);
     void highlightPaths(int * energy_matrix);
     int findMinValue(int value1,int value2, int value3);
