@@ -22,16 +22,16 @@
 	\subsection{Fundamental}
 
 		By definition, a filter is a device or process which removes some unwanted features from an image (more precisely, form a signal).
-		low-pass and high-pass filters are regarded as a classic example of filters in image processings field. Generally, filters are used to be convolved 
-		(the convolution is described in the next part) with an image in order to produce a new, modifed image. This new image, in turn, could
+		low-pass and high-pass filters are regarded as a classic example of filters in image processing field. Generally, filters are used to be convolved 
+		(the convolution is described in the next part) with an image in order to produce a new, modified image. This new image, in turn, could
 		be used for some other processings. The next subsection will introduce the convolution and its basics.
 		
 		\subsubsection{Convolution}
 
 			Convolutions are used to perform many useful image processing tasks such as noise reduction and edge detection. Generally,
 			convolution is a mathematical operation on two functions f and g to produce a modified version of one of the functions.
-			Basically, but not necessarly, the first function (signal) is the input and is bigger than the second one.
-			The following formulas describe the descrete convolution formula in 1D and 2D space:
+			Generally, but not necessarily, the first function (signal) is the input and is bigger than the second one.
+			The following formulas describe the discrete convolution formula in 1D and 2D space:
 
 
 			\[y[n] = f[n]*g[n] = \sum_{k=-\infty}^{+\infty} f[k]g[n-k]\]
@@ -41,7 +41,7 @@
 
 			
 			When dealing with finite-length sequences, one cannot use the ordinary convolution formula (called linear convolution).
-			In such cases, the circular convolution which results in zeros outside of the range of the signal is used. The mathematical formula of descrete 
+			In such cases, the circular convolution which results in zeros outside of the range of the signal is used. The mathematical formula of discrete 
 			convolution could be seen in the following:
 
 			\[y[n] = f[n]*g[n] = \sum_{k=-K/2}^{+K/2} f[k]g[n-k]\]
@@ -54,9 +54,9 @@
 			
 			In image processing field, generally, the input image is the first function of the convolution, and the second 
 			function is considered as the kernel or filter.
-			In this context we use the terms kernel and filter interchangably.
+			In this context we use the terms kernel and filter interchangeably.
 			There is a wide range of filters which are used to perform different tasks on a given image. The next subsection would go through some of these 
-			filters which are used in the application in addition to a brief description for eachf them.
+			filters which are used in the application in addition to a brief description for each of them.
 
 		\subsection{Used filters}
 		
@@ -73,31 +73,46 @@
 		\subsubsection{Mean}
 			Mean filter is an easy to implement kernel which is used to reduce the noise in an image by reducing the amount of intensity variation between one
 			pixel and the next. The idea of the mean filter is to replace the value of each pixel with the average of its neighbors including itself. As an example,
-			a 3*3 mean filter is a matix in which all cells filled up with 1/9 .	
+			a 3*3 mean filter is a matrix in which all cells filled up with 1/9 .	
 		
 		\subsubsection{Gradient}
 
-			Applying gradient filter to an image is one of the edge dection approaches. Before explaining the gradient filter and its properties, we will see
+			Applying gradient filter to an image is one of the edge detection approaches. Before explaining the gradient filter and its properties, we will see
 			short description of edge detection concept. 
 			
-			Technically, an edge is a part of image where a sharp change is occured in the brightness of the pixels.
+			Technically, an edge is a part of image where a sharp change is occurred in the brightness of the pixels.
 			More informally, edges are the boundaries of
 			the objects in an image. Detecting edges in an image is a non-avoidable issue in some image processing tasks such as intelligent resizing.
 			
 			Mathematically, gradient is the first derivation of the image. In other words, it is a vector with a certain magnitude and direction. 
 			The magnitude of the gradient provides information about strength
-			of the edge, and the direction of the gradient is always prependicular to the direction of the edge. Clearly, the gradient filter could be
-			applied horizentally and vertically. The gradient vector is given below:
+			of the edge, and the direction of the gradient is always perpendicular to the direction of the edge. Clearly, the gradient filter could be
+			applied horizontally and vertically. The gradient vector is given below:
 
 			There are several filter based on gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters.
 			As it is mentioned previously, gradient approach is based on the first derivation of the input. Based on the properties of
-			the first derivation, the edges of a givent input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
+			the first derivation, the edges of a given input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
 			determined in order for the edges to be detected. However, since a thresholding is used, the edges might be too thick to be considered
 			as an edge. As a result, we may need to apply a localization method (for instance, using Laplacian filter) to find zero
-			crossing points and separate actual edges from other non-edge points.
+			crossing points and separate actual edges from other non-edge points. The following illustrates the Prewitt operator in x-direction. The y-direction, clearly, is the transpose of the x-direction.
+
+
+\begin{center}
+ \begin{tabular}{ | l | c | r | }
+    \hline
+    -1 & 0 & 1 \\ \hline
+    -1 & 0 & 1 \\ \hline
+    -1 & 0 & 1 \\
+    \hline
+  \end{tabular}
+\end{center}
+
 		
 		\subsubsection{Laplacian}
-			The Laplacian filter is computed based on the second derivation of the input.The following matrix is an approximation of a 3*3 Laplacian filter:
+			The Laplacian filter is computed based on the second derivation of the input. The following matrix is an approximation of a 3*3 Laplacian filter; however, a 5*5 filter is used in the developed application based on better results it resulted in for
+most of the tested images.
+
+
 	\begin{center}
   \begin{tabular}{ | l | c | r | }
     \hline
@@ -111,7 +126,7 @@
 
 			 As a result, it is highly sensitive to noise. Consequently,
 			it is generally applied after noise reduction filters. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution is
-			assosiative. the following is the LoG formula in 2D space:
+			associative. The following is the LoG formula in 2D space:
 
 			\[LoG(x,y) = -\frac{1}{\pi\sigma^{4}}[1-\frac{x^{2}+y^{2}}{2\sigma^{2}}]e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}\]
 
