@@ -186,14 +186,13 @@ most of the tested images.
 
 \section{Fusion}
 
-	The fusion operation is done by merging two images. The merging is done according do the formula \ref{eq:fusion}. 
+	The fusion operation is done by merging two images. The merging is done according do the Equation \ref{eq:fusion}. 
 	
 	The $\alpha$ is a float point value that represents the percentage in which the new image should have in the current image. 
 
 	\begin{equation}
 		f(pixel_{current},pixel_{to\ merge},\alpha)=(1-\alpha)*pixel_{current}+\alpha*pixel_{to\ merge}
 		\label{eq:fusion}
-		\caption{Merging function}
 	\end{equation}
 
 \section{Resizing}
