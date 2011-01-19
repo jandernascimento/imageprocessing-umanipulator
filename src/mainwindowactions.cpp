@@ -190,9 +190,11 @@ void MainWindow::applyTEMP(){
             g = image->getPixelColorIntensity(ImageAbstraction::green,i,j);
             b = image->getPixelColorIntensity(ImageAbstraction::blue,i,j);
             if ((r+g+b)/3>128)
-                image->setPixel(i,j,0,0,0);
-            else
+                //image->setPixel(i,j,0,0,0);
                 image->setPixel(i,j,255,255,255);
+            else
+                //image->setPixel(i,j,255,255,255);
+                image->setPixel(i,j,0,0,0);
 
         }
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
