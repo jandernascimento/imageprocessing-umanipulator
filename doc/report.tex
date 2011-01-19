@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{amsmath}
+\usepackage{subfig}
 
 \begin{document}
 
@@ -161,17 +162,14 @@ most of the tested images.
 
 	The new target becomes the main object of the image generating a new image with the dimension of the target area.  
 
-	\begin{figure} [H]
-		\centering
-		\includegraphics[scale=1]{images/crop_1}
-		\caption{Non cropped image \label{crop_1}}
+	\begin{figure}[H]
+	  \centering
+	  \subfloat[Non cropped image]{\label{fig:nonnormalized}\includegraphics[width=0.3\textwidth]{images/crop_1}}                
+	  \subfloat[Cropped image]{\label{fig:normalized}\includegraphics[width=0.3\textwidth]{images/crop_2}}
+	  \caption{Image cropping}
+	  \label{fig:cropping}
 	\end{figure}
 
-	\begin{figure} [H]
-		\centering
-		\includegraphics[scale=1]{images/crop_2}
-		\caption{Cropped image \label{crop_2}}
-	\end{figure}
 
 \section{Fusion}
 
@@ -273,17 +271,15 @@ most of the tested images.
 
 		This is done by spreading the pixels to use as much as possible the entire color \textit{spectrum}.
 		
-		\begin{figure} [H]
-			\centering
-			\includegraphics[scale=0.5]{images/histogram_1}
-			\caption{Histogram \textbf{before} normalization\label{histogram_1}}
+		\begin{figure}
+		  \centering
+		  \subfloat[Un-normalized]{\label{fig:nonnormalized}\includegraphics[width=0.3\textwidth]{images/histogram_1}}                
+		  \subfloat[Normalized]{\label{fig:normalized}\includegraphics[width=0.3\textwidth]{images/histogram_2}}
+		  \caption{Histogram normalization}
+		  \label{fig:normalization}
 		\end{figure}
 
-		\begin{figure} [H]
-			\centering
-			\includegraphics[scale=0.5]{images/histogram_2}
-			\caption{Histogram \textbf{after} normalization\label{histogram_2}}
-		\end{figure}
+		
 
 		To perform the normalization, the only variables we must know to perform this operation is the minimum and maximum color in the current histogram, 
 		and minimum and maximum color in the enhanced histogram, or we may translate as a new position for the minimum and maximum colors. It is possible
