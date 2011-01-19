@@ -150,7 +150,6 @@
 	Linear interpolation, case both interpolations are applied its called Bilinear interpolation.	
 	The pixel interpolation is done by calculating the mean of the known pixels around (vertical and horizontal axis) the unknown pixel. 
 
-
 	\begin{figure} [H]
 		\centering
 		\includegraphics[scale=1]{images/bilinear_interpolation_1}
@@ -200,12 +199,55 @@
 
 	\subsection{Color histogram}
 
-		\textit{Fill me}.
+		The histogram is an important tools when dealing with image analysis. It shows the color distribuition of a certain image regarding to its 
+		color \textit{spectrum}.
+		
+		\setlength{\unitlength}{1cm}
+		\begin{figure}[H]	
+			\begin{picture}(3,3)	
+				\put(0,0){\vector(1,0){1}}
+				\put(0,0){\vector(0,1){1}}
+				\put(2,-0.2){$x-color\ spectrum$}
+				\put(-0.2,2){$y-number\ of\ pixels$}
+			\end{picture}
+		\caption{Cartesian plan}
+		\label{fig:catesianplan}
+		\end{figure}
+			
+		The histogram is represented in a cartesian plan on Figure \ref{fig:catesianplan}, where \textit{x} axis is the 
+		color \textit{spectrum} and \textit{y} represents the number of pixels.
 
-	\subsection{Histogram stretching}
+		In colorful images, histogram instead of representing the color \textit{spectrum} of a single color we may use two techniques
+		to represent colorful images, either by summing all the colors into a single histogram, or create a differente histogram for each 
+		color.
+		
 
-		\textit{Fill me}.
+	\subsection{Normalization}
+		
+		The normalization, or histogram stretching, is a technique where the color histogram is used to evaluate and possible change
+		the color intensity range. This, enhances the detail level of some images that might appear too dark or too light (duo to aperture size of even
+		bad light condition).
 
+		This is done by spreading the pixels to use as much as possible the entire color \textit{spectrum}.
+		
+		\begin{figure} [H]
+			\centering
+			\includegraphics[scale=0.5]{images/histogram_1}
+			\caption{Histogram \textbf{before} normalization\label{histogram_1}}
+		\end{figure}
+
+		\begin{figure} [H]
+			\centering
+			\includegraphics[scale=0.5]{images/histogram_2}
+			\caption{Histogram \textbf{after} normalization\label{histogram_2}}
+		\end{figure}
+
+		To perform the normalization, the only variables we must know to perform this operation is the minimum and maximum color in the current histogram, 
+		and minimum and maximum color in the enhanced histogram, or we may translate as a new position for the minimum and maximum colors. It is possible
+		to write mathematically in the following formula:
+		
+		
+		
 \section{Image type}
 
 	\subsection{PNG}
