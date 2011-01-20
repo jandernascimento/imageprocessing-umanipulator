@@ -28,9 +28,9 @@ void MainWindow::findPaths2(void){
 
     createEnergyMatrix(energy_matrix);
     qDebug("2-energy matrix...");
-    printMatrix(energy_matrix);
+    //printMatrix(energy_matrix);
 
-    for(int i=0;i<50;i++)
+    for(int i=0;i<100;i++)
         highlightPaths(energy_matrix);
     /*/
     qDebug("3-path...");
@@ -59,9 +59,6 @@ void MainWindow::highlightPaths(int * energy_matrix){
     //build the path, from mininum value up, with its neighbors
     int prev_column,next_column;
     for(int lin=image->height()-2;lin>=0;lin--){
-        //*************************************************************************************//
-        //************************DO IT BETTER*************************************************//
-        //*************************************************************************************//
         prev_column=col_min_value-1;
         next_column=col_min_value+1;
         if(col_min_value==0)
