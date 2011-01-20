@@ -80,7 +80,7 @@ private:
     QToolBar *thirdToolBar;
     double scaleFactor;
     int calculateNumberPaths(int size, float perc);
-    void highlightPaths(int * energy_matrix);
+    void findPaths(int * energy_matrix);
     int findMinValue(int value1,int value2, int value3);
     int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col);
     int findMaxValue(int value1,int value2, int value3);
@@ -106,6 +106,7 @@ private:
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
+    void resizeImage(int * energy_matrix);
     QAction* retrieveMenuOption(QString name, QMenu *menu);
 };
 
