@@ -1,29 +1,30 @@
 #include "mainwindow.h"
 #include "custom/imageabstration.h"
+#include <math.h>
 //OLD
-void MainWindow::printMatrix(int * energy_matrix){
-    for (int lin = 0; lin < image->height(); lin++){
+void MainWindow::printMatrix(int * matrix,int n_lin, int n_col){
+    for (int lin = 0; lin < n_lin; lin++){
         qDebug("line: %i",lin);
-        for (int col = 0; col < image->width(); col++) {
-            int current_pixel   = energy_matrix[image->width()*lin+col];
+        for (int col = 0; col < n_col; col++) {
+            int current_pixel   = matrix[n_col*lin+col];
             qDebug("col,%i,%i",col,current_pixel);
         }
     }
 }
 
 int MainWindow::calculateNumberPaths(int size, float perc){
-    return (size * perc);
+    return (round(size * perc));
 }
 
 void MainWindow::applySeamCarving(float width,float height){    
     int n_vertical_paths=calculateNumberPaths(image->width(),width);
-    //qDebug("width %i - %f% = %i",image->width(),width*100,n_vertical_paths);
+    qDebug("width %i - %f% = %i",image->width(),width*100,n_vertical_paths);
 
     //height=1;
     //qDebug("height: %f",height);
 
-    int size=(image->height())*(image->width());
-    int * energy_matrix=(int *) malloc(sizeof(int) * size);
+    int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
+    int * vertical_paths=(int *) malloc(sizeof(int) * (image->height() * n_vertical_paths));
 
     /*/printing the initial matrix of the image
     qDebug("1-initial values...");
@@ -41,7 +42,7 @@ void MainWindow::applySeamCarving(float width,float height){
     //printMatrix(energy_matrix);
 
     for(int i=0;i<n_vertical_paths;i++)
-        findPaths(energy_matrix);
+        findPaths(energy_matrix,vertical_paths,i,n_vertical_paths);
     /*/
     qDebug("3-path...");
     for (int lin = 0; lin < image->height(); lin++)
@@ -51,22 +52,17 @@ void MainWindow::applySeamCarving(float width,float height){
         }
     //*/
 
-    resizeImage(energy_matrix);
+    //printMatrix(vertical_paths,image->height(),n_vertical_paths);
+    image=image->scRemoveLine(vertical_paths,image->height(),n_vertical_paths);
 
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+    label->adjustSize();
     free(energy_matrix);
-}
-
-void MainWindow::resizeImage(int * energy_matrix){
-
-    /*ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
-
-    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
-    free(energy_matrix);*/
+    free(vertical_paths);
 }
 
 //for each line, it seeks the min value and marks with the red color
-void MainWindow::findPaths(int * energy_matrix){
+void MainWindow::findPaths(int * energy_matrix,int * vertical_paths,int id_path,int n_paths){
     int col_min_value=0; //stores the column of the min value
     //seek the min value at last line
     int lin=image->height()-1;
@@ -75,6 +71,7 @@ void MainWindow::findPaths(int * energy_matrix){
             col_min_value=col;
     image->setPixel(lin,col_min_value,255,0,0);
     energy_matrix[image->width()*lin+col_min_value]= INT_MAX;//-1;
+    vertical_paths[n_paths*lin+id_path]=col_min_value;
 
     //build the path, from mininum value up, with its neighbors
     int prev_column,next_column;
@@ -91,6 +88,7 @@ void MainWindow::findPaths(int * energy_matrix){
 
         image->setPixel(lin,col_min_value,255,0,0);
         energy_matrix[image->width()*lin+col_min_value]= INT_MAX;//-1;
+        vertical_paths[n_paths*lin+id_path]=col_min_value;
     }
 
 }
