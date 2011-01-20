@@ -111,9 +111,9 @@ void MainWindow::setupFileMenu(QMenu *menu){
     secondToolBar->addAction(saveasaction);
 
     //**//
-    QAction *bb=this->secondToolBar->addAction("TMP-paths");
-    connect(bb,SIGNAL(triggered()),this,SLOT(findPaths()));
-    secondToolBar->addAction(bb);
+    //QAction *bb=this->secondToolBar->addAction("TMP-paths");
+    //connect(bb,SIGNAL(triggered()),this,SLOT(applySeamCarving(float,float)));
+    //secondToolBar->addAction(bb);
     //**//
 
     menu->addAction(openaction);

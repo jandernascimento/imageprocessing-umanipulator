@@ -57,7 +57,7 @@ public slots:
      void applyLoG(int dim, double sig);
      void applySetKernel(double* vals, int dim);
      void applyTEMP();
-     void findPaths(void);
+     void applySeamCarving(float width,float height);
      void zoomIn(void);
      void zoomOut(void);
 
@@ -77,7 +77,6 @@ private:
     QToolBar *secondToolBar;
     QToolBar *thirdToolBar;
     double scaleFactor;
-    void findPaths2(void);
     void highlightPaths(int * energy_matrix);
     int findMinValue(int value1,int value2, int value3);
     int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col);
