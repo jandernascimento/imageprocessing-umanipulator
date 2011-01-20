@@ -200,7 +200,6 @@ void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
     if (r3)
     {
         dialogSetKernel *dsk = new dialogSetKernel();
-        //dsk->childAt(0,0)->childAt(0,0)->setVisible(true);
         dsk->setSize(dim);
         dsk->show();
         connect(dsk, SIGNAL(setKernel(double*,int)),this,SLOT(applySetKernel(double*,int)));
