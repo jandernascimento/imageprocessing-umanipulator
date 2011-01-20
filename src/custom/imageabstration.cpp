@@ -272,7 +272,7 @@ ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int
 
 void ImageAbstraction::UpdateColorRange(){
 
-    qDebug("%i x %i",this->width(),this->height());
+    //qDebug("%i x %i",this->width(),this->height());
 
     this->isGreyScale=isGrayscale();
 

@@ -242,6 +242,17 @@ void MainWindow::applyMeanFilter(){
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
+void MainWindow::applyIntelligentResize(){
+    DialogScale *ds=new DialogScale(this);
+    connect(ds,SIGNAL(ScaleFired(float,float)),this,SLOT(applyIntelligentResize(float,float)));
+    ds->show();
+}
+
+void MainWindow::applyIntelligentResize(float width,float height){
+    QMessageBox::information(this,"","hello");
+}
+
+
 void MainWindow::applyScale(){
     DialogScale *ds=new DialogScale(this);
     connect(ds,SIGNAL(ScaleFired(float,float)),this,SLOT(applyScale(float,float)));
@@ -249,8 +260,8 @@ void MainWindow::applyScale(){
 }
 
 void MainWindow::applyScale(float width,float height){
-   this->image=image->ApplyScale(width,height);
-   label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+    this->image=image->ApplyScale(width,height);
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
 void MainWindow::applyLaplacianFilter(){

@@ -177,6 +177,9 @@ void MainWindow::setupImageAdvancedSubMenu(QMenu *menu){
 
     menu->addAction(resizing);
     menu->addAction(scissor);
+
+    connect(resizing, SIGNAL(triggered()),this,SLOT(applyIntelligentResize()));
+
 }
 
 void MainWindow::setupColorMenu(QMenu *menu){
