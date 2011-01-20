@@ -255,7 +255,7 @@ void MainWindow::applyScale(float width,float height){
 
 void MainWindow::applyLaplacianFilter(){
     qDebug("CLICKING ON LAPLACIAN");
-    image->makeLaplacianFilter(3);
+    image->makeLaplacianFilter(5);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyGradFilterX(){
