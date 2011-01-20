@@ -11,9 +11,14 @@ void MainWindow::printMatrix(int * energy_matrix){
     }
 }
 
-void MainWindow::findPaths2(void){
-    int size=(image->height())*(image->width());
-    int * energy_matrix=(int *) malloc(sizeof(int) * size);
+void MainWindow::applySeamCarving(float width,float height){
+    QMessageBox::information(this,"","hello");
+    height=1;
+    qDebug("%f",width);
+    qDebug("%f",height);
+
+    ///int size=(image->height())*(image->width());
+    ///int * energy_matrix=(int *) malloc(sizeof(int) * size);
 
     /*/printing the initial matrix of the image
     qDebug("1-initial values...");
@@ -26,12 +31,12 @@ void MainWindow::findPaths2(void){
     }
     //*/
 
-    createEnergyMatrix(energy_matrix);
-    qDebug("2-energy matrix...");
+    ///createEnergyMatrix(energy_matrix);
+    //qDebug("2-energy matrix...");
     //printMatrix(energy_matrix);
 
-    for(int i=0;i<100;i++)
-        highlightPaths(energy_matrix);
+    ///for(int i=0;i<100;i++)
+    ///    highlightPaths(energy_matrix);
     /*/
     qDebug("3-path...");
     for (int lin = 0; lin < image->height(); lin++)
@@ -41,8 +46,8 @@ void MainWindow::findPaths2(void){
         }
     //*/
 
-    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
-    free(energy_matrix);
+    ///label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+    ///free(energy_matrix);
 }
 
 //for each line, it seeks the min value and marks with the red color

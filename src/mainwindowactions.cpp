@@ -8,10 +8,6 @@
 #include "dialoglog.h"
 #include "intelligentresizing.cpp"
 
-void MainWindow::findPaths(void){
-    findPaths2();
-}
-
 void MainWindow::histogram(void){
     if (fileName == NULL)
         QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
@@ -249,7 +245,7 @@ void MainWindow::applyIntelligentResize(){
 }
 
 void MainWindow::applyIntelligentResize(float width,float height){
-    QMessageBox::information(this,"","hello");
+    applySeamCarving(width,height);
 }
 
 
