@@ -31,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     label->setBackgroundRole(QPalette::Base);
     label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     label->setScaledContents(true);
+    label->setGeometry(QRect(0,0,0,0));
 
     scrollArea = new QScrollArea;
     scrollArea->setBackgroundRole(QPalette::Dark);
