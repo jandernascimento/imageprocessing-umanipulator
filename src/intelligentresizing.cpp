@@ -17,13 +17,13 @@ int MainWindow::calculateNumberPaths(int size, float perc){
 
 void MainWindow::applySeamCarving(float width,float height){    
     int n_vertical_paths=calculateNumberPaths(image->width(),width);
-    qDebug("width %i - %f% = %i",image->width(),width*100,n_vertical_paths);
+    //qDebug("width %i - %f% = %i",image->width(),width*100,n_vertical_paths);
 
-    height=1;
-    qDebug("height: %f",height);
+    //height=1;
+    //qDebug("height: %f",height);
 
-    ///int size=(image->height())*(image->width());
-    ///int * energy_matrix=(int *) malloc(sizeof(int) * size);
+    int size=(image->height())*(image->width());
+    int * energy_matrix=(int *) malloc(sizeof(int) * size);
 
     /*/printing the initial matrix of the image
     qDebug("1-initial values...");
@@ -36,12 +36,12 @@ void MainWindow::applySeamCarving(float width,float height){
     }
     //*/
 
-    ///createEnergyMatrix(energy_matrix);
+    createEnergyMatrix(energy_matrix);
     //qDebug("2-energy matrix...");
     //printMatrix(energy_matrix);
 
-    ///for(int i=0;i<100;i++)
-    ///    highlightPaths(energy_matrix);
+    for(int i=0;i<n_vertical_paths;i++)
+        findPaths(energy_matrix);
     /*/
     qDebug("3-path...");
     for (int lin = 0; lin < image->height(); lin++)
@@ -51,12 +51,22 @@ void MainWindow::applySeamCarving(float width,float height){
         }
     //*/
 
-    ///label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
-    ///free(energy_matrix);
+    resizeImage(energy_matrix);
+
+    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+    free(energy_matrix);
+}
+
+void MainWindow::resizeImage(int * energy_matrix){
+
+    /*ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
+
+    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
+    free(energy_matrix);*/
 }
 
 //for each line, it seeks the min value and marks with the red color
-void MainWindow::highlightPaths(int * energy_matrix){
+void MainWindow::findPaths(int * energy_matrix){
     int col_min_value=0; //stores the column of the min value
     //seek the min value at last line
     int lin=image->height()-1;

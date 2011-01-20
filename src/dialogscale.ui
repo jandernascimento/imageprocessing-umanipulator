@@ -34,7 +34,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>247</width>
+     <width>253</width>
      <height>51</height>
     </rect>
    </property>
@@ -51,10 +51,13 @@
       <item>
        <widget class="QSpinBox" name="spinBox">
         <property name="minimum">
-         <number>50</number>
+         <number>1</number>
         </property>
         <property name="maximum">
          <number>200</number>
+        </property>
+        <property name="value">
+         <number>10</number>
         </property>
        </widget>
       </item>
@@ -75,13 +78,13 @@
       <item>
        <widget class="QSpinBox" name="spinBox_2">
         <property name="minimum">
-         <number>5</number>
+         <number>1</number>
         </property>
         <property name="maximum">
          <number>200</number>
         </property>
         <property name="value">
-         <number>50</number>
+         <number>10</number>
         </property>
        </widget>
       </item>
