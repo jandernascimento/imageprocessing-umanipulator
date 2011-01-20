@@ -5,6 +5,7 @@
 #include <custom/imagelabel.h>
 #include <custom/imageabstration.h>
 #include <QScrollArea>
+#include <QScrollBar>
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -15,15 +16,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     this->secondToolBar=new QToolBar("File actions");
-    addToolBar(secondToolBar);
+    this->thirdToolBar=new QToolBar("View actions");
+
+    scaleFactor=1;
 
     createMenu();
     showMaximized();
     label=new ImageLabel(this);
     label->setAccessibleName("label");
     label->setObjectName("label");
-    label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
-    label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    //label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+    //label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
 
     //QScrollArea *scroll = new QScrollArea(this);
     //scroll->setWidget(label);
@@ -31,6 +35,23 @@ MainWindow::MainWindow(QWidget *parent) :
     //scroll->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
     //label->setLayout(ui->horizontalLayout_3);
     //ui->scrollArea->setWidget(label);
+
+    addToolBar(secondToolBar);
+    addToolBar(thirdToolBar);
+
+    /** copy **/
+
+       //label->setBackgroundRole(QPalette::Base);
+      // label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+      // label->setScaledContents(true);
+
+       //scrollArea = new QScrollArea;
+     //  ui->scrollArea->setBackgroundRole(QPalette::Dark);
+     //  ui->scrollArea->setWidget(label);
+
+       //setCentralWidget(scrollArea);
+
+    /** end copy **/
 
     ui->scrollArea->setWidget(label);
 
@@ -106,11 +127,22 @@ void MainWindow::setupViewMenu(QMenu *menu){
 
     //QAction *colorbaraction=new QAction(("&Color information bar"), this);
     QAction *histogramaction=new QAction(("&Histogram"), this);
+    QAction *zoomin=new QAction(("Zoom &In"), this);
+    QAction *zoomout=new QAction(("Zoom &Out"), this);
 
     configureHistogram(histogramaction);
 
-    //menu->addAction(colorbaraction);
+    zoomin->setIcon(QIcon(":plus"));
+    zoomout->setIcon(QIcon(":minus"));
+    connect(zoomin,SIGNAL(triggered()),this,SLOT(zoomIn()));
+    connect(zoomout,SIGNAL(triggered()),this,SLOT(zoomOut()));
+
     menu->addAction(histogramaction);
+    menu->addAction(zoomin);
+    menu->addAction(zoomout);
+
+    thirdToolBar->addAction(zoomin);
+    thirdToolBar->addAction(zoomout);
 
 }
 
@@ -292,19 +324,35 @@ QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
     return NULL;
 }
 
+void MainWindow::zoomIn(){
+    qDebug("Zooming in");
+    scaleImage(1.25);
+}
+
+void MainWindow::zoomOut(){
+    qDebug("Zooming out");
+    scaleImage(0.8);
+}
+
 void MainWindow::scaleImage(double factor)
 //! [23] //! [24]
 {
-   /*
-    Q_ASSERT(imageLabel->pixmap());
+
+    //Q_ASSERT(label->pixmap());
     scaleFactor *= factor;
 
-    imageLabel->resize(scaleFactor * imageLabel->pixmap()->size());
+    label->resize(scaleFactor * label->pixmap()->size());
 
-    adjustScrollBar(scrollArea->horizontalScrollBar(), factor);
-    adjustScrollBar(scrollArea->verticalScrollBar(), factor);
+    adjustScrollBar(ui->scrollArea->horizontalScrollBar(), factor);
+    adjustScrollBar(ui->scrollArea->verticalScrollBar(), factor);
 
-    zoomInAct->setEnabled(scaleFactor < 3.0);
-    zoomOutAct->setEnabled(scaleFactor > 0.333);
-*/
+    //zoomInAct->setEnabled(scaleFactor < 3.0);
+    //zoomOutAct->setEnabled(scaleFactor > 0.333);
+
+}
+
+void MainWindow::adjustScrollBar(QScrollBar *scrollBar, double factor)
+{
+    scrollBar->setValue(int(factor * scrollBar->value()
+                            + ((factor - 1) * scrollBar->pageStep()/2)));
 }
