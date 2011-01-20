@@ -1,6 +1,5 @@
 #include "dialogsetkernel.h"
 #include "ui_dialogsetkernel.h"
-#include "dialogerror.h"
 #include "qmessagebox.h"
 
 int thisDim;
@@ -9,7 +8,6 @@ dialogSetKernel::dialogSetKernel(QWidget *parent) :
     ui(new Ui::dialogSetKernel)
 {
     ui->setupUi(this);
-    //ui->tableWidget->itemAt(0,0)->setText("HAMID");
     connect(ui->buttonBox,SIGNAL(accepted()),this,SLOT(okpressed()));
 
 }
