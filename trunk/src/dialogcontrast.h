@@ -17,10 +17,13 @@ public:
 
 private:
     //MainWindow *win;
+    int original_min;
+    int original_max;
 
 public slots:
 
     void contrastChanged(int value);
+    void cancelpressed(void);
 
 signals:
     void constrastChanged(int minimum,int maximum);

@@ -10,8 +10,13 @@ DialogContrast::DialogContrast(QDialog *parent)
 
     connect(horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
     connect(horizontalSlider_2,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
+
+    connect(buttonBox,SIGNAL(rejected()),this,SLOT(cancelpressed()));
 }
 
+void DialogContrast::cancelpressed(){
+    emit constrastChanged(original_min,original_max);
+}
 
 void DialogContrast::contrastChanged(int value)
 {
@@ -44,6 +49,9 @@ void DialogContrast::setMinMax(int min,int max){
 
     horizontalSlider->setValue(min);
     horizontalSlider_2->setValue(max);
+
+    original_min=min;
+    original_max=max;
 
 }
 
