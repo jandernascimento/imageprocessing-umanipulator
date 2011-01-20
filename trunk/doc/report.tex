@@ -24,7 +24,7 @@
 	\subsection{Fundamental}
 
 		By definition, a filter is a device or process which removes some unwanted features from an image (more precisely, form a signal).
-		low-pass and high-pass filters are regarded as a classic example of filters in image processing field. Generally, filters are used to be convolved 
+		low-pass and high-pass filters are regarded as  classic examples of filters in image processing field. Generally, filters are used to be convolved 
 		(the convolution is described in the next part) with an image in order to produce a new, modified image. This new image, in turn, could
 		be used for some other processings. The next subsection will introduce the convolution and its basics.
 		
@@ -32,7 +32,7 @@
 
 			Convolutions are used to perform many useful image processing tasks such as noise reduction and edge detection. Generally,
 			convolution is a mathematical operation on two functions f and g to produce a modified version of one of the functions.
-			Generally, but not necessarily, the first function (signal) is the input and is bigger than the second one.
+			Mainly, but not necessarily, the first function (signal) is the input and is bigger than the second one.
 			The following formulas describe the discrete convolution formula in 1D and 2D space:
 
 
@@ -42,8 +42,8 @@
 
 
 			
-			When dealing with finite-length sequences, one cannot use the ordinary convolution formula (called linear convolution).
-			In such cases, the circular convolution which results in zeros outside of the range of the signal is used. The mathematical formula of discrete 
+			When dealing with finite-length signals, one cannot use the ordinary convolution formula (called linear convolution).
+			In such cases, the circular convolution, which results in zeros outside of the range of the signal, is used. The mathematical formula of discrete 
 			convolution could be seen in the following:
 
 			\[y[n] = f[n]*g[n] = \sum_{k=-K/2}^{+K/2} f[k]g[n-k]\]
@@ -65,7 +65,7 @@
 		\subsubsection{Gaussian}
 
 			The Gaussian kernel is a 2D convolution operator which is used to blur an image and remove noise. Mostly, applying a convolution using a Gaussian
-			kernel is called Gaussioan smoothing.Generally, the Gaussian kernel is centered at
+			kernel is called Gaussian smoothing. Generally, the Gaussian kernel is centered at
 			zero (pick at 0). The following describes the Gaussian formula in 2D space:
 
 			\[G(x,y) = \frac{1}{2\pi\sigma^{2}}e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}\]
@@ -82,22 +82,41 @@
 
 		\subsubsection{Mean}
 			Mean filter is an easy to implement kernel which is used to reduce the noise in an image by reducing the amount of intensity variation between one
-			pixel and the next. The idea of the mean filter is to replace the value of each pixel with the average of its neighbors including itself. As an example,
-			a 3*3 mean filter is a matrix in which all cells filled up with 1/9 .	
+			pixel and the next. The idea of the mean filter is to replace the value of each pixel with the average of its neighbors including itself. In the figure \ref{mean} an example of mean filter is shown.
+\begin{figure}[H]
+\begin{center}
+ \begin{tabular}{ | l | c | r | }
+    \hline
+    1/9 & 1/9 & 1/9 \\ \hline
+    1/9 & 1/9 & 1/9 \\ \hline
+    1/9 & 1/9 & 1/9 \\
+    \hline
+  \end{tabular}
+\end{center}
+\caption{3 by 3 example of mean filter \label{mean}}\end{figure}
 		
 		\subsubsection{Gradient}
 
-			Applying gradient filter to an image is one of the edge detection approaches. Before explaining the gradient filter and its properties, we will see
-			short description of edge detection concept. 
+			Applying gradient filter to an image is one of the edge detection approaches. Before explaining the gradient filter and its properties, we will see a
+			short description of the edge detection concept. 
 			
-			Technically, an edge is a part of image where a sharp change is occurred in the brightness of the pixels.
+			Technically, an edge is a part of image where a considerable change is occurred in the brightness of the pixels.
 			More informally, edges are the boundaries of
 			the objects in an image. Detecting edges in an image is a non-avoidable issue in some image processing tasks such as intelligent resizing.
 			
-			Mathematically, gradient is the first derivation of the image. In other words, it is a vector with a certain magnitude and direction. 
+			Mathematically, gradient is the first derivation of the signal. In other words, it is a vector with a certain magnitude and direction. 
 			The magnitude of the gradient provides information about strength
 			of the edge, and the direction of the gradient is always perpendicular to the direction of the edge. Clearly, the gradient filter could be
 			applied horizontally and vertically. The gradient vector is given below:
+
+  \[\bigtriangledown f = \begin{pmatrix}
+\frac{\partial f}{\partial x} = M_x\\ 
+\frac{\partial f}{\partial y} = M_y
+\end{pmatrix}\]
+\[magn(\bigtriangledown f) = \sqrt{M_x^{2}+M_y^{2}}\approx \left | M_x \right |+\left | M_y \right |\]
+\[dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})\]
+
+
 
 			There are several filter based on gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters.
 			As it is mentioned previously, gradient approach is based on the first derivation of the input. Based on the properties of
