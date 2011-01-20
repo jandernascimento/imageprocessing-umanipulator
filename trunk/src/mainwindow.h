@@ -58,6 +58,8 @@ public slots:
      void applySetKernel(double* vals, int dim);
      void applyTEMP();
      void findPaths(void);
+     void zoomIn(void);
+     void zoomOut(void);
 
 private:
     Ui::MainWindow *ui;
@@ -73,6 +75,8 @@ private:
     QMenu *helpmenu;
     QMenu *teste;
     QToolBar *secondToolBar;
+    QToolBar *thirdToolBar;
+    double scaleFactor;
     void findPaths2(void);
     void highlightPaths(int * energy_matrix);
     int findMinValue(int value1,int value2, int value3);
@@ -99,6 +103,7 @@ private:
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);
+    void adjustScrollBar(QScrollBar *scrollBar, double factor);
     QAction* retrieveMenuOption(QString name, QMenu *menu);
 };
 
