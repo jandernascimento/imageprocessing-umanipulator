@@ -2,8 +2,16 @@
 <ui version="4.0">
  <class>dialogSetKernel</class>
  <widget class="QDialog" name="dialogSetKernel">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>391</width>
+    <height>303</height>
+   </rect>
+  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Customize the kernel</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
