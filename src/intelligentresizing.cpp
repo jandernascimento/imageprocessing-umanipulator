@@ -11,11 +11,16 @@ void MainWindow::printMatrix(int * energy_matrix){
     }
 }
 
-void MainWindow::applySeamCarving(float width,float height){
-    QMessageBox::information(this,"","hello");
+int MainWindow::calculateNumberPaths(int size, float perc){
+    return (size * perc);
+}
+
+void MainWindow::applySeamCarving(float width,float height){    
+    int n_vertical_paths=calculateNumberPaths(image->width(),width);
+    qDebug("width %i - %f% = %i",image->width(),width*100,n_vertical_paths);
+
     height=1;
-    qDebug("%f",width);
-    qDebug("%f",height);
+    qDebug("height: %f",height);
 
     ///int size=(image->height())*(image->width());
     ///int * energy_matrix=(int *) malloc(sizeof(int) * size);

@@ -99,12 +99,6 @@ void MainWindow::setupFileMenu(QMenu *menu){
     secondToolBar->addAction(openaction);
     secondToolBar->addAction(saveasaction);
 
-    //**//
-    //QAction *bb=this->secondToolBar->addAction("TMP-paths");
-    //connect(bb,SIGNAL(triggered()),this,SLOT(applySeamCarving(float,float)));
-    //secondToolBar->addAction(bb);
-    //**//
-
     menu->addAction(openaction);
     menu->addAction(saveaction);
     menu->addAction(saveasaction);
@@ -200,7 +194,8 @@ void MainWindow::setupImageAdvancedSubMenu(QMenu *menu){
     menu->addAction(scissor);
 
     connect(resizing, SIGNAL(triggered()),this,SLOT(applyIntelligentResize()));
-
+    resizing->setIcon(QIcon(":intres"));
+    secondToolBar->addAction(resizing);
 }
 
 void MainWindow::setupColorMenu(QMenu *menu){
