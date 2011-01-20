@@ -10,6 +10,7 @@
 #include <dialogcustom.h>
 #include <dialogfusion.h>
 #include <QFormLayout>
+#include <QScrollArea>
 
 
 namespace Ui {
@@ -66,6 +67,7 @@ private:
     ImageWindow *imagewin;
     DialogContrast *mDialogContrast;
     dialogCustom mDialogCustom;
+    QScrollArea *scrollArea;
     QString filePath;
     QString fileName;
     QMenu *filemenu;

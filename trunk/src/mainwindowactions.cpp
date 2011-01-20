@@ -27,7 +27,7 @@ void MainWindow::quit(void){
 void MainWindow::openFile(void){
     image=new ImageAbstraction(filePath);
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
-
+    label->adjustSize();
     connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
 }
 

@@ -23,37 +23,25 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenu();
     showMaximized();
     label=new ImageLabel(this);
-    label->setAccessibleName("label");
-    label->setObjectName("label");
+    //label->setAccessibleName("label");
+    //label->setObjectName("label");
     //label->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
     //label->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
+    label->setBackgroundRole(QPalette::Base);
+    label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    label->setScaledContents(true);
 
-    //QScrollArea *scroll = new QScrollArea(this);
-    //scroll->setWidget(label);
-    //scroll->setLayoutDirection(Qt::LayoutDirectionAuto);
-    //scroll->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
-    //label->setLayout(ui->horizontalLayout_3);
-    //ui->scrollArea->setWidget(label);
+    scrollArea = new QScrollArea;
+    scrollArea->setBackgroundRole(QPalette::Dark);
+    scrollArea->setWidget(label);
+    setCentralWidget(scrollArea);
+
 
     addToolBar(secondToolBar);
     addToolBar(thirdToolBar);
 
-    /** copy **/
-
-       //label->setBackgroundRole(QPalette::Base);
-      // label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-      // label->setScaledContents(true);
-
-       //scrollArea = new QScrollArea;
-     //  ui->scrollArea->setBackgroundRole(QPalette::Dark);
-     //  ui->scrollArea->setWidget(label);
-
-       //setCentralWidget(scrollArea);
-
-    /** end copy **/
-
-    ui->scrollArea->setWidget(label);
+    //scrollArea->setWidget(label);
 
 
 }
@@ -343,8 +331,8 @@ void MainWindow::scaleImage(double factor)
 
     label->resize(scaleFactor * label->pixmap()->size());
 
-    adjustScrollBar(ui->scrollArea->horizontalScrollBar(), factor);
-    adjustScrollBar(ui->scrollArea->verticalScrollBar(), factor);
+    adjustScrollBar(scrollArea->horizontalScrollBar(), factor);
+    adjustScrollBar(scrollArea->verticalScrollBar(), factor);
 
     //zoomInAct->setEnabled(scaleFactor < 3.0);
     //zoomOutAct->setEnabled(scaleFactor > 0.333);
