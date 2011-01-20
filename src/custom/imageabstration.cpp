@@ -720,4 +720,33 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
 
 }
 
+ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_lines,int total_columns){
+
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(width()-total_columns,height()),format());//QImage::Format_RGB32
+
+    for(int y=0;y<height();y++){
+
+        for(int x=0,x_last=0;x<width();x++){
+
+            bool found=false;
+            for(int xm=0;xm<total_columns;xm++){
+               if(matrix[y*total_columns+xm]==x){
+                   found=true;
+                }
+            }
+            if(!found){
+               newImage->setPixel(y,x_last,
+                                   getPixelColorIntensity(ImageAbstraction::red,y,x),
+                                   getPixelColorIntensity(ImageAbstraction::green,y,x),
+                                   getPixelColorIntensity(ImageAbstraction::blue,y,x));
+                x_last++;
+
+            }
+
+        }
+
+    }
+
+    return newImage;
+}
 
