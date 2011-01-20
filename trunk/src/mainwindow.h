@@ -79,6 +79,7 @@ private:
     QToolBar *secondToolBar;
     QToolBar *thirdToolBar;
     double scaleFactor;
+    int calculateNumberPaths(int size, float perc);
     void highlightPaths(int * energy_matrix);
     int findMinValue(int value1,int value2, int value3);
     int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col);
