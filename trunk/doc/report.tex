@@ -35,21 +35,23 @@
 			Mainly, but not necessarily, the first function (signal) is the input and is bigger than the second one.
 			The following formulas describe the discrete convolution formula in 1D and 2D space:
 
-
-			\[y[n] = f[n]*g[n] = \sum_{k=-\infty}^{+\infty} f[k]g[n-k]\]
-
-			\[y[m,n] = f[m,n]*g[m,n] = \sum_{i=-\infty}^{+\infty}\sum_{j=-\infty}^{+\infty}f[i,j]g[m-i,n-j]\]
-
+			\begin{equation}
+			y[n] = f[n]*g[n] = \sum_{k=-\infty}^{+\infty} f[k]g[n-k]
+			\end{equation}
+			\begin{equation}
+			y[m,n] = f[m,n]*g[m,n] = \sum_{i=-\infty}^{+\infty}\sum_{j=-\infty}^{+\infty}f[i,j]g[m-i,n-j]
+			\end{equation}
 
 			
 			When dealing with finite-length signals, one cannot use the ordinary convolution formula (called linear convolution).
 			In such cases, the circular convolution, which results in zeros outside of the range of the signal, is used. The mathematical formula of discrete 
 			convolution could be seen in the following:
-
-			\[y[n] = f[n]*g[n] = \sum_{k=-K/2}^{+K/2} f[k]g[n-k]\]
-
-			\[y[m,n] = f[m,n]*g[m,n] = \sum_{i=-K/2}^{+K/2}\sum_{j=-T/2}^{+T/2}f[i,j]g[m-i,n-j]\]
-
+			\begin{equation}
+			y[n] = f[n]*g[n] = \sum_{k=-K/2}^{+K/2} f[k]g[n-k]
+			\end{equation}
+			\begin{equation}
+			y[m,n] = f[m,n]*g[m,n] = \sum_{i=-K/2}^{+K/2}\sum_{j=-T/2}^{+T/2}f[i,j]g[m-i,n-j]
+			\end{equation}
 
 
 			
@@ -67,9 +69,9 @@
 			The Gaussian kernel is a 2D convolution operator which is used to blur an image and remove noise. Mostly, applying a convolution using a Gaussian
 			kernel is called Gaussian smoothing. Generally, the Gaussian kernel is centered at
 			zero (pick at 0). The following describes the Gaussian formula in 2D space:
-
-			\[G(x,y) = \frac{1}{2\pi\sigma^{2}}e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}\]
-
+\begin{equation}
+			G(x,y) = \frac{1}{2\pi\sigma^{2}}e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}
+\end{equation}
 			
 			Gaussian smoothing acts almost the same as the mean filter, which will be in the following part. The following figures illustrates a noisy image and its blurred copy using a 5 by 5 Gaussian kernel
 
@@ -108,22 +110,29 @@
 			The magnitude of the gradient provides information about strength
 			of the edge, and the direction of the gradient is always perpendicular to the direction of the edge. Clearly, the gradient filter could be
 			applied horizontally and vertically. The gradient vector is given below:
-
-  \[\bigtriangledown f = \begin{pmatrix}
+\begin{equation}
+  \bigtriangledown f = \begin{pmatrix}
 \frac{\partial f}{\partial x} = M_x\\ 
 \frac{\partial f}{\partial y} = M_y
-\end{pmatrix}\]
-\[magn(\bigtriangledown f) = \sqrt{M_x^{2}+M_y^{2}}\approx \left | M_x \right |+\left | M_y \right |\]
-\[dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})\]
+\end{pmatrix}
+\end{equation}
+\begin{equation}
+magn(\bigtriangledown f) = \sqrt{M_x^{2}+M_y^{2}}\approx \left | M_x \right |+\left | M_y \right |
+\end{equation}
+\begin{equation}
+dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})
+\end{equation}
 
 
 
-			There are several filter based on gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters.
-			As it is mentioned previously, gradient approach is based on the first derivation of the input. Based on the properties of
+			There are several filters based on the gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters.
+			As it is mentioned previously, gradient approach is based on the first derivation of the input.
+
+ Based on the properties of
 			the first derivation, the edges of a given input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
 			determined in order for the edges to be detected. However, since a thresholding is used, the edges might be too thick to be considered
 			as an edge. As a result, we may need to apply a localization method (for instance, using Laplacian filter) to find zero
-			crossing points and separate actual edges from other non-edge points. The following illustrates the Prewitt operator in x-direction. The y-direction, clearly, is the transpose of the x-direction.
+			crossing points and separate actual edges from other non-edge points. Figure \ref{pre}  illustrates the horizontal Prewitt operator. The vertical is the transpose of the horizontal filter.
 
 
 \begin{figure}[H]
@@ -136,11 +145,11 @@
     \hline
   \end{tabular}
 \end{center}
-\caption{Prewitt operator in x-direction}\end{figure}
+\caption{Horizontal Prewitt operator\label{pre}}\end{figure}
 
 		
 		\subsubsection{Laplacian}
-			The Laplacian filter is computed based on the second derivation of the input. The following matrix is an approximation of a 3*3 Laplacian filter; however, a 5*5 filter is used in the developed application based on better results it resulted in for
+			The Laplacian filter is computed based on the second derivation of the input. The following matrix is an approximation of a 3 by 3 Laplacian filter; however, a 5 by 5 filter is used in the developed application based on better results it resulted in for
 most of the tested images.
 
 \begin{figure}[H]
@@ -156,21 +165,23 @@ most of the tested images.
 \caption{an example of a 3 by 3 Laplacian filter}\end{figure}
 
 
-			 As a result, it is highly sensitive to noise. Consequently,
-			it is generally applied after noise reduction filters. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution operation is
+			 Since the Laplacian filter is based on the second derivation of the input, it is highly sensitive to noise. Consequently,
+			it is generally applied after a noise reduction process. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution operation is
 			associative. The following is the LoG formula in 2D space:
 
-			\[LoG(x,y) = -\frac{1}{\pi\sigma^{4}}[1-\frac{x^{2}+y^{2}}{2\sigma^{2}}]e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}\]
+\begin{equation}
+			LoG(x,y) = -\frac{1}{\pi\sigma^{4}}[1-\frac{x^{2}+y^{2}}{2\sigma^{2}}]e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}
+\end{equation}
 
 			The figure below shows an image and its edge-detected version based on a 5 by 5 Laplacian filter.
 	\begin{figure} [H]
 		\centering
 		\includegraphics[scale=.3]{images/edged}
-		\caption{Left side: original image Right side: edge-detected image based on Laplacian filter \label{crop_1}}
+		\caption{Left side: original image Right side: edge-detected image based on the Laplacian filter \label{crop_1}}
 	\end{figure}
 
 \section{Color space}    
-	A color model is a model by which the color are represented by a few numbers, typically three or four. Using primary colors, a vast variety of colors could be made. Two well-known models are RGB and CYMK.      
+	A color space is a model by which the color are represented by a few numbers, typically three or four. Using primary colors, a vast variety of colors could be made. Two well-known models are RGB and CYMK.      
 
 	\subsection{RGB}
 		In RGB model red, green and blue lights areadded together to make a wide range of colors. This model is generally used in electronic systems such as CRTs and LCDs. In case of an 8-bit value for each color, more than 16 million different colors
@@ -179,12 +190,12 @@ most of the tested images.
 
 	\subsection{CYMK}
 
-		CMYK (Cyan, Magenta, Yellow, Key black) is another color model which is used in color printing. Unlike the RGB, CMYK is a subtractive; that is, white is is the natural color of the paperand black is a full mixture of all colors.
-		As a result, to save money on ink, the dark colors and the blac is produced using the black ink.
+		CMYK (Cyan, Magenta, Yellow, Key black) is another color model which is used in color printing. Unlike the RGB, CMYK is a subtractive; that is, white is is the natural color of the paper and black is a full mixture of all colors.
+		As a result, to save money on ink, the dark colors and the black is produced using the black ink.
 
 	\subsection{Gray scale conversion}
 
-		In order to convert an image to gray scale from an RGB image to gray scale, we need to consider how far a pixel is from black. To achieve this goal, one can substitue all the colors of a pixel with the average of the three colors. Using this method, a pure black pixel would remain black, and a white pixel would still remain white. Other pixels, however, would be have a gray view between black and white.
+		In order to convert an image to gray scale from an RGB image to gray scale, we need to consider how far a pixel is from the black color. To achieve this goal, one can substitue all the colors of a pixel with the average of the three colors. Using this method, a pure black pixel would remain black, and a white pixel would still remain white. Other pixels, however, would have a gray view between black and white.
 
 \section{Cropping}
 
@@ -194,17 +205,16 @@ most of the tested images.
 	The new target becomes the main object of the image generating a new image with the dimension of the target area.  
 
 	\begin{figure}[H]
-	  \centering
-	  \subfloat[Non cropped image]{\label{fig:nonnormalized}\includegraphics[width=0.3\textwidth]{images/crop_1}}                
-	  \subfloat[Cropped image]{\label{fig:normalized}\includegraphics[width=0.3\textwidth]{images/crop_2}}
-	  \caption{Image cropping}
-	  \label{fig:cropping}
+	\centering
+	\includegraphics[scale=2]{images/crop}
+	\caption{Left side: original image Right side: cropped image}
+	\label{fig:cropping}
 	\end{figure}
 
 
 \section{Fusion}
 
-	The fusion operation is done by merging two images. The merging is done according do the Equation \ref{eq:fusion}. 
+	The fusion operation is done by merging two images. The merging is based on the Equation \ref{eq:fusion}. 
 	
 	The $\alpha$ is a float point value that represents the percentage in which the new image should have in the current image. 
 
@@ -215,16 +225,16 @@ most of the tested images.
 
 \section{Resizing}
 
-	Image resizing consist in convert an image to a size in which may or not respect the previous ratio.
-	When dealing with reducing the size of an image is quite simple to do it, but when dealing with enlarging 
-	the image, the process is a little bit complex.
+	Image resizing is defined as converting an image to a size in which may or may not respect the previous ratio size.
+	When dealing with reducing the size of an image, it is quite simple to do it; however, when dealing with enlarging 
+	the image, the process is a little bit more complex due to unknown pixels.
 
-	Reducing the dimension of an image consist in removing as many lines and as many columns as necessary to reach target dimension, of course this
-	process may create some side-effect in the image, 
+	Reducing the dimension of an image consists in removing as many lines and as many columns as necessary to reach target dimension. Obviously, this
+	process may create some side-effects in the image, like Moiree pattern.
 
-	When we stretch an image, we have few known pixels (dots which are image composition, think like the cells of a human being).
+	When we stretch an image, we have few known pixels.
 
-	There is a lot of algorithms that helps to guess (fill the gaps) those unknown pixels. for instance:
+	There are too many algorithms that helps us to guess those unknown pixels. for instance:
 
 	\begin{itemize}
 	  \item Nearest neighbor interpolation
@@ -233,12 +243,13 @@ most of the tested images.
 	  \item Bicubic interpolation
 	\end{itemize}
 
-	The adopted algorithm is, \textbf{Bilinear interpolation},  due its speed and simplicity.
+	The adopted algorithm is \textbf{Bilinear interpolation}  due to its speed and simplicity.
 	
 \subsection{From Linear to Bilinear interpolation}
 
 	The Linear interpolation may be done horizontally or vertically, or even both. If a horizontal or vertical interpolation is done, we call it
-	Linear interpolation, case both interpolations are applied its called Bilinear interpolation.	
+	Linear interpolation. In case of applying both interpolations, its called Bilinear interpolation.	
+
 	The pixel interpolation is done by calculating the mean of the known pixels around (vertical and horizontal axis) the unknown pixel. 
 
 	\begin{figure} [H]
@@ -247,7 +258,7 @@ most of the tested images.
 		\caption{original image \label{bilinear1}}
 	\end{figure}
 
-	On \ref{bilinear1} we can see the original image where all pixel are known pixels. Now what happen if we stretch this image 
+	In Figure \ref{bilinear1}, we can see the original image where all pixel are known pixels. Now what happens if we stretch this image 
 	from a 2x2 to a 3x3 image?
 	
 	\begin{figure} [H]
@@ -256,13 +267,11 @@ most of the tested images.
 		\caption{image resized from 2x2 to 3x3 \label{bilinear2}}
 	\end{figure}
 
-	As we can see, after stretch the image to a desired dimension we create some unknown pixels. To those pixels we can apply the linear interpolation 
-	to guess the color intensity we should use based in the color of it's neighbor pixels (not by simply copying the neighbor).
+	As we can see, after stretching the image to the desired dimension we create some unknown pixels. For those pixels, we can apply the linear interpolation. To guess the color intensity, the color of it's neighbor pixels are used (not by simply copying the neighbor).
 
-	Example above is not realistic, for several reasons. First of them is that in most of the cases we must fill more than one gap in between known pixels,
-	second is that in real cases we consider the pixel in the horizontal and vertical direction, instead of diagonal axis. Third reason is that in the 
-	previous example the distance between the unknown pixel to the known pixel were always the same, so a regular division would. 
-	Check this other example, a bit more realistic:
+	The example in the Figure \ref{bilinear2}, is not realistic for several reasons. First, in the most of the cases we must fill more than one gap in between known pixels. Second reason is that in real cases we consider the pixel in the horizontal and vertical direction, instead of diagonal axis. The third is that in the 
+	previous example the distance between the unknown pixels and the known pixels were always the same, so a regular division would solve the problem. 
+A more realistic example would be Figure \ref{bilinear3}.
 	
 	\begin{figure} [H]
 		\centering
@@ -270,46 +279,42 @@ most of the tested images.
 		\caption{more realistic image\label{bilinear3}}
 	\end{figure}
 	
-	In the example above we can see that the interpolation cannot be only the mean of the pixel, since the unknown pixel 
-	is closer to the point A and B, it's reasonable 
-	this unknown pixel receives A and B color than the other ones.
+	In this example, we can see that the interpolation cannot be only the mean of the pixels, since the unknown pixel 
+	is closer to the pixels A and B. It is reasonable that this unknown pixel receives A and B colors more than the other ones.
 
 	Consider \textit{distance(p1,p2)} a function that returns the distance between two pixels, 
-	and \textit{color(p1)} a function that returns the color of the pixel p1 . We perform first the Linear interpolation horizontally, so:
+	and \textit{color(p1)} a function that returns the color of the pixel \textit{p1} . First, we perform the Linear interpolation horizontally.
+	\begin{equation}
+	 f_h(p)=color(B)*\frac{distance(P,D)}{distance(B,D)}+color(D)*\frac{distance(B,P)}{distance(B,D)}  
+	\end{equation}
+	Secondly, we perform this operation in the vertical axis as well:
+	\begin{equation}
+	 f_v(p)=color(A)*\frac{distance(P,C)}{distance(A,C)}+color(C)*\frac{distance(A,P)}{distance(A,C)}
+	\end{equation}
 
-	\[ f_h(p)=color(B)*\frac{distance(P,D)}{distance(B,D)}+color(D)*\frac{distance(B,P)}{distance(B,D)}  \]
-
-	We can perform this operation in the vertical axis as well:
-
-	\[ f_v(p)=color(A)*\frac{distance(P,C)}{distance(A,C)}+color(C)*\frac{distance(A,P)}{distance(A,C)}  \]
-
-	Combibing these two approaches we have the bilinear interpolation.
+	Combibing these two approaches, we have the bilinear interpolation.
 
 	
 \section{Histogram}
 
 	\subsection{Color histogram}
 
-		The histogram is an important tools when dealing with image analysis. It shows the color distribuition of a certain image regarding to its 
+		The histogram is an important tool when dealing with image analysis. It shows the color distribuition of a certain image regarding to its 
 		color \textit{spectrum}.
 			
 		The histogram is represented in a cartesian, where \textit{x} axis is the 
 		color \textit{spectrum} and \textit{y} represents the number of pixels.
 
-		In colorful images, histogram instead of representing the color \textit{spectrum} of a single color we may use two techniques
-		to represent colorful images, either by summing all the colors into a single histogram, or create a differente histogram for each 
-		color.
+		We may use two techniques
+		to represent colorful images, either by summing all the colors into a single histogram, or create a differente histogram for each color.
 		
 
 	\subsection{Normalization}
 		
-		The normalization, or histogram stretching, is a technique where the color histogram is used to evaluate and possible change
-		the color intensity range. This, enhances the detail level of some images that might appear too dark or too light (duo to aperture size of even
-		bad light condition).
-
-		This is done by spreading the pixels to use as much as possible the entire color \textit{spectrum}.
+		The normalization, or histogram stretching, is a technique by which the color histogram is used to evaluate and possibly change
+		the color intensity range. This enhances the detail level of some images that might appear too dark or too bright. This is done by spreading the pixels to use the entire color \textit{spectrum}.
 		
-		\begin{figure}
+		\begin{figure}[H]
 		  \centering
 		  \subfloat[Un-normalized]{\label{fig:nonnormalized}\includegraphics[width=0.3\textwidth]{images/histogram_1}}                
 		  \subfloat[Normalized]{\label{fig:normalized}\includegraphics[width=0.3\textwidth]{images/histogram_2}}
@@ -321,7 +326,7 @@ most of the tested images.
 
 		To perform the normalization, the only variables we must know to perform this operation is the minimum and maximum color in the current histogram, 
 		and minimum and maximum color in the enhanced histogram, or we may translate as a new position for the minimum and maximum colors. It is possible
-		to write mathematically the formula \ref{eq:normalization}.
+		to write mathematically the Equation \ref{eq:normalization}.
 
 
 		\begin{equation}
