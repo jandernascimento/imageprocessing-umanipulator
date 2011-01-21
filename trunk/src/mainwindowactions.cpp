@@ -255,8 +255,16 @@ void MainWindow::applyScale(){
 }
 
 void MainWindow::applyScale(float width,float height){
-    this->image=image->ApplyScale(width,height);
+
+    int *ma=(int*)malloc(sizeof(int)*1*this->image->height());
+
+    for(int x=0;x<this->image->height();x++){
+        ma[x]=50;
+    }
+
+    this->image=image->ApplyScale(width,height);//image->scRemoveLine(ma,this->image->height(),1);//
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+    label->adjustSize();
 }
 
 void MainWindow::applyLaplacianFilter(){
