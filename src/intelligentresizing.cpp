@@ -10,8 +10,10 @@ void MainWindow::decreaseImage(int n_paths){
     int * paths=(int *) malloc(sizeof(int) * image->height() );
     for(int i=0;i<n_paths;i++){
         int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
-        createEnergyMatrix(energy_matrix);
-        findPaths(energy_matrix,paths,0,1);
+        ImageAbstraction *energyImage=image->copy();
+        energyImage->ApplyGradientMagnitude();
+        createEnergyMatrix(energy_matrix,energyImage);
+        findPaths(energy_matrix,paths,0,1,energyImage);
         image=image->scRemoveLine(paths,image->height(),1);
         free(energy_matrix);
     }
@@ -39,12 +41,12 @@ void MainWindow::applySeamCarving(float width,float height){
     label->adjustSize();
 }
 
-void MainWindow::findPaths(int * energy_matrix,int * vertical_paths,int id_path,int n_paths){
+void MainWindow::findPaths(int * energy_matrix,int * vertical_paths,int id_path,int n_paths,ImageAbstraction *ia){
     int col_min_value=0; //stores the column of the min value
     //seek the min value at last line
-    int lin=image->height()-1;
-    for(int col=0;col<image->width();col++)
-        if (energy_matrix[image->width()*lin+col] < energy_matrix[image->width()*lin+col_min_value])
+    int lin=ia->height()-1;
+    for(int col=0;col<ia->width();col++)
+        if (energy_matrix[ia->width()*lin+col] < energy_matrix[ia->width()*lin+col_min_value])
             col_min_value=col;
     //image->setPixel(lin,col_min_value,255,0,0);
     //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
@@ -58,10 +60,10 @@ void MainWindow::findPaths(int * energy_matrix,int * vertical_paths,int id_path,
         next_column=col_min_value+1;
         if(col_min_value==0)
             prev_column=col_min_value;
-        else if(col_min_value==image->width()-1)
+        else if(col_min_value==ia->width()-1)
             next_column=col_min_value;
         //
-        col_min_value = findColumnMinValue(energy_matrix, lin, col_min_value, prev_column, next_column);
+        col_min_value = findColumnMinValue(energy_matrix, lin, col_min_value, prev_column, next_column,ia);
 
         //image->setPixel(lin,col_min_value,255,0,0);
         //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
@@ -70,14 +72,14 @@ void MainWindow::findPaths(int * energy_matrix,int * vertical_paths,int id_path,
 
 }
 
-void MainWindow::createEnergyMatrix(int * energy_matrix){
+void MainWindow::createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia){
     int line,column,current_pixel,neighbor_pixel1,neighbor_pixel2,neighbor_pixel3,prev_column,next_column,prev_line;
 
     //first line:
     line=0;
     for(int col = 0; col < image->width(); col++) {
-        current_pixel = image->getPixelColorIntensity(ImageAbstraction::blue,line,col);
-        energy_matrix[image->width()*line+col]=current_pixel;
+        current_pixel = ia->getPixelColorIntensity(ImageAbstraction::blue,line,col);
+        energy_matrix[ia->width()*line+col]=current_pixel;
     }
     //*/
 
@@ -89,18 +91,18 @@ void MainWindow::createEnergyMatrix(int * energy_matrix){
         prev_column=column;
         next_column=findMinValue(column+1,column+1,image->width()-1);
         do{
-            current_pixel   = image->getPixelColorIntensity(ImageAbstraction::blue,line,column);
-            neighbor_pixel1 = energy_matrix[image->width()*prev_line+prev_column];
-            neighbor_pixel2 = energy_matrix[image->width()*prev_line+column];
-            neighbor_pixel3 = energy_matrix[image->width()*prev_line+next_column];
-            energy_matrix[image->width()*line+column]=findMinValue(current_pixel+neighbor_pixel2,
+            current_pixel   = ia->getPixelColorIntensity(ImageAbstraction::blue,line,column);
+            neighbor_pixel1 = energy_matrix[ia->width()*prev_line+prev_column];
+            neighbor_pixel2 = energy_matrix[ia->width()*prev_line+column];
+            neighbor_pixel3 = energy_matrix[ia->width()*prev_line+next_column];
+            energy_matrix[ia->width()*line+column]=findMinValue(current_pixel+neighbor_pixel2,
                                                                    current_pixel+neighbor_pixel1,
                                                                    current_pixel+neighbor_pixel3);
 
             column++;
             prev_column=column-1;
             next_column=findMinValue(column+1,column+1,image->width()-1);
-        }while(column<image->width());
+        }while(column<ia->width());
 
         line++;
         prev_line=line-1;
@@ -116,12 +118,12 @@ int MainWindow::findMinValue(int value1,int value2, int value3){
         return value3;
 }
 
-int MainWindow::findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col){
-    if      (energy_matrix[image->width()*lin+prev_col] <= energy_matrix[image->width()*lin+col]
+int MainWindow::findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col,ImageAbstraction *ia){
+    if      (energy_matrix[ia->width()*lin+prev_col] <= energy_matrix[ia->width()*lin+col]
             &&
-            energy_matrix[image->width()*lin+prev_col] <= energy_matrix[image->width()*lin+next_col])
+            energy_matrix[ia->width()*lin+prev_col] <= energy_matrix[ia->width()*lin+next_col])
         return prev_col;
-    else if (energy_matrix[image->width()*lin+col] <= energy_matrix[image->width()*lin+next_col])
+    else if (energy_matrix[ia->width()*lin+col] <= energy_matrix[ia->width()*lin+next_col])
         return col;
     else
         return next_col;

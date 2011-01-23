@@ -313,6 +313,41 @@ void ImageAbstraction::UpdateColorRange(){
     }
 }
 
+ImageAbstraction* ImageAbstraction::copy(void){
+    return new ImageAbstraction(QImage::copy(0,0,this->width(),this->height()));
+}
+
+ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
+    ImageAbstraction *k1=this->copy();
+    ImageAbstraction *k2=this->copy();
+
+    k1->makeGradFilterX(5,0);
+    k2->makeGradFilterY(5,0);
+
+
+    int r1,g1,b1,r2,g2,b2,r,g,b;
+    for (int i=0;i<this->height();++i)
+        for (int j=0; j<this->width();++j)
+        {
+            r1 = k1->getPixelColorIntensity(ImageAbstraction::red,i,j);
+            g1 = k1->getPixelColorIntensity(ImageAbstraction::green,i,j);
+            b1 = k1->getPixelColorIntensity(ImageAbstraction::blue,i,j);
+
+            r2 = k2->getPixelColorIntensity(ImageAbstraction::red,i,j);
+            g2 = k2->getPixelColorIntensity(ImageAbstraction::green,i,j);
+            b2 = k2->getPixelColorIntensity(ImageAbstraction::blue,i,j);
+            r=sqrt(pow(r1-r2,2)+pow(r2-r1,2));
+            g=sqrt(pow(g1-g2,2)+pow(g2-g1,2));
+            b=sqrt(pow(b1-b2,2)+pow(b2-b1,2));
+
+            this->setPixel(i,j,r,g,b);
+
+        }
+
+    return this;
+
+}
+
 void ImageAbstraction::makeFilterGaussian(int dim, double sig){
 
         //**//
