@@ -20,6 +20,7 @@ class ImageAbstraction : public QImage
 
           /** Util  methods **/
           void UpdateColorRange(void);
+          ImageAbstraction* copy(void);
           int getMinColorValue(enum ecolor color);
           int getMaxColorValue(enum ecolor color);
           int getColorCounter(enum ecolor color,int level);
@@ -50,6 +51,7 @@ class ImageAbstraction : public QImage
           double getMean();
           double getStd();
           int ApplyConvolutionLaplacian(int dim, double* kernel, char kernelType);
+          ImageAbstraction* ApplyGradientMagnitude();
 
 
     private:
