@@ -3,7 +3,7 @@
 #include <math.h>
 
 int MainWindow::calculateNumberPaths(int size, float perc){
-    return (round(size * perc));
+    return (size-(round(size * perc)));
 }
 
 void MainWindow::decreaseImage(int n_paths){
