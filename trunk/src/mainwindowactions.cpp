@@ -173,7 +173,6 @@ void MainWindow::applyLoG(int dim, double sig){
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyTEMP(){
-    //image->makeLaplacianFilter(5);
 
     ImageAbstraction *k1=new ImageAbstraction(image->copy(0,0,image->width(),image->height()));
     ImageAbstraction *k2=new ImageAbstraction(image->copy(0,0,image->width(),image->height()));
@@ -312,6 +311,7 @@ void MainWindow::applyScale(float width,float height){
 
 void MainWindow::applyLaplacianFilter(){
     qDebug("CLICKING ON LAPLACIAN");
+    //image->ApplyFilterGreyScale();
     image->makeLaplacianFilter(5);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
