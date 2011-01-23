@@ -106,10 +106,15 @@ private:
     /** Intelligent Resizing **/
     int calculateNumberPaths(int size, float perc);
     void findPaths(int * energy_matrix,int * vertical_paths,int id_path,int n_paths,ImageAbstraction *ia);
+    void findAndDuplicatePath(int * energy_matrix,int * path,int * values_new_path,ImageAbstraction *ia);
+    void calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value);
+    int findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia);
     int findMinValue(int value1,int value2, int value3);
     int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col,ImageAbstraction *ia);
     void createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia);
     void decreaseImage(int n_paths);
+    void increaseImage(int n_paths);
+    void printMatrix(int * matrix,int n_lin, int n_col);
 };
 
 #endif
