@@ -3,19 +3,19 @@
 #include <assert.h>
 
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
-
     UpdateColorRange();
-
 }
 
 
 ImageAbstraction::ImageAbstraction(const QSize &size, Format format):QImage(size,format){
-
     UpdateColorRange();
-
 }
 
 ImageAbstraction::ImageAbstraction(const QImage &im):QImage(im){
+    UpdateColorRange();
+}
+
+ImageAbstraction::ImageAbstraction(const ImageAbstraction &im):QImage(im){
     UpdateColorRange();
 }
 
