@@ -202,7 +202,7 @@ int ImageAbstraction::ApplyFilterContrastRule(enum ecolor color,int x,int y,int 
 
     int actdelta=actmax-actmin;
     int newdelta=max-min;
-    float mul=((float)newdelta)/((float)actdelta);//((actmax+level))/(actmax-actmin);
+    float mul=((float)newdelta)/((float)actdelta);
     int newcolor=min+mul*((float)(colorvalue-actmin));
 
     return newcolor;
@@ -272,8 +272,6 @@ ImageAbstraction* ImageAbstraction::ApplyCrop(int startx,int starty,int endx,int
 
 void ImageAbstraction::UpdateColorRange(){
 
-    //qDebug("%i x %i",this->width(),this->height());
-
     this->isGreyScale=isGrayscale();
 
     for(int count=0;count<256;count++){
@@ -321,8 +319,8 @@ ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
     ImageAbstraction *k1=this->copy();
     ImageAbstraction *k2=this->copy();
 
-    k1->makeGradFilterX(5,0);
-    k2->makeGradFilterY(5,0);
+    k1->makeGradFilterX(3,0);
+    k2->makeGradFilterY(3,0);
 
 
     int r1,g1,b1,r2,g2,b2,r,g,b;
@@ -429,7 +427,6 @@ void ImageAbstraction::minMaxDouble(double* oldArr, double oldMin, double oldMax
 
 double* ImageAbstraction::makeGradFilterX(int dim, int kernelType)
 {
-    qDebug("MAKING GRAD FILTER X");
     double* kernel = (double*)(malloc(sizeof(double)*dim*dim));
     kernel[0] = -1;
     kernel[1] = 0;
@@ -441,12 +438,10 @@ double* ImageAbstraction::makeGradFilterX(int dim, int kernelType)
     kernel[7] = 0;
     kernel[8] = 1;
     ImageAbstraction::ApplyConvolution (3,kernel,'R');
-    qDebug("END GRAD FILTER X");
     return kernel;
 }
 double* ImageAbstraction::makeGradFilterY(int dim, int kernelType)
 {
-    qDebug("MAKING GRAD FILTER Y");
     double* kernel = (double*)(malloc(sizeof(double)*dim*dim));
     kernel[0] = 1;
     kernel[1] = 1;
@@ -458,12 +453,10 @@ double* ImageAbstraction::makeGradFilterY(int dim, int kernelType)
     kernel[7] = -1;
     kernel[8] = -1;
     ImageAbstraction::ApplyConvolution(3,kernel,'R');
-    qDebug("END GRAD FILTER Y");
     return kernel;
 }
 double* ImageAbstraction::makeLaplacianFilter(int dim)
 {
-    qDebug("MAKING LAPLACIAN FILTER");
     double* kernel = (double*)(malloc(sizeof(double)*dim*dim));
     if (dim==3)
     {
@@ -489,9 +482,11 @@ double* ImageAbstraction::makeLaplacianFilter(int dim)
 }
 int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType){
         //minMaxDouble(kernel,-1,1,0,1,9);
+    /*
         for (int i=0;i<dim;++i)
             for (int j=0;j<dim;++j)
                 qDebug("%f KERNEL", (double)(kernel[i*dim+j]));
+     */
        int j;  // row    index of the current image
        int i;  // column index of the current image
        int jk; // row    index of the kernel;
@@ -561,9 +556,11 @@ int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType)
        return 1;
 }
 int ImageAbstraction::ApplyConvolutionLaplacian(int dim, double* kernel, char kernelType){
+    /*
         for (int i=0;i<dim;++i)
             for (int j=0;j<dim;++j)
                 qDebug("%f KERNEL", (double)(kernel[i*dim+j]));
+     */
        int j;  // row    index of the current image
        int i;  // column index of the current image
        int jk; // row    index of the kernel;
@@ -686,8 +683,7 @@ int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolorcmyk color){
     if (m<k)
         k = m;
     if (ye<k)
-        k = ye;
-    qDebug("%f KK",k);
+        k = ye;    
     c = (c-k)/(1-k);
     m = (m-k)/(1-k);
     ye = (ye-k)/(1-k);
@@ -743,10 +739,6 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
     //return ia;
 
     ImageAbstraction *newImage=new ImageAbstraction( QSize(xpercentage*width(),ypercentage*height()),format());//QImage::Format_RGB32
-
-    //qDebug("percentage %f,%f",xpercentage,ypercentage);
-    //qDebug("old size %i,%i",width(),height());
-    //qDebug("new size %i,%i",newImage->width(),newImage->height());
 
     for(int y=0;y<newImage->height();y++){
 
