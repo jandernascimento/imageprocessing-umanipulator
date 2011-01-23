@@ -10,6 +10,7 @@ class ImageAbstraction : public QImage
           explicit ImageAbstraction(const QString &fileName, const char *format = 0);
           explicit ImageAbstraction(const QSize &size, Format format);
           explicit ImageAbstraction(const QImage &im);
+          explicit ImageAbstraction(const ImageAbstraction &im);
           /** Pixels get/set **/
           QRgb* getPixel(int x, int y);
           int getPixelColorIntensity(enum ecolor color,int x, int y);
