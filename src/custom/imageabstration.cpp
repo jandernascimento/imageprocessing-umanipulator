@@ -336,9 +336,12 @@ ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
             r2 = k2->getPixelColorIntensity(ImageAbstraction::red,i,j);
             g2 = k2->getPixelColorIntensity(ImageAbstraction::green,i,j);
             b2 = k2->getPixelColorIntensity(ImageAbstraction::blue,i,j);
-            r=sqrt(pow(r1-r2,2)+pow(r2-r1,2));
-            g=sqrt(pow(g1-g2,2)+pow(g2-g1,2));
-            b=sqrt(pow(b1-b2,2)+pow(b2-b1,2));
+            //r=sqrt(pow(r1-r2,2)+pow(r2-r1,2));
+            //g=sqrt(pow(g1-g2,2)+pow(g2-g1,2));
+            //b=sqrt(pow(b1-b2,2)+pow(b2-b1,2));
+            r=abs(r1-r2);
+            g=abs(g1-g2);
+            b=abs(b2-b1);
 
             this->setPixel(i,j,r,g,b);
 
