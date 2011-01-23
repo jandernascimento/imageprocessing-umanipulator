@@ -174,6 +174,47 @@ void MainWindow::applyLoG(int dim, double sig){
 }
 void MainWindow::applyTEMP(){
     image->makeLaplacianFilter(5);
+
+    ImageAbstraction *k1=new ImageAbstraction(image->copy(0,0,image->width(),image->height()));
+    ImageAbstraction *k2=new ImageAbstraction(image->copy(0,0,image->width(),image->height()));
+
+    k1->makeGradFilterX(5,0);
+    k2->makeGradFilterY(5,0);
+
+
+    int r1,g1,b1,r2,g2,b2,r,g,b;
+    for (int i=0;i<image->height();++i)
+        for (int j=0; j<image->width();++j)
+        {
+            r1 = k1->getPixelColorIntensity(ImageAbstraction::red,i,j);
+            g1 = k1->getPixelColorIntensity(ImageAbstraction::green,i,j);
+            b1 = k1->getPixelColorIntensity(ImageAbstraction::blue,i,j);
+
+            r2 = k2->getPixelColorIntensity(ImageAbstraction::red,i,j);
+            g2 = k2->getPixelColorIntensity(ImageAbstraction::green,i,j);
+            b2 = k2->getPixelColorIntensity(ImageAbstraction::blue,i,j);
+            r=sqrt(pow(r1,2)+pow(r2,2));
+            g=sqrt(pow(g1,2)+pow(g2,2));
+            b=sqrt(pow(b1,2)+pow(b2,2));
+           // r=abs(r1)+abs(r2);
+            //g=abs(g1)+abs(g2);
+            //b=abs(b1)+abs(b2);
+
+            //if ((r+g+b)/3>128)
+                //image->setPixel(i,j,0,0,0);
+            //    image->setPixel(i,j,255,255,255);
+            //else
+                //image->setPixel(i,j,255,255,255);
+            //int SUM;
+            //if((r+g+b)>255) SUM=255;
+            //else SUM=0;
+
+
+            image->setPixel(i,j,255-r,255-g,255-b);
+
+        }
+
+    /*
     int r,g,b;
     for (int i=0;i<image->height();++i)
         for (int j=0; j<image->width();++j)
@@ -189,6 +230,8 @@ void MainWindow::applyTEMP(){
                 image->setPixel(i,j,0,0,0);
 
         }
+        */
+
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 

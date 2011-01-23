@@ -78,17 +78,7 @@ private:
     QMenu *teste;
     QToolBar *secondToolBar;
     QToolBar *thirdToolBar;
-    double scaleFactor;
-    int calculateNumberPaths(int size, float perc);
-    void findPaths(int * energy_matrix,int * vertical_paths,int id_path,int n_paths);
-    int findMinValue(int value1,int value2, int value3);
-    int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col);
-    int findMaxValue(int value1,int value2, int value3);
-    int findColumnMaxValue(int * energy_matrix,int lin,int prev_col,int col,int next_col);
-    void createEnergyMatrix(int * energy_matrix);
-    void printMatrix(int * matrix,int n_lin, int n_col);
-    void saveImage();
-    void openFile(void);
+    /** Menu Options **/
     void createMenu(void);
     void setupFileMenu(QMenu *menu);
     void setupViewMenu(QMenu *menu);
@@ -105,8 +95,21 @@ private:
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);
+
+    /** Other **/
+    double scaleFactor;
     void adjustScrollBar(QScrollBar *scrollBar, double factor);
     QAction* retrieveMenuOption(QString name, QMenu *menu);
+    void saveImage();
+    void openFile(void);
+
+    /** Intelligent Resizing **/
+    int calculateNumberPaths(int size, float perc);
+    void findPaths(int * energy_matrix,int * vertical_paths,int id_path,int n_paths);
+    int findMinValue(int value1,int value2, int value3);
+    int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col);
+    void createEnergyMatrix(int * energy_matrix);
+    void decreaseImage(int n_paths);
 };
 
 #endif
