@@ -1,22 +1,26 @@
 #include "mainwindow.h"
 #include "custom/imageabstration.h"
 #include <math.h>
+#include <ctime>
 
 int MainWindow::calculateNumberPaths(int size, float perc){
-    return (size-(round(size * perc)));
+    return size*(1-perc); //(size-(round(size * perc)));
 }
 
 void MainWindow::decreaseImage(int n_paths){
     int * paths=(int *) malloc(sizeof(int) * image->height() );
+    int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
+    ImageAbstraction *energyImage=image->copy();
+    energyImage->ApplyGradientMagnitude();
+    energyImage->ApplyFilterGreyScale();
+
     for(int i=0;i<n_paths;i++){
-        int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
-        ImageAbstraction *energyImage=image->copy();
-        energyImage->ApplyGradientMagnitude();
         createEnergyMatrix(energy_matrix,energyImage);
         findPaths(energy_matrix,paths,0,1,energyImage);
         image=image->scRemoveLine(paths,image->height(),1);
-        free(energy_matrix);
+        energyImage=energyImage->scRemoveLine(paths,energyImage->height(),1);
     }
+    free(energy_matrix);
     free(paths);
 }
 
@@ -40,15 +44,12 @@ void MainWindow::increaseImage(int n_paths){
 //reference: http://en.wikipedia.org/wiki/Seam_carving
 void MainWindow::applySeamCarving(float width,float height){    
     int n_paths;
-
-    //vertical seams
+    unsigned t0=clock();
     n_paths=calculateNumberPaths(image->width(),width);
-    qDebug("widht:%i-%f=%i",image->width(),width,n_paths);
     decreaseImage(n_paths);
 
     //horizontal seams
     n_paths=calculateNumberPaths(image->height(),height);
-    qDebug("height:%i-%f=%i",image->height(),height,n_paths);
     image=image->transposeLeftImage();
     decreaseImage(n_paths);
     image=image->transposeRightImage();
@@ -56,6 +57,7 @@ void MainWindow::applySeamCarving(float width,float height){
     //updating the image on the screen
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
     label->adjustSize();
+    qDebug("Total time:%i",clock()-t0);
 }
 
 void MainWindow::calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value){
@@ -102,6 +104,7 @@ void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * value
     int prev_column,next_column,lin;
     int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
     //image->setPixel(lin,col_min_value,255,0,0);
+
     //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
     calculatePrevAndNextColumn(&prev_column,&next_column,col_min_value);
     lin=image->height()-1;
@@ -143,7 +146,7 @@ void MainWindow::createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia){
     do{
         column=0;
         prev_column=column;
-        next_column=findMinValue(column+1,column+1,image->width()-1);
+        next_column=findMinValue(column+1,column+1,ia->width()-1);
         do{
             current_pixel   = ia->getPixelColorIntensity(ImageAbstraction::blue,line,column);
             neighbor_pixel1 = energy_matrix[ia->width()*prev_line+prev_column];
@@ -160,7 +163,7 @@ void MainWindow::createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia){
 
         line++;
         prev_line=line-1;
-    }while(line<image->height());
+    }while(line<ia->height());
 }
 
 int MainWindow::findMinValue(int value1,int value2, int value3){
