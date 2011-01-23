@@ -23,6 +23,8 @@ class ImageAbstraction : public QImage
           int getMaxColorValue(enum ecolor color);
           int getColorCounter(enum ecolor color,int level);
           int getMaxNumberColor(void);
+          ImageAbstraction* transposeLeftImage();
+          ImageAbstraction* transposeRightImage();
 
           /** Filter and masks **/
           void ApplyFilterGreyScale();

@@ -750,3 +750,30 @@ ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_lines,int
     return newImage;
 }
 
+//transpose the image 45 gradians on the left
+ImageAbstraction* ImageAbstraction::transposeLeftImage(){
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(height(),width()),format());
+
+    for(int col=0,newlin=this->width()-1;col<width();col++,newlin--)
+        for(int lin=0;lin<height();lin++){
+            newImage->setPixel(newlin,lin,
+                                getPixelColorIntensity(ImageAbstraction::red,lin,col),
+                                getPixelColorIntensity(ImageAbstraction::green,lin,col),
+                                getPixelColorIntensity(ImageAbstraction::blue,lin,col));
+        }
+    return newImage;
+}
+
+//transpose the image 45 gradians on the right
+ImageAbstraction* ImageAbstraction::transposeRightImage(){
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(height(),width()),format());
+
+    for(int lin=0,newcol=this->height()-1;lin<height();lin++,newcol--)
+        for(int col=0;col<width();col++){
+            newImage->setPixel(col,newcol,
+                                getPixelColorIntensity(ImageAbstraction::red,lin,col),
+                                getPixelColorIntensity(ImageAbstraction::green,lin,col),
+                                getPixelColorIntensity(ImageAbstraction::blue,lin,col));
+        }
+    return newImage;
+}
