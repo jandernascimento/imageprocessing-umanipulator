@@ -402,7 +402,7 @@ double* ImageAbstraction::makeGradFilterX(int dim, int kernelType)
     kernel[6] = -1;
     kernel[7] = 0;
     kernel[8] = 1;
-    ImageAbstraction::ApplyConvolution(3,kernel,'R');
+    ImageAbstraction::ApplyConvolution (3,kernel,'R');
     qDebug("END GRAD FILTER X");
     return kernel;
 }
@@ -520,6 +520,62 @@ int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType)
 
     //ImageAbstraction* imageCopy = new ImageAbstraction(this));
        //qDebug("W: %i H:%i",imageCopy->width(),imageCopy->height());
+       return 1;
+}
+int ImageAbstraction::ApplyConvolutionLaplacian(int dim, double* kernel, char kernelType){
+        for (int i=0;i<dim;++i)
+            for (int j=0;j<dim;++j)
+                qDebug("%f KERNEL", (double)(kernel[i*dim+j]));
+       int j;  // row    index of the current image
+       int i;  // column index of the current image
+       int jk; // row    index of the kernel;
+       int ik; // column index of the kernel;
+       int newval[3]; // new colors
+       int kernelCenteri; // index of the central column of the kernel
+       int kernelCenterj; // index of the central row of the kernel
+       double kernelTotalValue;
+       kernelCenteri = dim / 2;
+       kernelCenterj = dim / 2;
+       kernelTotalValue = 0.0;
+       for (j = 0; j < dim; j++)
+         for(i = 0; i < dim; i++)
+           kernelTotalValue += (double)(kernel[j*dim+i]);
+
+       if (kernelTotalValue<=0)
+           kernelTotalValue=1;
+       // convolution computation
+       for (j = 0; j < this->height(); j++) {
+         for (i = 0; i < this->width(); i++) {
+           newval[0] = 0;
+           newval[1] = 0;
+           newval[2] = 0;
+           for (jk = 0; jk < dim; jk++) {
+             for (ik = 0; ik < dim; ik++) {
+               int ii = i + ik - kernelCenteri;
+               int jj = j + jk - kernelCenterj;
+               if ((jj >= 0) && (jj <this->height() ) && (ii >= 0) && (ii < this->width()))
+               {
+                   newval[0] += getPixelColorIntensity(ImageAbstraction::red,jj,ii) * (double)(kernel[jk*dim+ik]);
+                   newval[1] += getPixelColorIntensity(ImageAbstraction::green,jj,ii) * (double)(kernel[jk*dim+ik]);
+                   newval[2] += getPixelColorIntensity(ImageAbstraction::blue,jj,ii) * (double)(kernel[jk*dim+ik]);
+               }
+             }
+           }
+           if (newval[0]<0)
+               newval[0] = 0;
+           if (newval[1]<0)
+               newval[1] = 0;
+           if (newval[2]<0)
+               newval[2] = 0;
+           if (newval[0]>255)
+               newval[0] = 255;
+           if (newval[1]>255)
+               newval[1] = 255;
+           if (newval[2]>255)
+               newval[2] = 255;
+           setPixel(j,i,newval[0],newval[1],newval[2]);
+         }
+       }
        return 1;
 }
 double ImageAbstraction::getMean()

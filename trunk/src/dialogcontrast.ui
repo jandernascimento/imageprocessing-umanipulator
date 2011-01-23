@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>244</width>
+    <width>250</width>
     <height>135</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Contrast Stretch</string>
   </property>
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">

@@ -48,6 +48,7 @@ class ImageAbstraction : public QImage
           void makeCustomKernel(int dim);
           double getMean();
           double getStd();
+          int ApplyConvolutionLaplacian(int dim, double* kernel, char kernelType);
 
 
     private:
