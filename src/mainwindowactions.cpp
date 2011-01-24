@@ -72,8 +72,8 @@ void MainWindow::saveas(void){
             filePath=file.absoluteFilePath();
             fileName=file.fileName();
             if (file.suffix()==NULL){
-                filePath = file.absoluteFilePath() + ".jpg";
-                fileName=file.fileName()+"jpg";
+                filePath = file.absoluteFilePath() + ".png";
+                fileName=file.fileName()+"png";
             }
 
             save();
