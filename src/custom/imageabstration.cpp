@@ -836,6 +836,37 @@ ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_lines,int
     return newImage;
 }
 
+ImageAbstraction* ImageAbstraction::scInsertLine(int* seam){
+
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(width()+1,height()),format());
+
+    for(int line=0;line<newImage->height();line++){
+        for(int column=0;column<newImage->width();column++){
+
+            newImage->setPixel(line,column,
+                                getPixelColorIntensity(ImageAbstraction::red,line,column),
+                                getPixelColorIntensity(ImageAbstraction::green,line,column),
+                                getPixelColorIntensity(ImageAbstraction::blue,line,column));
+
+            if(seam[line]==column){
+                newImage->setPixel(line,column,255,0,0);
+                                    //getPixelColorIntensity(ImageAbstraction::red,line,column-1),
+                                    //getPixelColorIntensity(ImageAbstraction::green,line,column-1),
+                                    //getPixelColorIntensity(ImageAbstraction::blue,line,column-1));
+            }else if(column>seam[line]){
+                newImage->setPixel(line,column,
+                                    getPixelColorIntensity(ImageAbstraction::red,line,column-1),
+                                    getPixelColorIntensity(ImageAbstraction::green,line,column-1),
+                                    getPixelColorIntensity(ImageAbstraction::blue,line,column-1));
+            }
+
+        }
+
+    }
+
+    return newImage;
+}
+
 //transpose the image 45 gradians on the left
 ImageAbstraction* ImageAbstraction::transposeLeftImage(){
     ImageAbstraction *newImage=new ImageAbstraction( QSize(height(),width()),format());
