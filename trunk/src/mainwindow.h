@@ -84,8 +84,7 @@ private:
     void setupFileMenu(QMenu *menu);
     void setupViewMenu(QMenu *menu);
     void setupImageMenu(QMenu *menu);
-    void setupImageFilterSubMenu(QMenu *menu);
-    void setupImageAdvancedSubMenu(QMenu *menu);
+    void setupImageFilterSubMenu(QMenu *menu);    
     void setupColorMenu(QMenu *menu);
     void setupHelpMenu(QMenu *menu);
     void configureOpen(QAction *act);
@@ -96,6 +95,8 @@ private:
     void configureSaveAs(QAction *act);
     void configureQuit(QAction *act);
     void configureHistogram(QAction *act);
+    void updateMenu(void);
+    void updateMenuOption(QMenu *menu);
 
     /** Other **/
     double scaleFactor;
