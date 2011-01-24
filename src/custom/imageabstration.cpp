@@ -350,11 +350,6 @@ ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
 }
 
 void ImageAbstraction::makeFilterGaussian(int dim, double sig){
-
-        //**//
-        //dim=5;
-        //sig=1.4;
-        //**//
         const double pi = 3.141592;
         const double ee = 2.718281;
         double* kernel = (double*)malloc(sizeof(double)*dim*dim);
@@ -369,7 +364,6 @@ void ImageAbstraction::makeFilterGaussian(int dim, double sig){
                 }
         ImageAbstraction::ApplyConvolution(dim, kernel, 'G');
         free(kernel);
-
 }
 void ImageAbstraction::makeLoG(int dim, double sig){
 
@@ -487,6 +481,7 @@ int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType)
             for (int j=0;j<dim;++j)
                 qDebug("%f KERNEL", (double)(kernel[i*dim+j]));
      */
+
        int j;  // row    index of the current image
        int i;  // column index of the current image
        int jk; // row    index of the kernel;

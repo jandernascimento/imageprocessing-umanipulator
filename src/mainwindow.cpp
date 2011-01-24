@@ -6,12 +6,14 @@
 #include <custom/imageabstration.h>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QShortcut>
 
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+
 
     ui->setupUi(this);
 
@@ -58,7 +60,7 @@ void MainWindow::createMenu(void){
     setupViewMenu(viewmenu);
 
     //image
-    imagemenu=menuBar()->addMenu("&Image");
+    imagemenu=menuBar()->addMenu("&Edit");
     setupImageMenu(imagemenu);
 
     //image/filter
@@ -138,10 +140,17 @@ void MainWindow::setupImageMenu(QMenu *menu){
 
     crop->setCheckable(true);
 
+
+    QAction *undo=new QAction(("Undo"), this);
+    connect(undo, SIGNAL(triggered()),this,SLOT(applyUndo()));
+    undo->setShortcut(Qt::CTRL+Qt::Key_Z);
+    menu->addAction(undo);
+
     crop->setIcon(QIcon(":crop"));
     fusion->setIcon(QIcon(":fusion"));
     blur->setIcon(QIcon(":blur"));
     resize->setIcon(QIcon(":resize"));
+    blur->setShortcut(Qt::CTRL+Qt::Key_B);
 
     ui->mainToolBar->addAction(crop);
     ui->mainToolBar->addAction(blur);
@@ -169,6 +178,12 @@ void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *LoG=new QAction(("LoG"), this);
     QAction *custom=new QAction(("Custom"), this);
     QAction *edgeDetection=new QAction(("Edge Detection"), this);
+
+
+    edgeDetection->setShortcut(Qt::CTRL+Qt::Key_E);
+    laplacian->setShortcut(Qt::CTRL+Qt::Key_L);
+    mean->setShortcut(Qt::CTRL+Qt::Key_M);
+
     connect(custom, SIGNAL(triggered()),this,SLOT(applyBlurCustomDialog()));
     connect(edgeDetection, SIGNAL(triggered()),this,SLOT(applyTEMP()));
     connect(mean, SIGNAL(triggered()),this,SLOT(applyMeanFilter()));
@@ -236,6 +251,7 @@ void MainWindow::configureQuit(QAction *act){
 
 void MainWindow::configureOpen(QAction *act){
     connect(act, SIGNAL(triggered()),this, SLOT(open()));
+
 }
 
 void MainWindow::configureSave(QAction *act){

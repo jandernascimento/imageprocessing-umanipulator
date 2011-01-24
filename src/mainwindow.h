@@ -61,6 +61,7 @@ public slots:
      void applySeamCarving(float width,float height);
      void zoomIn(void);
      void zoomOut(void);
+     void applyUndo();
 
 private:
     Ui::MainWindow *ui;
