@@ -43,9 +43,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addToolBar(secondToolBar);
     addToolBar(thirdToolBar);
-
+    this->image=NULL;
     //scrollArea->setWidget(label);
-
+    updateMenu();
 
 }
 
@@ -66,11 +66,6 @@ void MainWindow::createMenu(void){
     //image/filter
     QMenu *imagesubfilter=imagemenu->addMenu("&Filters");
     setupImageFilterSubMenu(imagesubfilter);
-
-    //image/advanced
-    imagemenu->addSeparator();
-    QMenu *imagesubadvanced=imagemenu->addMenu("&Advanced");
-    setupImageAdvancedSubMenu(imagesubadvanced);
 
     //color
     colormenu=menuBar()->addMenu("&Color");
@@ -132,7 +127,8 @@ void MainWindow::setupViewMenu(QMenu *menu){
 }
 
 void MainWindow::setupImageMenu(QMenu *menu){
-    //QAction *crop=new QAction(("&Crop"), this);
+
+    QAction *resizing=new QAction(("Intelligent resizing"), this);
     QAction *crop=new QAction(("&Crop"), this);
     QAction *blur=new QAction(("&Blur"), this);
     QAction *fusion=new QAction(("&Fusion"), this);
@@ -140,12 +136,13 @@ void MainWindow::setupImageMenu(QMenu *menu){
 
     crop->setCheckable(true);
 
-
     QAction *undo=new QAction(("Undo"), this);
-    connect(undo, SIGNAL(triggered()),this,SLOT(applyUndo()));
+
     undo->setShortcut(Qt::CTRL+Qt::Key_Z);
     menu->addAction(undo);
+    menu->addAction(resizing);
 
+    resizing->setIcon(QIcon(":intres"));
     crop->setIcon(QIcon(":crop"));
     fusion->setIcon(QIcon(":fusion"));
     blur->setIcon(QIcon(":blur"));
@@ -156,11 +153,14 @@ void MainWindow::setupImageMenu(QMenu *menu){
     ui->mainToolBar->addAction(blur);
     ui->mainToolBar->addAction(fusion);
     ui->mainToolBar->addAction(resize);
+    ui->mainToolBar->addAction(resizing);
 
     configureFusion(fusion);
     connect(blur, SIGNAL(triggered()),this,SLOT(applyBlur()));
     connect(crop, SIGNAL(triggered()),this,SLOT(applyCrop()));
     connect(resize, SIGNAL(triggered()),this,SLOT(applyScale()));
+    connect(resizing, SIGNAL(triggered()),this,SLOT(applyIntelligentResize()));
+    connect(undo, SIGNAL(triggered()),this,SLOT(applyUndo()));
 
 
     menu->addAction(crop);
@@ -178,7 +178,6 @@ void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *LoG=new QAction(("LoG"), this);
     QAction *custom=new QAction(("Custom"), this);
     QAction *edgeDetection=new QAction(("Edge Detection"), this);
-
 
     edgeDetection->setShortcut(Qt::CTRL+Qt::Key_E);
     laplacian->setShortcut(Qt::CTRL+Qt::Key_L);
@@ -199,18 +198,6 @@ void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     menu->addAction(edgeDetection);
     menu->addSeparator();
     menu->addAction(custom);
-}
-
-void MainWindow::setupImageAdvancedSubMenu(QMenu *menu){
-    QAction *resizing=new QAction(("Intelligent resizing"), this);
-    QAction *scissor=new QAction(("Intelligent scissor"), this);
-
-    menu->addAction(resizing);
-    menu->addAction(scissor);
-
-    connect(resizing, SIGNAL(triggered()),this,SLOT(applyIntelligentResize()));
-    resizing->setIcon(QIcon(":intres"));
-    secondToolBar->addAction(resizing);
 }
 
 void MainWindow::setupColorMenu(QMenu *menu){
@@ -324,6 +311,28 @@ QAction* MainWindow::retrieveMenuOption(QString option,QMenu *menu){
     return NULL;
 }
 
+void MainWindow::updateMenuOption(QMenu *menu){
+
+    QList<QAction *> menulist=menu->actions();
+
+    QListIterator<QAction *> li=QListIterator<QAction *>(menulist);
+
+    while(li.hasNext()){
+
+        QAction *mainmenu=li.next();
+
+        if(mainmenu->text()==QString("&Quit")
+            ||mainmenu->text()==QString("&Open...")){
+              continue;
+        }
+
+        mainmenu->setEnabled(this->image!=NULL);
+
+    }
+
+}
+
+
 void MainWindow::zoomIn(){
     qDebug("Zooming in");
     scaleImage(1.25);
@@ -357,4 +366,22 @@ void MainWindow::adjustScrollBar(QScrollBar *scrollBar, double factor)
                             + ((factor - 1) * scrollBar->pageStep()/2)));
 }
 
+void MainWindow::updateMenu(void){
 
+    this->updateMenuOption(this->imagemenu);
+    this->updateMenuOption(this->viewmenu);
+    this->updateMenuOption(this->filemenu);
+    this->updateMenuOption(this->colormenu);
+
+
+/*
+    QAction* action=retrieveMenuOption("&Blur",this->imagemenu);
+    action->setEnabled(this->image==NULL);
+    action=retrieveMenuOption("&Crop",this->imagemenu);
+    action->setEnabled(this->image==NULL);
+    action=retrieveMenuOption("&Fusion",this->imagemenu);
+    action->setEnabled(this->image==NULL);
+    action=retrieveMenuOption("&Resize",this->imagemenu);
+    action->setEnabled(this->image==NULL);
+*/
+}

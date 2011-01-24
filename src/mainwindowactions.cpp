@@ -33,6 +33,9 @@ void MainWindow::openFile(void){
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
     label->adjustSize();
     connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
+
+    updateMenu();
+
 }
 
 void MainWindow::open(void){
