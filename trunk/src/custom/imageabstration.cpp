@@ -320,8 +320,8 @@ ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
     ImageAbstraction *k1=this->copy();
     ImageAbstraction *k2=this->copy();
 
-    k1->makeGradFilterX(3,0);
-    k2->makeGradFilterY(3,0);
+    k1->makeGradFilterX(3);
+    k2->makeGradFilterY(3);
 
     int r1,g1,b1,r2,g2,b2,r,g,b;
     for (int i=0;i<this->height();++i)
@@ -363,7 +363,7 @@ void ImageAbstraction::makeFilterGaussian(int dim, double sig){
                         tmp2 = -1.0*(((i-center)*(i-center)+(j-center)*(j-center))/(2.0*sig*sig));
                         kernel[i*dim+j] = tmp1*pow(ee,tmp2);
                 }
-        ImageAbstraction::ApplyConvolution(dim, kernel, 'G');
+        ImageAbstraction::ApplyConvolution(dim, kernel);
         free(kernel);
 }
 void ImageAbstraction::makeLoG(int dim, double sig){
@@ -381,7 +381,7 @@ void ImageAbstraction::makeLoG(int dim, double sig){
                         tmp3 = -1.0*(((i-center)*(i-center)+(j-center)*(j-center))/(2.0*sig*sig));
                         kernel[i*dim+j] = tmp1*tmp2*pow(ee,tmp3);
                 }
-        ImageAbstraction::ApplyConvolution(dim, kernel, 'o');
+        ImageAbstraction::ApplyConvolution(dim, kernel);
         free(kernel);
 
 }
@@ -420,7 +420,7 @@ void ImageAbstraction::minMaxDouble(double* oldArr, double oldMin, double oldMax
     }
 }
 
-double* ImageAbstraction::makeGradFilterX(int dim, int kernelType)
+void ImageAbstraction::makeGradFilterX(int dim)
 {
     double* kernel = (double*)(malloc(sizeof(double)*dim*dim));
     kernel[0] = -1;
@@ -432,10 +432,10 @@ double* ImageAbstraction::makeGradFilterX(int dim, int kernelType)
     kernel[6] = -1;
     kernel[7] = 0;
     kernel[8] = 1;
-    ImageAbstraction::ApplyConvolution (3,kernel,'R');
-    return kernel;
+    ImageAbstraction::ApplyConvolution (3,kernel);
+    free(kernel);
 }
-double* ImageAbstraction::makeGradFilterY(int dim, int kernelType)
+void ImageAbstraction::makeGradFilterY(int dim)
 {
     double* kernel = (double*)(malloc(sizeof(double)*dim*dim));
     kernel[0] = 1;
@@ -447,11 +447,11 @@ double* ImageAbstraction::makeGradFilterY(int dim, int kernelType)
     kernel[6] = -1;
     kernel[7] = -1;
     kernel[8] = -1;
-    this->ApplyConvolution(3,kernel,'R');
+    this->ApplyConvolution(3,kernel);
 
-    return kernel;
+    free(kernel);
 }
-double* ImageAbstraction::makeLaplacianFilter(int dim)
+void ImageAbstraction::makeLaplacianFilter(int dim)
 {
     double* kernel = (double*)(malloc(sizeof(double)*dim*dim));
     if (dim==3)
@@ -465,18 +465,21 @@ double* ImageAbstraction::makeLaplacianFilter(int dim)
         kernel[6] = 0;
         kernel[7] = -1;
         kernel[8] = 0;
-        ImageAbstraction::ApplyConvolution(3,kernel,'R');
+        ImageAbstraction::ApplyConvolution(3,kernel);
     }
     else
     {
         for (int i=0;i<dim*dim;++i)
             kernel[i] = -1;
         kernel[12] = 24;
-        ImageAbstraction::ApplyConvolution(5,kernel,'R');
+        ImageAbstraction::ApplyConvolution(5,kernel);
     }
 
+    free(kernel);
+
 }
-int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType){
+
+int ImageAbstraction::ApplyConvolution(int dim, double* kernel){
         //minMaxDouble(kernel,-1,1,0,1,9);
     /*
         for (int i=0;i<dim;++i)
@@ -550,7 +553,8 @@ int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType)
 
        return 1;
 }
-int ImageAbstraction::ApplyConvolutionLaplacian(int dim, double* kernel, char kernelType){
+
+int ImageAbstraction::ApplyConvolutionLaplacian(int dim, double* kernel){
     /*
         for (int i=0;i<dim;++i)
             for (int j=0;j<dim;++j)
@@ -708,7 +712,7 @@ void ImageAbstraction::makeMeanFilter(int dim){
     for (int i=0; i<dim; ++i)
             for (int j=0; j<dim; ++j)
                     kernel[i*dim+j] = 1.0/(dim*dim);
-    ImageAbstraction::ApplyConvolution(dim,kernel,'M');
+    ImageAbstraction::ApplyConvolution(dim,kernel);
     free(kernel);
 
 }
@@ -719,7 +723,7 @@ void ImageAbstraction::makeCustomKernel(int dim){
     for (int i=0; i<dim; ++i)
             for (int j=0; j<dim; ++j)
                     kernel[i*dim+j] = 1.0;
-    ImageAbstraction::ApplyConvolution(dim,kernel,'M');
+    ImageAbstraction::ApplyConvolution(dim,kernel);
     free(kernel);
 
 }

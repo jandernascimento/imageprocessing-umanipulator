@@ -13,6 +13,7 @@ class DialogScale : public QDialog
 
 public:
     explicit DialogScale(QWidget *parent = 0);
+    explicit DialogScale(QString *title,QWidget *parent=0) ;
     ~DialogScale();
 
 public slots:

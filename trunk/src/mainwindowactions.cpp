@@ -165,7 +165,7 @@ void MainWindow::applyBlur(){
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applySetKernel(double* vals, int dim){
-    image->ApplyConvolution(dim,vals,'X');
+    image->ApplyConvolution(dim,vals);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 
@@ -242,9 +242,10 @@ void MainWindow::applyMeanFilter(){
 }
 
 void MainWindow::applyIntelligentResize(){
-    DialogScale *ds=new DialogScale(this);
+    DialogScale *ds=new DialogScale(new QString("Inteligent Resizing"),this);
     connect(ds,SIGNAL(ScaleFired(float,float)),this,SLOT(applyIntelligentResize(float,float)));
     ds->show();
+
 }
 
 void MainWindow::applyIntelligentResize(float width,float height){
@@ -283,12 +284,12 @@ void MainWindow::applyGradFilterX(){
    // kernel[0] = 1;
    // kernel[1] = 0;
    // kernel[2] = -1;
-    image->makeGradFilterX(3,0);
+    image->makeGradFilterX(3);
     //image->ApplyConvolutionLaplacian(0,kernel,'d');
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyGradFilterY(){
     qDebug("CLICKING ON GRAD Y");
-    image->makeGradFilterY(3,0);
+    image->makeGradFilterY(3);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
