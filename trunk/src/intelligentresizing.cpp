@@ -8,12 +8,12 @@ void MainWindow::decreaseImage(int n_paths){
     int * paths=(int *) malloc(sizeof(int) * image->height() );
     int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
     ImageAbstraction *energyImage=image->copy();
-    energyImage->ApplyGradientMagnitude();
-    energyImage->ApplyFilterGreyScale();
+    //energyImage->ApplyGradientMagnitude();
+    //energyImage->ApplyFilterGreyScale();
 
     for(int i=0;i<n_paths;i++){
         createEnergyMatrix(energy_matrix,energyImage);
-        findPaths(energy_matrix,paths,0,1,energyImage);
+        findPath(energy_matrix,paths,energyImage);
         image=image->scRemoveLine(paths,image->height(),1);
         energyImage=energyImage->scRemoveLine(paths,energyImage->height(),1);
     }
@@ -21,15 +21,16 @@ void MainWindow::decreaseImage(int n_paths){
     free(paths);
 }
 
-void MainWindow::findPaths(int * energy_matrix,int * vertical_paths,int id_path,int n_paths,ImageAbstraction *ia){
+void MainWindow::findPath(int * energy_matrix,int * path,ImageAbstraction *ia){
+    int prev_column,next_column,lin;
     int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
     //image->setPixel(lin,col_min_value,255,0,0);
     //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
-    vertical_paths[n_paths*(ia->height()-1)+id_path]=col_min_value;
+    lin=ia->height()-1;
+    path[(ia->height()-1)]=col_min_value;
     //
 
     //build the path, from mininum value up, with its neighbors
-    int prev_column,next_column;
     for(int lin=ia->height()-2;lin>=0;lin--){
         calculatePrevAndNextColumn(&prev_column,&next_column,col_min_value);
 
@@ -37,41 +38,38 @@ void MainWindow::findPaths(int * energy_matrix,int * vertical_paths,int id_path,
 
         //image->setPixel(lin,col_min_value,255,0,0);
         //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
-        vertical_paths[n_paths*lin+id_path]=col_min_value;
+        path[lin]=col_min_value;
     }
 
 }
 
 //******************** INCREASING METHODS *****************************//
-/*
 void MainWindow::increaseImage(int n_paths){
     int * path=(int *) malloc(sizeof(int) * image->height() );
-    int * values_new_path=(int *) malloc(sizeof(int) * image->height() );
+    //int * values_new_path=(int *) malloc(sizeof(int) * image->height() );
+    int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
+    ImageAbstraction *energyImage=image->copy();
+    //energyImage->ApplyGradientMagnitude();
     for(int i=0;i<n_paths;i++){
-        int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
-        ImageAbstraction *energyImage=image->copy();
-        //energyImage->ApplyGradientMagnitude();
-        //createEnergyMatrix(energy_matrix,energyImage);
-        createEnergyMatrix(energy_matrix,image);
-        printMatrix(energy_matrix,image->height(),image->width());
+        createEnergyMatrix(energy_matrix,energyImage);
         //findAndDuplicatePath(energy_matrix,path,values_new_path,energyImage);
         //image=image->scRemoveLine(path,image->height(),1);
-        //printMatrix(values_new_path,image->height(),1);
-        free(energy_matrix);
+        //energyImage=energyImage->scRemoveLine(paths,energyImage->height(),1);
     }
     free(path);
-    free(values_new_path);
-}*/
+    //free(values_new_path);
+    free(energy_matrix);
+}
 
 void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * values_new_path,ImageAbstraction *ia){
     int prev_column,next_column,lin;
     int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
     //image->setPixel(lin,col_min_value,255,0,0);
     //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
-    calculatePrevAndNextColumn(&prev_column,&next_column,col_min_value);
     lin=ia->height()-1;
     path[lin]=col_min_value;
     //******* SEE IF WHEN THERE IS ONLY ONE NEIGHBOR MATTER ******** //
+    calculatePrevAndNextColumn(&prev_column,&next_column,col_min_value);
     values_new_path[lin]=(energy_matrix[ia->width()*(lin)+prev_column]+
                          energy_matrix[ia->width()*(lin)+col_min_value]+
                          energy_matrix[ia->width()*(lin)+next_column]) / 3;
@@ -92,22 +90,33 @@ void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * value
 }
 
 //****************** GENERAL METHODS ****************************//
-int MainWindow::calculateNumberPaths(int size, float perc){
-    return (size-(round(size * perc)));
-}
-
 //reference: http://en.wikipedia.org/wiki/Seam_carving
 void MainWindow::applySeamCarving(float width,float height){    
     int n_paths;
     unsigned t0=clock();
-    n_paths=calculateNumberPaths(image->width(),width);
-    decreaseImage(n_paths);
+
+    //vertical seams
+    if (width>1){
+        n_paths=(round(image->width() * (width-1)));
+        //increaseImage(n_paths);
+    }
+    else{
+        n_paths=(image->width()-(round(image->width() * width)));
+        decreaseImage(n_paths);
+    }
+    qDebug("width:%i - %f = %i",image->width(),width,n_paths);
 
     //horizontal seams
-    n_paths=calculateNumberPaths(image->height(),height);
-    image=image->transposeLeftImage();
-    decreaseImage(n_paths);
-    image=image->transposeRightImage();
+    if (height>1)
+        n_paths=(round(image->height() * (height-1)));
+    else{
+        n_paths=(image->height()-(round(image->height() * height)));
+        image=image->transposeLeftImage();
+        decreaseImage(n_paths);
+        image=image->transposeRightImage();
+    }
+    qDebug("height:%i - %f = %i",image->height(),height,n_paths);
+
 
     //updating the image on the screen
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
