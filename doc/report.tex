@@ -26,7 +26,7 @@
 		By definition, a filter is a device or process which removes some unwanted features from an image (more precisely, form a signal).
 		low-pass and high-pass filters are regarded as  classic examples of filters in image processing field. Generally, filters are used to be convolved 
 		(the convolution is described in the next part) with an image in order to produce a new, modified image. This new image, in turn, could
-		be used for some other processings. The next subsection will introduce the convolution and its basics.
+		be used for some other processing. The next subsection will introduce the convolution and its basics.
 		
 		\subsubsection{Convolution}
 
@@ -184,7 +184,7 @@ most of the tested images.
 	A color space is a model by which the color are represented by a few numbers, typically three or four. Using primary colors, a vast variety of colors could be made. Two well-known models are RGB and CYMK.      
 
 	\subsection{RGB}
-		In RGB model red, green and blue lights areadded together to make a wide range of colors. This model is generally used in electronic systems such as CRTs and LCDs. In case of an 8-bit value for each color, more than 16 million different colors
+		In RGB model red, green and blue lights are added together to make a wide range of colors. This model is generally used in electronic systems such as CRTs and LCDs. In case of an 8-bit value for each color, more than 16 million different colors
 		could be made using this model. The RGB model is considered as an additive model, which means the white color is a result of combination of all lights while black is a result of absence of all the lights.
 	
 
@@ -195,7 +195,7 @@ most of the tested images.
 
 	\subsection{Gray scale conversion}
 
-		In order to convert an image to gray scale from an RGB image to gray scale, we need to consider how far a pixel is from the black color. To achieve this goal, one can substitue all the colors of a pixel with the average of the three colors. Using this method, a pure black pixel would remain black, and a white pixel would still remain white. Other pixels, however, would have a gray view between black and white.
+		In order to convert an image to gray scale from an RGB image to gray scale, we need to consider how far a pixel is from the black color. To achieve this goal, one can substitute all the colors of a pixel with the average of the three colors. Using this method, a pure black pixel would remain black, and a white pixel would still remain white. Other pixels, however, would have a gray view between black and white.
 
 \section{Cropping}
 
@@ -240,7 +240,7 @@ most of the tested images.
 	  \item Nearest neighbor interpolation
 	  \item Linear interpolation
 	  \item Bilinear interpolation
-	  \item Bicubic interpolation
+	  \item Bi-cubic interpolation
 	\end{itemize}
 
 	The adopted algorithm is \textbf{Bilinear interpolation}  due to its speed and simplicity.
@@ -292,21 +292,21 @@ A more realistic example would be Figure \ref{bilinear3}.
 	 f_v(p)=color(A)*\frac{distance(P,C)}{distance(A,C)}+color(C)*\frac{distance(A,P)}{distance(A,C)}
 	\end{equation}
 
-	Combibing these two approaches, we have the bilinear interpolation.
+	Combining these two approaches, we have the bilinear interpolation.
 
 	
 \section{Histogram}
 
 	\subsection{Color histogram}
 
-		The histogram is an important tool when dealing with image analysis. It shows the color distribuition of a certain image regarding to its 
+		The histogram is an important tool when dealing with image analysis. It shows the color distribution of a certain image regarding to its 
 		color \textit{spectrum}.
 			
-		The histogram is represented in a cartesian, where \textit{x} axis is the 
+		The histogram is represented in a Cartesian, where \textit{x} axis is the 
 		color \textit{spectrum} and \textit{y} represents the number of pixels.
 
 		We may use two techniques
-		to represent colorful images, either by summing all the colors into a single histogram, or create a differente histogram for each color.
+		to represent colorful images, either by summing all the colors into a single histogram, or create a different histogram for each color.
 		
 
 	\subsection{Normalization}
@@ -344,7 +344,7 @@ A more realistic example would be Figure \ref{bilinear3}.
 		    	PNG & Windows Bitmap \\ \hline
 			PNG & Portable Network Graphics\\ \hline
 			PBM & Portable Bitmap\\ \hline
-			PGM & Portable Graymap\\ \hline
+			PGM & Portable Gray map\\ \hline
 			PPM & Portable Pixmap\\ \hline
 			TIFF & Tagged Image File Format\\ \hline
 			XBM & X11 Bitmap\\ \hline
