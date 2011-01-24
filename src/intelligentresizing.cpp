@@ -4,21 +4,17 @@
 #include <ctime>
 
 //******************** DECREASING METHODS *****************************//
-void MainWindow::decreaseImage(int n_paths){
-    int * paths=(int *) malloc(sizeof(int) * image->height() );
-    int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
+void MainWindow::decreaseImage(int n_paths,int * energy_matrix,int * path){
     ImageAbstraction *energyImage=image->copy();
-    //energyImage->ApplyGradientMagnitude();
-    //energyImage->ApplyFilterGreyScale();
+    energyImage->ApplyGradientMagnitude();
+    energyImage->ApplyFilterGreyScale();
 
     for(int i=0;i<n_paths;i++){
         createEnergyMatrix(energy_matrix,energyImage);
-        findPath(energy_matrix,paths,energyImage);
-        image=image->scRemoveLine(paths,image->height(),1);
-        energyImage=energyImage->scRemoveLine(paths,energyImage->height(),1);
+        findPath(energy_matrix,path,energyImage);
+        image=image->scRemoveLine(path,image->height(),1);
+        energyImage=energyImage->scRemoveLine(path,energyImage->height(),1);
     }
-    free(energy_matrix);
-    free(paths);
 }
 
 void MainWindow::findPath(int * energy_matrix,int * path,ImageAbstraction *ia){
@@ -44,22 +40,38 @@ void MainWindow::findPath(int * energy_matrix,int * path,ImageAbstraction *ia){
 }
 
 //******************** INCREASING METHODS *****************************//
-void MainWindow::increaseImage(int n_paths){
-    int * path=(int *) malloc(sizeof(int) * image->height() );
-    //int * values_new_path=(int *) malloc(sizeof(int) * image->height() );
-    int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
+void MainWindow::increaseImage(int n_paths,int * energy_matrix,int * path){
     ImageAbstraction *energyImage=image->copy();
-    //energyImage->ApplyGradientMagnitude();
+    energyImage->ApplyGradientMagnitude();
+    energyImage->ApplyFilterGreyScale();
+    //find just one path and duplicate it n times
+    findPath(energy_matrix,path,energyImage);
+    for(int i=0;i<n_paths;i++){
+        //call jander function
+        //image=image->;
+    }
+}
+
+/*void MainWindow::increaseImage(int n_paths,int * energy_matrix,int * path){
+    ImageAbstraction *energyImage=image->copy();
+    energyImage->ApplyGradientMagnitude();
+    energyImage->ApplyFilterGreyScale();
+
+    //array of paths that will be first removed and them duplicated
+    int * removal_paths = (int *) malloc(sizeof(int) * image->height() * n_paths );
+
     for(int i=0;i<n_paths;i++){
         createEnergyMatrix(energy_matrix,energyImage);
-        //findAndDuplicatePath(energy_matrix,path,values_new_path,energyImage);
-        //image=image->scRemoveLine(path,image->height(),1);
-        //energyImage=energyImage->scRemoveLine(paths,energyImage->height(),1);
+        findPath(energy_matrix,path,energyImage);
+        removal_paths[i]=*path;//storing the removal paths in order to use them to be duplicated later
+        //printMatrix(energy_matrix,image->height(),);
+        saveMatrixInFile("/home/raquel/energy_matrix.csv",energy_matrix,energyImage->width(),energyImage->height());
+        energyImage=energyImage->scRemoveLine(path,energyImage->height(),1);
     }
-    free(path);
-    //free(values_new_path);
-    free(energy_matrix);
-}
+    saveMatrixInFile("/home/raquel/removal_paths.csv",removal_paths,n_paths,image->height());
+
+    free(removal_paths);
+}*/
 
 void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * values_new_path,ImageAbstraction *ia){
     int prev_column,next_column,lin;
@@ -94,15 +106,17 @@ void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * value
 void MainWindow::applySeamCarving(float width,float height){    
     int n_paths;
     unsigned t0=clock();
+    int * path=(int *) malloc(sizeof(int) * image->height() );
+    int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
 
     //vertical seams
     if (width>1){
         n_paths=(round(image->width() * (width-1)));
-        //increaseImage(n_paths);
+        increaseImage(n_paths,energy_matrix,path);
     }
     else{
         n_paths=(image->width()-(round(image->width() * width)));
-        decreaseImage(n_paths);
+        decreaseImage(n_paths,energy_matrix,path);
     }
     qDebug("width:%i - %f = %i",image->width(),width,n_paths);
 
@@ -112,11 +126,14 @@ void MainWindow::applySeamCarving(float width,float height){
     else{
         n_paths=(image->height()-(round(image->height() * height)));
         image=image->transposeLeftImage();
-        decreaseImage(n_paths);
+        decreaseImage(n_paths,energy_matrix,path);
         image=image->transposeRightImage();
     }
     qDebug("height:%i - %f = %i",image->height(),height,n_paths);
 
+
+    free(path);
+    free(energy_matrix);
 
     //updating the image on the screen
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
@@ -209,6 +226,22 @@ void MainWindow::printMatrix(int * matrix,int n_lin, int n_col){
             qDebug("lin,%i,%i",lin,current_pixel);
         }
     }
+}
+
+void MainWindow::saveMatrixInFile(char * nome_file,int * matrix,int n_cols,int n_lines){
+    FILE *fp;
+    fp = fopen(nome_file,"w");
+    fprintf(fp, "X,");
+    for (int col = 0; col < n_cols; col++)
+        fprintf(fp, "%i,",col);
+    for (int lin = 0; lin < n_lines; lin++){
+        fprintf(fp, "\n%i,",lin);
+        for (int col = 0; col < n_cols; col++) {
+            int current_pixel   = matrix[n_cols*lin+col];
+            fprintf(fp, "%i,", current_pixel);
+        }
+    }
+    fclose(fp) ;
 }
 
 
