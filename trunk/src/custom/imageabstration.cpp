@@ -849,10 +849,10 @@ ImageAbstraction* ImageAbstraction::scInsertLine(int* seam){
                                 getPixelColorIntensity(ImageAbstraction::blue,line,column));
 
             if(seam[line]==column){
-                newImage->setPixel(line,column,255,0,0);
-                                    //getPixelColorIntensity(ImageAbstraction::red,line,column-1),
-                                    //getPixelColorIntensity(ImageAbstraction::green,line,column-1),
-                                    //getPixelColorIntensity(ImageAbstraction::blue,line,column-1));
+                newImage->setPixel(line,column,
+                                    (getPixelColorIntensity(ImageAbstraction::red,line,column-1)+getPixelColorIntensity(ImageAbstraction::red,line,column+1))/2,
+                                    (getPixelColorIntensity(ImageAbstraction::green,line,column-1)+getPixelColorIntensity(ImageAbstraction::green,line,column+1))/2,
+                                    (getPixelColorIntensity(ImageAbstraction::blue,line,column-1)+getPixelColorIntensity(ImageAbstraction::blue,line,column+1))/2);
             }else if(column>seam[line]){
                 newImage->setPixel(line,column,
                                     getPixelColorIntensity(ImageAbstraction::red,line,column-1),
