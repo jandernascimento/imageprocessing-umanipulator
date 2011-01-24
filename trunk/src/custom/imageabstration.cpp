@@ -306,7 +306,8 @@ void ImageAbstraction::UpdateColorRange(){
             colorcounterred[red]++;
             colorcountergreen[green]++;
             colorcounterblue[blue]++;        
-
+            //ImageAbstraction* imageCopy = new ImageAbstraction(this));
+               //qDebug("W: %i H:%i",imageCopy->width(),imageCopy->height());
         }
     }
 }
@@ -322,7 +323,6 @@ ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
     k1->makeGradFilterX(3,0);
     k2->makeGradFilterY(3,0);
 
-
     int r1,g1,b1,r2,g2,b2,r,g,b;
     for (int i=0;i<this->height();++i)
         for (int j=0; j<this->width();++j)
@@ -334,9 +334,7 @@ ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
             r2 = k2->getPixelColorIntensity(ImageAbstraction::red,i,j);
             g2 = k2->getPixelColorIntensity(ImageAbstraction::green,i,j);
             b2 = k2->getPixelColorIntensity(ImageAbstraction::blue,i,j);
-            //r=sqrt(pow(r1-r2,2)+pow(r2-r1,2));
-            //g=sqrt(pow(g1-g2,2)+pow(g2-g1,2));
-            //b=sqrt(pow(b1-b2,2)+pow(b2-b1,2));
+
             r=abs(r1-r2);
             g=abs(g1-g2);
             b=abs(b2-b1);
@@ -344,6 +342,9 @@ ImageAbstraction* ImageAbstraction::ApplyGradientMagnitude(){
             this->setPixel(i,j,r,g,b);
 
         }
+
+    delete(k1);
+    delete(k2);
 
     return this;
 
@@ -446,7 +447,8 @@ double* ImageAbstraction::makeGradFilterY(int dim, int kernelType)
     kernel[6] = -1;
     kernel[7] = -1;
     kernel[8] = -1;
-    ImageAbstraction::ApplyConvolution(3,kernel,'R');
+    this->ApplyConvolution(3,kernel,'R');
+
     return kernel;
 }
 double* ImageAbstraction::makeLaplacianFilter(int dim)
@@ -546,8 +548,6 @@ int ImageAbstraction::ApplyConvolution(int dim, double* kernel, char kernelType)
             for (int j=0;j<this->width();++j)
                 setPixel(i,j,tmpImageR[j*this->height()+i],tmpImageG[j*this->height()+i],tmpImageB[j*this->height()+i]);
 
-    //ImageAbstraction* imageCopy = new ImageAbstraction(this));
-       //qDebug("W: %i H:%i",imageCopy->width(),imageCopy->height());
        return 1;
 }
 int ImageAbstraction::ApplyConvolutionLaplacian(int dim, double* kernel, char kernelType){
@@ -670,9 +670,6 @@ int ImageAbstraction::RGB2CMYK(int x, int y, enum ecolorcmyk color){
     c = 1-(r/255.0);
     m = 1-(g/255.0);
     ye = 1-(b/255.0);
-    //qDebug("%f CC",c);
-    //qDebug("%f CC",m);
-    //qDebug("%f CC",ye);
     if (c<k)
         k = c;
     if (m<k)
@@ -803,7 +800,7 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
 
 ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_columns){
 
-    ImageAbstraction *newImage=new ImageAbstraction( QSize(width()-total_columns,height()),format());//QImage::Format_RGB32
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(width()-total_columns,height()),format());
 
     for(int y=0;y<height();y++){
 
@@ -864,8 +861,22 @@ ImageAbstraction* ImageAbstraction::scInsertLine(int* seam){
 
 //transpose the image 45 gradians on the left
 ImageAbstraction* ImageAbstraction::transposeLeftImage(){
-    ImageAbstraction *newImage=new ImageAbstraction( QSize(height(),width()),format());
+    ImageAbstraction *newImage=new ImageAbstraction(QSize(height(),width()),format());
 
+    for(int line=0;line<height();line++){
+
+        for(int column=0;column<width();column++){
+
+            newImage->setPixel(column,line,
+                                getPixelColorIntensity(ImageAbstraction::red,line,column),
+                                getPixelColorIntensity(ImageAbstraction::green,line,column),
+                                getPixelColorIntensity(ImageAbstraction::blue,line,column));
+
+        }
+
+    }
+
+    /*
     for(int col=0,newlin=this->width()-1;col<width();col++,newlin--)
         for(int lin=0;lin<height();lin++){
             newImage->setPixel(newlin,lin,
@@ -873,13 +884,30 @@ ImageAbstraction* ImageAbstraction::transposeLeftImage(){
                                 getPixelColorIntensity(ImageAbstraction::green,lin,col),
                                 getPixelColorIntensity(ImageAbstraction::blue,lin,col));
         }
+    */
+
     return newImage;
 }
 
 //transpose the image 45 gradians on the right
 ImageAbstraction* ImageAbstraction::transposeRightImage(){
-    ImageAbstraction *newImage=new ImageAbstraction( QSize(height(),width()),format());
+    ImageAbstraction *newImage=new ImageAbstraction(QSize(height(),width()),format());
 
+
+    for(int line=0;line<height();line++){
+
+        for(int column=0;column<width();column++){
+
+            newImage->setPixel(column,line,
+                                getPixelColorIntensity(ImageAbstraction::red,line,column),
+                                getPixelColorIntensity(ImageAbstraction::green,line,column),
+                                getPixelColorIntensity(ImageAbstraction::blue,line,column));
+
+        }
+
+    }
+
+    /*
     for(int lin=0,newcol=this->height()-1;lin<height();lin++,newcol--)
         for(int col=0;col<width();col++){
             newImage->setPixel(col,newcol,
@@ -887,5 +915,7 @@ ImageAbstraction* ImageAbstraction::transposeRightImage(){
                                 getPixelColorIntensity(ImageAbstraction::green,lin,col),
                                 getPixelColorIntensity(ImageAbstraction::blue,lin,col));
         }
+    */
+
     return newImage;
 }

@@ -8,13 +8,19 @@ void MainWindow::decreaseImage(int n_paths,int * energy_matrix,int * path){
     ImageAbstraction *energyImage=image->copy();
     energyImage->ApplyGradientMagnitude();
     energyImage->ApplyFilterGreyScale();
+    ImageAbstraction *iatmp;
 
     for(int i=0;i<n_paths;i++){
         createEnergyMatrix(energy_matrix,energyImage);
         findPath(energy_matrix,path,path,0,1,energyImage);
+        iatmp=image;
         image=image->scRemoveLine(path,1);
+        delete(iatmp);
+        iatmp=energyImage;
         energyImage=energyImage->scRemoveLine(path,1);
+        delete(iatmp);
     }
+    delete(energyImage);
 }
 
 void MainWindow::findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths, ImageAbstraction *ia){
@@ -105,41 +111,53 @@ void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * value
 //****************** GENERAL METHODS ****************************//
 //reference: http://en.wikipedia.org/wiki/Seam_carving
 void MainWindow::applySeamCarving(float width,float height){    
-    int n_paths;
+    int n_w_paths,n_h_paths;
     unsigned t0=clock();
-    int * path=(int *) malloc(sizeof(int) * image->height() );
+    int * path=(int *) malloc(sizeof(int) * image->height() * image->width());
     int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
+    ImageAbstraction *itmp;
 
     //vertical seams
     if (width>1){
-        n_paths=(round(image->width() * (width-1)));
-        increaseImage(n_paths,energy_matrix,path);
+        qDebug("SC: Width: Enlarging image");
+        n_w_paths=round(image->width() * (width-1));
+        increaseImage(n_w_paths,energy_matrix,path);
+    }else if (width<1){
+        qDebug("SC: Width: Reducing image");
+        n_w_paths=round(image->width() * (1-width));
+        decreaseImage(n_w_paths,energy_matrix,path);
     }
-    else{
-        n_paths=(image->width()-(round(image->width() * width)));
-        decreaseImage(n_paths,energy_matrix,path);
-    }
-    qDebug("width:%i - %f = %i",image->width(),width,n_paths);
+
+    itmp=image;
+    image=image->transposeLeftImage();
+    delete(itmp);
 
     //horizontal seams
-    if (height>1)
-        n_paths=(round(image->height() * (height-1)));
-    else{
-        n_paths=(image->height()-(round(image->height() * height)));
-        image=image->transposeLeftImage();
-        decreaseImage(n_paths,energy_matrix,path);
-        image=image->transposeRightImage();
-    }
-    qDebug("height:%i - %f = %i",image->height(),height,n_paths);
+    if (height>1){
+        qDebug("SC: Height: Enlarging image");
+        n_h_paths=round(image->height() * (height-1));
+        increaseImage(n_h_paths,energy_matrix,path);
+    }else{
+        n_h_paths=round(image->height() * (1-height));
+        qDebug("SC: Height: Reducing image");
+        qDebug("SC: Height: Reducing image: total paths:%i",n_h_paths);
+        decreaseImage(n_h_paths,energy_matrix,path);
 
+        itmp=image;
+        image=image->transposeRightImage();
+        delete(itmp);
+
+    }
+
+    //updating the image on the screen
+
+    this->updateImageReference(image);
+
+    qDebug("Total time:%i",clock()-t0);
 
     free(path);
     free(energy_matrix);
 
-    //updating the image on the screen
-    label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
-    label->adjustSize();
-    qDebug("Total time:%i",clock()-t0);
 }
 
 void MainWindow::calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value){
