@@ -150,7 +150,6 @@ void MainWindow::applyCrop(){
         label->setCursor(Qt::ArrowCursor);
     }
 
-
 }
 
 void MainWindow::applyGrey(){
@@ -235,10 +234,9 @@ void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
 
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
 
+    label->adjustSize();
 }
 void MainWindow::applyMeanFilter(){
-    qDebug("CLICKING ON MEAN");
-    ImageAbstraction* copy = image->copy();
     image->makeMeanFilter(3);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }

@@ -346,17 +346,12 @@ void MainWindow::zoomOut(){
 void MainWindow::scaleImage(double factor)
 //! [23] //! [24]
 {
-
-    //Q_ASSERT(label->pixmap());
     scaleFactor *= factor;
 
     label->resize(scaleFactor * label->pixmap()->size());
 
     adjustScrollBar(scrollArea->horizontalScrollBar(), factor);
     adjustScrollBar(scrollArea->verticalScrollBar(), factor);
-
-    //zoomInAct->setEnabled(scaleFactor < 3.0);
-    //zoomOutAct->setEnabled(scaleFactor > 0.333);
 
 }
 
@@ -373,15 +368,16 @@ void MainWindow::updateMenu(void){
     this->updateMenuOption(this->filemenu);
     this->updateMenuOption(this->colormenu);
 
+}
 
-/*
-    QAction* action=retrieveMenuOption("&Blur",this->imagemenu);
-    action->setEnabled(this->image==NULL);
-    action=retrieveMenuOption("&Crop",this->imagemenu);
-    action->setEnabled(this->image==NULL);
-    action=retrieveMenuOption("&Fusion",this->imagemenu);
-    action->setEnabled(this->image==NULL);
-    action=retrieveMenuOption("&Resize",this->imagemenu);
-    action->setEnabled(this->image==NULL);
-*/
+void MainWindow::updateImageReference(ImageAbstraction *im){
+
+    if(im!=this->image){
+        ImageAbstraction *itmp=this->image;
+        this->image=im;
+        delete(itmp);
+    }
+    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+    label->adjustSize();
+
 }

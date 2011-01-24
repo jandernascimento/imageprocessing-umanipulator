@@ -97,6 +97,7 @@ private:
     void configureHistogram(QAction *act);
     void updateMenu(void);
     void updateMenuOption(QMenu *menu);
+    void updateImageReference(ImageAbstraction *im);
 
     /** Other **/
     double scaleFactor;
