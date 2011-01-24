@@ -11,19 +11,20 @@ void MainWindow::decreaseImage(int n_paths,int * energy_matrix,int * path){
 
     for(int i=0;i<n_paths;i++){
         createEnergyMatrix(energy_matrix,energyImage);
-        findPath(energy_matrix,path,energyImage);
-        image=image->scRemoveLine(path,image->height(),1);
-        energyImage=energyImage->scRemoveLine(path,energyImage->height(),1);
+        findPath(energy_matrix,path,path,0,1,energyImage);
+        image=image->scRemoveLine(path,1);
+        energyImage=energyImage->scRemoveLine(path,1);
     }
 }
 
-void MainWindow::findPath(int * energy_matrix,int * path,ImageAbstraction *ia){
+void MainWindow::findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths, ImageAbstraction *ia){
     int prev_column,next_column,lin;
     int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
     //image->setPixel(lin,col_min_value,255,0,0);
     //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
     lin=ia->height()-1;
-    path[(ia->height()-1)]=col_min_value;
+    path[lin]=col_min_value;
+    removal_paths[n_paths*lin+id_path]=col_min_value;
     //
 
     //build the path, from mininum value up, with its neighbors
@@ -35,6 +36,7 @@ void MainWindow::findPath(int * energy_matrix,int * path,ImageAbstraction *ia){
         //image->setPixel(lin,col_min_value,255,0,0);
         //energy_matrix[image->width()*lin+col_min_value]= INT_MAX;
         path[lin]=col_min_value;
+        removal_paths[n_paths*lin+id_path]=col_min_value;
     }
 
 }
@@ -44,33 +46,32 @@ void MainWindow::increaseImage(int n_paths,int * energy_matrix,int * path){
     ImageAbstraction *energyImage=image->copy();
     energyImage->ApplyGradientMagnitude();
     energyImage->ApplyFilterGreyScale();
-    //find just one path and duplicate it n times
-    findPath(energy_matrix,path,energyImage);
+
+    //find the paths that will be removed at the copied image and duplicated at the original image
+    int * removal_paths = (int *) malloc(sizeof(int) * image->height() * n_paths );
     for(int i=0;i<n_paths;i++){
-        //call jander function
-        //image=image->;
+        createEnergyMatrix(energy_matrix,energyImage);
+        findPath(energy_matrix,path,removal_paths,i,n_paths,energyImage);
+        //saveMatrixInFile("/home/raquel/energy_matrix.csv",energy_matrix,energyImage->width(),energyImage->height());
+        //saveMatrixInFile("/home/raquel/removal_paths.csv",removal_paths,n_paths,energyImage->height());
+        image=image->scInsertLine(path);
+        energyImage=energyImage->scInsertLine(path);
     }
+
+
+    free(removal_paths);
 }
 
 /*void MainWindow::increaseImage(int n_paths,int * energy_matrix,int * path){
     ImageAbstraction *energyImage=image->copy();
     energyImage->ApplyGradientMagnitude();
     energyImage->ApplyFilterGreyScale();
-
-    //array of paths that will be first removed and them duplicated
-    int * removal_paths = (int *) malloc(sizeof(int) * image->height() * n_paths );
-
+    //find just one path and duplicate it n times
+    createEnergyMatrix(energy_matrix,energyImage);
+    findPath(energy_matrix,path,energyImage);
     for(int i=0;i<n_paths;i++){
-        createEnergyMatrix(energy_matrix,energyImage);
-        findPath(energy_matrix,path,energyImage);
-        removal_paths[i]=*path;//storing the removal paths in order to use them to be duplicated later
-        //printMatrix(energy_matrix,image->height(),);
-        saveMatrixInFile("/home/raquel/energy_matrix.csv",energy_matrix,energyImage->width(),energyImage->height());
-        energyImage=energyImage->scRemoveLine(path,energyImage->height(),1);
+        image=image->scInsertLine(path);
     }
-    saveMatrixInFile("/home/raquel/removal_paths.csv",removal_paths,n_paths,image->height());
-
-    free(removal_paths);
 }*/
 
 void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * values_new_path,ImageAbstraction *ia){
