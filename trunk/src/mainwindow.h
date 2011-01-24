@@ -111,9 +111,10 @@ private:
     int findMinValue(int value1,int value2, int value3);
     int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col,ImageAbstraction *ia);
     void createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia);
-    void decreaseImage(int n_paths);
-    void increaseImage(int n_paths);
+    void decreaseImage(int n_paths,int * energy_matrix,int * path);
+    void increaseImage(int n_paths,int * energy_matrix,int * path);
     void printMatrix(int * matrix,int n_lin, int n_col);
+    void saveMatrixInFile(char * nome_file,int * matrix,int n_cols,int n_lins);
 };
 
 #endif
