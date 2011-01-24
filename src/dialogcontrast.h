@@ -22,7 +22,7 @@ private:
 
 public slots:
 
-    void contrastChanged(int value);
+    void contrastChanged(void);
     void cancelpressed(void);
 
 signals:

@@ -40,10 +40,10 @@ class ImageAbstraction : public QImage
           int findMin(int* array, int len);
           void minMax(int* oldArr, int oldMin, int oldMax, int newMin, int newMax, int len);
           void minMaxDouble(double* oldArr, double oldMin, double oldMax, double newMin, double newMax, int len);
-          double* makeGradFilterX(int dim, int kernelType);
-          double* makeGradFilterY(int dim, int kernelType);
-          double* makeLaplacianFilter(int dim);
-          int ApplyConvolution(int dim, double* kernel, char kernelType);
+          void makeGradFilterX(int dim);
+          void makeGradFilterY(int dim);
+          void makeLaplacianFilter(int dim);
+          int ApplyConvolution(int dim, double* kernel);
           int RGB2CMYK(int x, int y, enum ecolorcmyk color);
           ImageAbstraction* ApplyCrop(int startx,int starty,int endx,int endy);
           void makeMeanFilter(int dim);
@@ -51,7 +51,7 @@ class ImageAbstraction : public QImage
           void makeCustomKernel(int dim);
           double getMean();
           double getStd();
-          int ApplyConvolutionLaplacian(int dim, double* kernel, char kernelType);
+          int ApplyConvolutionLaplacian(int dim, double* kernel);
           ImageAbstraction* ApplyGradientMagnitude();
 
 

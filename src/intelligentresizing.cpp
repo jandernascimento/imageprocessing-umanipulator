@@ -112,7 +112,7 @@ void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * value
 //reference: http://en.wikipedia.org/wiki/Seam_carving
 void MainWindow::applySeamCarving(float width,float height){    
     int n_w_paths,n_h_paths;
-    unsigned t0=clock();
+    //unsigned t0=clock();
     int * path=(int *) malloc(sizeof(int) * image->height() * image->width());
     int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
     ImageAbstraction *itmp;
@@ -153,7 +153,7 @@ void MainWindow::applySeamCarving(float width,float height){
 
     this->updateImageReference(image);
 
-    qDebug("Total time:%i",clock()-t0);
+    //qDebug("Total time:%i",clock()-t0);
 
     free(path);
     free(energy_matrix);

@@ -4,12 +4,12 @@
 #include <QtGui>
 #include <QPixmap>
 
-DialogContrast::DialogContrast(QDialog *parent)
+DialogContrast::DialogContrast(QDialog *parent):QDialog(parent)
 {
     this->setupUi(this); // this sets up GUI
 
-    connect(horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
-    connect(horizontalSlider_2,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged(int)));
+    connect(horizontalSlider,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged()));
+    connect(horizontalSlider_2,SIGNAL(valueChanged(int)),this,SLOT(contrastChanged()));
 
     connect(buttonBox,SIGNAL(rejected()),this,SLOT(cancelpressed()));
 }
@@ -18,7 +18,7 @@ void DialogContrast::cancelpressed(){
     emit constrastChanged(original_min,original_max);
 }
 
-void DialogContrast::contrastChanged(int value)
+void DialogContrast::contrastChanged()
 {
    label->setText(QString("Minimum (%1)").arg(horizontalSlider->value()));
 
