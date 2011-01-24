@@ -7,6 +7,8 @@
 #include "dialogsetkernel.h"
 #include "dialoglog.h"
 #include "intelligentresizing.cpp"
+bool flag = false;
+ImageAbstraction* copy = NULL;
 
 void MainWindow::histogram(void){
     if (fileName == NULL)
@@ -26,6 +28,8 @@ void MainWindow::quit(void){
 
 void MainWindow::openFile(void){
     image=new ImageAbstraction(filePath);
+    copy = image->copy();
+    flag = true;
     label->setPixmap(QPixmap::fromImage(*image,Qt::AutoColor));
     label->adjustSize();
     connect(label,SIGNAL(selected(QMouseEvent*)),this,SLOT(mouseOver(QMouseEvent*)));
@@ -46,6 +50,7 @@ void MainWindow::open(void){
     }
     else
         fileName=previousName;
+
 }
 
 void MainWindow::saveImage(){
@@ -194,6 +199,16 @@ void MainWindow::applyBlurCustom(int dim, bool r1,bool r2,bool r3){
     }
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
+void MainWindow::applyUndo()
+{
+    if (flag)
+    {
+        image = copy->copy();
+        //qDebug("CTRL+Z");
+        label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+    }
+
+}
 void MainWindow::applyBlurCustomDialog(){
 
     dialogCustom *dc=new dialogCustom();
@@ -220,6 +235,7 @@ void MainWindow::applyCrop(int startx,int starty,int endx,int endy){
 }
 void MainWindow::applyMeanFilter(){
     qDebug("CLICKING ON MEAN");
+    ImageAbstraction* copy = image->copy();
     image->makeMeanFilter(3);
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
@@ -262,7 +278,12 @@ void MainWindow::applyLaplacianFilter(){
 }
 void MainWindow::applyGradFilterX(){
     qDebug("CLICKING ON GRAD X");
+   // double* kernel = (double*)(malloc(sizeof(double)*3));
+   // kernel[0] = 1;
+   // kernel[1] = 0;
+   // kernel[2] = -1;
     image->makeGradFilterX(3,0);
+    //image->ApplyConvolutionLaplacian(0,kernel,'d');
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
 }
 void MainWindow::applyGradFilterY(){
