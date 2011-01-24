@@ -17,6 +17,7 @@ class ImageAbstraction : public QImage
           QRgb* setPixel(enum ecolor color, int x, int y,int value);
           QRgb* setPixel(int x, int y,int red, int green, int blue);
           ImageAbstraction* scRemoveLine(int* matrix,int total_lines,int total_columns);
+          ImageAbstraction* scInsertLine(int* seam);
 
           /** Util  methods **/
           void UpdateColorRange(void);
