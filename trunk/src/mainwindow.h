@@ -105,7 +105,7 @@ private:
     void openFile(void);
 
     /** Intelligent Resizing **/
-    void findPath(int * energy_matrix,int * path,ImageAbstraction *ia);
+    void findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths,ImageAbstraction *ia);
     void findAndDuplicatePath(int * energy_matrix,int * path,int * values_new_path,ImageAbstraction *ia);
     void calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value);
     int findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia);

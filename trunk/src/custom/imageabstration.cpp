@@ -801,7 +801,7 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
 
 }
 
-ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_lines,int total_columns){
+ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_columns){
 
     ImageAbstraction *newImage=new ImageAbstraction( QSize(width()-total_columns,height()),format());//QImage::Format_RGB32
 
