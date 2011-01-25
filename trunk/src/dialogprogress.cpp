@@ -12,6 +12,7 @@ DialogProgress::DialogProgress(QWidget *parent) :
 }
 
 QProgressBar* DialogProgress::getProgress(){
+
     return ui->progressBar;
 }
 
