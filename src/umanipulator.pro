@@ -18,29 +18,36 @@ SOURCES += main.cpp\
     dialogcontrast.cpp \
     histogram.cpp \
     dialogfusion.cpp \
+    dialogprogress.cpp \
     dialogcustom.cpp \
     dialogscale.cpp \
     dialoglog.cpp \
     dialogabout.cpp \
     dialogsetkernel.cpp \
-    intelligentresizing.cpp
+    intelligentresizing.cpp \
+    threadresize.cpp \
+    threadprogress.cpp
 
 HEADERS  += mainwindow.h \
     custom/imageabstration.h \
     custom/imagelabel.h \
     dialogcontrast.h \
     histogram.h \
+    dialogprogress.h \
     dialogfusion.h \
     dialogcustom.h \
     dialogscale.h \
     dialoglog.h \
     dialogabout.h \
-    dialogsetkernel.h
+    dialogsetkernel.h \
+    threadresize.h \
+    threadprogress.h
 
 
 FORMS    += mainwindow.ui \
     dialogcontrast.ui \
     histogram.ui \
+    dialogprogress.ui \
     dialogfusion.ui \
     dialogcustom.ui \
     dialogscale.ui \
