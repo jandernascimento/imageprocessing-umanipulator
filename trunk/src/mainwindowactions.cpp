@@ -6,7 +6,9 @@
 #include "dialogabout.h"
 #include "dialogsetkernel.h"
 #include "dialoglog.h"
+#include "threadresize.h"
 #include "intelligentresizing.cpp"
+#include "threadprogress.h"
 bool flag = false;
 ImageAbstraction* copy = NULL;
 
@@ -154,9 +156,24 @@ void MainWindow::applyCrop(){
 
 void MainWindow::applyGrey(){
 
-    image->ApplyFilterGreyScale();
+    //image->ApplyFilterGreyScale();
 
-    label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+
+    dp=new DialogProgress();
+    dp->show();
+
+    threadresize *operation=new threadresize(image);
+    threadprogress *progress=new threadprogress(dp->getProgress());
+
+    //label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+
+    connect(operation,SIGNAL(finished(ImageAbstraction*)),this,SLOT(updateImageReference(ImageAbstraction*)));
+    connect(operation,SIGNAL(finished(ImageAbstraction*)),dp,SLOT(close()));
+    connect(operation,SIGNAL(finished(ImageAbstraction*)),progress,SLOT(terminate()));
+    connect(progress,SIGNAL(progresschanged(int)),dp,SLOT(setProgress(int)));
+
+    operation->start(QThread::NormalPriority);
+    progress->start(QThread::NormalPriority);
 
 }
 

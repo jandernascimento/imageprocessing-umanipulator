@@ -11,6 +11,7 @@
 #include <dialogfusion.h>
 #include <QFormLayout>
 #include <QScrollArea>
+#include <dialogprogress.h>
 
 
 namespace Ui {
@@ -62,6 +63,7 @@ public slots:
      void zoomIn(void);
      void zoomOut(void);
      void applyUndo();
+     void updateImageReference(ImageAbstraction *im);
 
 private:
     Ui::MainWindow *ui;
@@ -79,6 +81,8 @@ private:
     QMenu *teste;
     QToolBar *secondToolBar;
     QToolBar *thirdToolBar;
+    DialogProgress *dp;
+
     /** Menu Options **/
     void createMenu(void);
     void setupFileMenu(QMenu *menu);
@@ -97,7 +101,7 @@ private:
     void configureHistogram(QAction *act);
     void updateMenu(void);
     void updateMenuOption(QMenu *menu);
-    void updateImageReference(ImageAbstraction *im);
+
 
     /** Other **/
     double scaleFactor;
