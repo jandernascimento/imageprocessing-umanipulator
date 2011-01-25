@@ -749,12 +749,13 @@ ImageAbstraction* ImageAbstraction::ApplyScale(float xpercentage,float ypercenta
                 int yold=(int)round(yoldfloat);
                 int xold=(int)round(xoldfloat);
 
-                /*
-                qDebug("in(%i,%i and %i,%i) %f,%f->%i,%i",newImage->height(),newImage->width(),
+
+                /*qDebug("in(%i,%i and %i,%i) %f,%f->%i,%i",newImage->height(),newImage->width(),
                     height(),width(),
                     yoldfloat,xoldfloat,
                     y,x);
-                */
+                    */
+
 
                 /*** INTERPOLATION: start **/
 
