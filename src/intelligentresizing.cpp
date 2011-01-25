@@ -28,10 +28,10 @@ void MainWindow::findPath(int * energy_matrix,int * path,int * removal_paths,int
     int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
     lin=ia->height()-1;
     path[lin]=col_min_value;
-    removal_paths[n_paths*lin*4+id_path*4]=col_min_value;
-    removal_paths[n_paths*lin*4+id_path*4+1]=image->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
-    removal_paths[n_paths*lin*4+id_path*4+2]=image->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
-    removal_paths[n_paths*lin*4+id_path*4+3]=image->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
+    removal_paths[n_paths*lin+id_path]=col_min_value;
+    removal_paths[n_paths*lin+id_path+1]=image->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
+    //removal_paths[n_paths*lin*4+id_path*4+2]=image->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
+    //removal_paths[n_paths*lin*4+id_path*4+3]=image->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
 
     //find the path, from mininum value up, with its neighbors
     for(int lin=ia->height()-2;lin>=0;lin--){
@@ -40,10 +40,10 @@ void MainWindow::findPath(int * energy_matrix,int * path,int * removal_paths,int
         col_min_value = findColumnMinValue(energy_matrix, lin, prev_column, col_min_value, next_column,ia);
 
         path[lin]=col_min_value;
-        removal_paths[n_paths*lin*4+id_path*4]=col_min_value;
-        removal_paths[n_paths*lin*4+id_path*4+1]=image->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
-        removal_paths[n_paths*lin*4+id_path*4+2]=image->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
-        removal_paths[n_paths*lin*4+id_path*4+3]=image->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
+        removal_paths[n_paths*lin+id_path]=col_min_value;
+        removal_paths[n_paths*lin+id_path+1]=image->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
+        //removal_paths[n_paths*lin*4+id_path*4+2]=image->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
+        //removal_paths[n_paths*lin*4+id_path*4+3]=image->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
     }
 
 }
@@ -58,13 +58,13 @@ void MainWindow::increaseImage(int n_paths/*,int * energy_matrix,int * path*/){
 
     int * path=(int *) malloc(sizeof(int) * image->height() );
     //find the paths that will be removed at the copied image and duplicated at the original image
-    int * removal_paths = (int *) malloc(sizeof(int) * image->height() * n_paths * 4 ); //for each pixel, I need 3 more columns to store the red, green and blue's level
+    int * removal_paths = (int *) malloc(sizeof(int) * image->height() * n_paths * 2); //for each pixel, I need 3 more columns to store the red, green and blue's level
     for(int i=0;i<n_paths;i++){
         int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
 
         createEnergyMatrix(energy_matrix,energyImage);
         findPath(energy_matrix,path,removal_paths,i,n_paths,energyImage);
-        saveMatrixInFile("/home/raquel/matrixdoida.csv",removal_paths,(i+1)*4,back_image->height());
+        saveMatrixInFile("/home/raquel/matrixdoida.csv",removal_paths,(i+1),back_image->height());
 
         energyImage=energyImage->scRemoveLine(path,1);
         image=image->scRemoveLine(path,1);
@@ -93,12 +93,13 @@ void MainWindow::increaseImage(int n_paths/*,int * energy_matrix,int * path*/){
     free(path);
 }
 
+/*
 int * MainWindow::adjustPath(int * path, int factor,int n_lines){
     for (int i=0; i<n_lines; i++)
         path[i]=path[i]+factor;
     return path;
 }
-
+*/
 /*void MainWindow::increaseImage(int n_paths,int * energy_matrix,int * path){
     ImageAbstraction *energyImage=image->copy();
     energyImage->ApplyGradientMagnitude();
@@ -110,7 +111,7 @@ int * MainWindow::adjustPath(int * path, int factor,int n_lines){
         image=image->scInsertLine(path);
     }
 }*/
-
+/*
 void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * values_new_path,ImageAbstraction *ia){
     int prev_column,next_column,lin;
     int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
@@ -138,6 +139,7 @@ void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * value
                              energy_matrix[ia->width()*(lin)+next_column]) / 3;
     }
 }
+*/
 
 //****************** GENERAL METHODS ****************************//
 //reference: http://en.wikipedia.org/wiki/Seam_carving
@@ -150,8 +152,8 @@ void MainWindow::applySeamCarving(float width,float height){
 
     //vertical seams
     if (width>1){
-        qDebug("SC: Width: Enlarging image");
         n_w_paths=round(image->width() * (width-1));
+        qDebug("SC: Width: Enlarging image: total paths:%i",n_w_paths);
         increaseImage(n_w_paths/*,energy_matrix,path*/);
     }else if (width<1){
         qDebug("SC: Width: Reducing image");
@@ -170,7 +172,6 @@ void MainWindow::applySeamCarving(float width,float height){
         increaseImage(n_h_paths/*,energy_matrix,path*/);
     }else{
         n_h_paths=round(image->height() * (1-height));
-        qDebug("SC: Height: Reducing image");
         qDebug("SC: Height: Reducing image: total paths:%i",n_h_paths);
         decreaseImage(n_h_paths,energy_matrix,path);
 
@@ -181,7 +182,6 @@ void MainWindow::applySeamCarving(float width,float height){
     }
 
     //updating the image on the screen
-
     this->updateImageReference(image);
 
     //qDebug("Total time:%i",clock()-t0);
@@ -309,20 +309,4 @@ for (int lin = 0; lin < image->height(); lin++){
     }
 }
 fclose(fp) ;
-//*/
-
-/*/ saving in a file
-FILE *fp2;
-fp2 = fopen("/home/raquel/inspect.csv","w");
-fprintf(fp2, "X,");
-for (int col = 0; col < image->width(); col++)
-    fprintf(fp2, "%i,",col);
-for (int lin = 0; lin < image->height(); lin++){
-    fprintf(fp2, "\n%i,",lin);
-    for (int col = 0; col < image->width(); col++) {
-        int current_pixel   = energy_matrix[image->width()*lin+col];
-        fprintf(fp2, "%i,", current_pixel);
-    }
-}
-fclose(fp2) ;
 //*/
