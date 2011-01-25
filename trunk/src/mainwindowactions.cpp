@@ -41,7 +41,7 @@ void MainWindow::openFile(void){
 void MainWindow::open(void){
 
     QFileInfo file = QFileDialog::getOpenFileName(this,
-                tr("Open Image"), "", tr("Image Files (*.bmp *.gif *.jpg *.png *.pbm *.pgm *.ppm)"), 0, QFileDialog::DontUseNativeDialog);
+                tr("Open Image"), "", tr("Image Files (*.bmp *.jpg *.png *.pbm *.pgm *.ppm)"), 0, QFileDialog::DontUseNativeDialog);
 
 
     QString previousName = fileName;
@@ -74,7 +74,7 @@ void MainWindow::saveas(void){
         QMessageBox::warning(this, tr("Warning"), tr("There is no file in use."));
     else{
         QFileInfo file=QFileDialog::getSaveFileName(this, tr("Save Image"), "",
-            tr("Images (*.bmp *.gif *.jpg *.png *.pbm *.pgm *.ppm)"), 0, QFileDialog:: DontUseNativeDialog);
+            tr("Images (*.bmp *.jpg *.png *.pbm *.pgm *.ppm)"), 0, QFileDialog:: DontUseNativeDialog);
 
         if ( ! file.fileName().isEmpty()){
             filePath=file.absoluteFilePath();
