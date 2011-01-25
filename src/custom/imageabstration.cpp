@@ -821,7 +821,7 @@ ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_columns){
                                    getPixelColorIntensity(ImageAbstraction::red,y,x),
                                    getPixelColorIntensity(ImageAbstraction::green,y,x),
                                    getPixelColorIntensity(ImageAbstraction::blue,y,x));
-                x_last++;
+               x_last++;
 
             }
 
@@ -832,9 +832,10 @@ ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_columns){
     return newImage;
 }
 
+
 ImageAbstraction* ImageAbstraction::scInsertLine(int* seam){
 
-    ImageAbstraction *newImage=new ImageAbstraction( QSize(width()+1,height()),format());
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(width()+2,height()),format());
 
     for(int line=0;line<newImage->height();line++){
         for(int column=0;column<newImage->width();column++){
@@ -844,16 +845,24 @@ ImageAbstraction* ImageAbstraction::scInsertLine(int* seam){
                                 getPixelColorIntensity(ImageAbstraction::green,line,column),
                                 getPixelColorIntensity(ImageAbstraction::blue,line,column));
 
-            if(seam[line]==column){
+            if(seam[4*line]==column){
+                int blue_level=(getPixelColorIntensity(ImageAbstraction::blue,line,column-1)+getPixelColorIntensity(ImageAbstraction::blue,line,column+1))/2;
+                int green_level=(getPixelColorIntensity(ImageAbstraction::green,line,column-1)+getPixelColorIntensity(ImageAbstraction::green,line,column+1))/2;
+                int red_level=(getPixelColorIntensity(ImageAbstraction::red,line,column-1)+getPixelColorIntensity(ImageAbstraction::red,line,column+1))/2;
+                newImage->setPixel(line,column,//255,0,0);/*
+                                    seam[(4*line)+1],
+                                    seam[(4*line)+2],
+                                    seam[(4*line)+3]);
+
+      //          newImage->setPixel(line,column+1,//255,0,0);/*
+    //                                red_level,
+  //                                  green_level,
+//                                    blue_level);
+            }else if(column>seam[4*line]){
                 newImage->setPixel(line,column,
-                                    (getPixelColorIntensity(ImageAbstraction::red,line,column-1)+getPixelColorIntensity(ImageAbstraction::red,line,column+1))/2,
-                                    (getPixelColorIntensity(ImageAbstraction::green,line,column-1)+getPixelColorIntensity(ImageAbstraction::green,line,column+1))/2,
-                                    (getPixelColorIntensity(ImageAbstraction::blue,line,column-1)+getPixelColorIntensity(ImageAbstraction::blue,line,column+1))/2);
-            }else if(column>seam[line]){
-                newImage->setPixel(line,column,
-                                    getPixelColorIntensity(ImageAbstraction::red,line,column-1),
-                                    getPixelColorIntensity(ImageAbstraction::green,line,column-1),
-                                    getPixelColorIntensity(ImageAbstraction::blue,line,column-1));
+                                    getPixelColorIntensity(ImageAbstraction::red,line,column-2),
+                                    getPixelColorIntensity(ImageAbstraction::green,line,column-2),
+                                    getPixelColorIntensity(ImageAbstraction::blue,line,column-2));
             }
 
         }
