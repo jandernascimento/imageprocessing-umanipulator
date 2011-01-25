@@ -378,5 +378,4 @@ void MainWindow::updateImageReference(ImageAbstraction *im){
     }
     label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
     label->adjustSize();
-
 }

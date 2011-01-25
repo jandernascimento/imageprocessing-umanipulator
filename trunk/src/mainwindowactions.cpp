@@ -156,24 +156,9 @@ void MainWindow::applyCrop(){
 
 void MainWindow::applyGrey(){
 
-    //image->ApplyFilterGreyScale();
+    image->ApplyFilterGreyScale();
 
-
-    dp=new DialogProgress();
-    dp->show();
-
-    threadresize *operation=new threadresize(image);
-    threadprogress *progress=new threadprogress(dp->getProgress());
-
-    //label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
-
-    connect(operation,SIGNAL(finished(ImageAbstraction*)),this,SLOT(updateImageReference(ImageAbstraction*)));
-    connect(operation,SIGNAL(finished(ImageAbstraction*)),dp,SLOT(close()));
-    connect(operation,SIGNAL(finished(ImageAbstraction*)),progress,SLOT(terminate()));
-    connect(progress,SIGNAL(progresschanged(int)),dp,SLOT(setProgress(int)));
-
-    operation->start(QThread::NormalPriority);
-    progress->start(QThread::NormalPriority);
+    updateImageReference(this->image);
 
 }
 
@@ -266,8 +251,25 @@ void MainWindow::applyIntelligentResize(){
 }
 
 void MainWindow::applyIntelligentResize(float width,float height){
-    image=image->applySeamCarving(width,height);
-    updateImageReference(image);
+
+    dp=new DialogProgress();
+    dp->show();
+
+    threadresize *operation=new threadresize(image,width,height);
+    threadprogress *progress=new threadprogress(dp->getProgress());
+
+    //label->setPixmap(QPixmap::fromImage(*this->image,Qt::AutoColor));
+
+    connect(operation,SIGNAL(finished(ImageAbstraction*)),this,SLOT(updateImageReference(ImageAbstraction*)));
+    connect(operation,SIGNAL(finished(ImageAbstraction*)),dp,SLOT(close()));
+    connect(operation,SIGNAL(finished(ImageAbstraction*)),progress,SLOT(terminate()));
+    connect(progress,SIGNAL(progresschanged(int)),dp,SLOT(setProgress(int)));
+
+    operation->start(QThread::NormalPriority);
+    progress->start(QThread::NormalPriority);
+
+    //image=image->applySeamCarving(width,height);
+    //updateImageReference(image);
 }
 
 

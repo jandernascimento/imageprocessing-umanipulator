@@ -1,20 +1,17 @@
 #include <QThread>
-#include <QObject>
-#include <imageabstration.h>
+#include "custom/imageabstration.h"
 #include "threadresize.h"
-#include "dialogprogress.h"
 
 
-threadresize :: threadresize(ImageAbstraction *ia, QObject *apParents):QThread(apParents){
-    this->ia=ia;
+threadresize :: threadresize(ImageAbstraction *iax, float width, float height, QObject *apParents):QThread(apParents){
+    this->image=iax;
+    this->width=width;
+    this->height=height;
+
 }
 
 void threadresize::run()
 {
-
-    sleep(10);
-    ia->ApplyFilterGreyScale();
-
-    emit finished(ia);
+    emit finished(image->applySeamCarving(this->width,this->height));
 
 }
