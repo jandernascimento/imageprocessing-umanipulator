@@ -28,10 +28,6 @@ void MainWindow::findPath(int * energy_matrix,int * path,int * removal_paths,int
     int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
     lin=ia->height()-1;
     path[lin]=col_min_value;
-    removal_paths[n_paths*lin+id_path]=col_min_value;
-    removal_paths[n_paths*lin+id_path+1]=image->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
-    //removal_paths[n_paths*lin*4+id_path*4+2]=image->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
-    //removal_paths[n_paths*lin*4+id_path*4+3]=image->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
 
     //find the path, from mininum value up, with its neighbors
     for(int lin=ia->height()-2;lin>=0;lin--){
@@ -40,10 +36,6 @@ void MainWindow::findPath(int * energy_matrix,int * path,int * removal_paths,int
         col_min_value = findColumnMinValue(energy_matrix, lin, prev_column, col_min_value, next_column,ia);
 
         path[lin]=col_min_value;
-        removal_paths[n_paths*lin+id_path]=col_min_value;
-        removal_paths[n_paths*lin+id_path+1]=image->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
-        //removal_paths[n_paths*lin*4+id_path*4+2]=image->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
-        //removal_paths[n_paths*lin*4+id_path*4+3]=image->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
     }
 
 }
@@ -58,12 +50,12 @@ void MainWindow::increaseImage(int n_paths/*,int * energy_matrix,int * path*/){
 
     int * path=(int *) malloc(sizeof(int) * image->height() );
     //find the paths that will be removed at the copied image and duplicated at the original image
-    int * removal_paths = (int *) malloc(sizeof(int) * image->height() * n_paths * 2); //for each pixel, I need 3 more columns to store the red, green and blue's level
+    int * removal_paths = (int *) malloc(sizeof(int) * image->height() * n_paths); //for each pixel, I need 3 more columns to store the red, green and blue's level
     for(int i=0;i<n_paths;i++){
         int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
 
         createEnergyMatrix(energy_matrix,energyImage);
-        findPath(energy_matrix,path,removal_paths,i,n_paths,energyImage);
+        //findPath(energy_matrix,path,removal_paths,removal_paths_red,removal_paths_green,removal_paths_blue,i,n_paths,energyImage);
         saveMatrixInFile("/home/raquel/matrixdoida.csv",removal_paths,(i+1),back_image->height());
 
         energyImage=energyImage->scRemoveLine(path,1);
@@ -145,70 +137,44 @@ void MainWindow::findAndDuplicatePath(int * energy_matrix,int * path,int * value
 //reference: http://en.wikipedia.org/wiki/Seam_carving
 void MainWindow::applySeamCarving(float width,float height){    
     int n_w_paths,n_h_paths;
-    //unsigned t0=clock();
     int * path=(int *) malloc(sizeof(int) * image->height() * image->width());
     int * energy_matrix=(int *) malloc(sizeof(int) * (image->height()*image->width()) );
     ImageAbstraction *itmp;
 
     //vertical seams
     if (width>1){
-        n_w_paths=round(image->width() * (width-1));
+        /*n_w_paths=round(image->width() * (width-1));
         qDebug("SC: Width: Enlarging image: total paths:%i",n_w_paths);
-        increaseImage(n_w_paths/*,energy_matrix,path*/);
+        increaseImage(n_w_paths);*/
     }else if (width<1){
-        qDebug("SC: Width: Reducing image");
         n_w_paths=round(image->width() * (1-width));
+        qDebug("SC: Width: Reducing image: total paths:%i",n_w_paths);
         decreaseImage(n_w_paths,energy_matrix,path);
     }
 
+    //horizontal seams
     itmp=image;
     image=image->transposeLeftImage();
     delete(itmp);
-
-    //horizontal seams
     if (height>1){
-        qDebug("SC: Height: Enlarging image");
+        /*qDebug("SC: Height: Enlarging image");
         n_h_paths=round(image->height() * (height-1));
-        increaseImage(n_h_paths/*,energy_matrix,path*/);
+        increaseImage(n_h_paths);*/
     }else{
         n_h_paths=round(image->height() * (1-height));
         qDebug("SC: Height: Reducing image: total paths:%i",n_h_paths);
         decreaseImage(n_h_paths,energy_matrix,path);
-
-        itmp=image;
-        image=image->transposeRightImage();
-        delete(itmp);
-
     }
+    itmp=image;
+    image=image->transposeRightImage();
+    delete(itmp);
+
 
     //updating the image on the screen
     this->updateImageReference(image);
 
-    //qDebug("Total time:%i",clock()-t0);
-
     free(path);
     free(energy_matrix);
-
-}
-
-void MainWindow::calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value){
-    *prev_column=col_min_value-1;
-    *next_column=col_min_value+1;
-    if(col_min_value==0)
-        *prev_column=col_min_value;
-    else if(col_min_value==image->width()-1)
-        *next_column=col_min_value;
-}
-
-
-//seek the min value at last line
-int MainWindow::findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia){
-    int col_min_value=0;
-    int lin=ia->height()-1;
-    for(int col=0;col<ia->width();col++)
-        if (energy_matrix[ia->width()*lin+col] < energy_matrix[ia->width()*lin+col_min_value])
-            col_min_value=col;
-    return col_min_value;
 }
 
 void MainWindow::createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia){
@@ -246,6 +212,26 @@ void MainWindow::createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia){
         line++;
         prev_line=line-1;
     }while(line<ia->height());
+}
+
+void MainWindow::calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value){
+    *prev_column=col_min_value-1;
+    *next_column=col_min_value+1;
+    if(col_min_value==0)
+        *prev_column=col_min_value;
+    else if(col_min_value==image->width()-1)
+        *next_column=col_min_value;
+}
+
+
+//seek the min value at last line
+int MainWindow::findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia){
+    int col_min_value=0;
+    int lin=ia->height()-1;
+    for(int col=0;col<ia->width();col++)
+        if (energy_matrix[ia->width()*lin+col] < energy_matrix[ia->width()*lin+col_min_value])
+            col_min_value=col;
+    return col_min_value;
 }
 
 int MainWindow::findMinValue(int value1,int value2, int value3){
