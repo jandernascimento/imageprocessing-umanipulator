@@ -1,6 +1,7 @@
 #include "imageabstration.h"
 #include "math.h"
 #include <assert.h>
+#include <stdio.h>
 
 ImageAbstraction::ImageAbstraction(const QString &fileName, const char *format):QImage(fileName, format ){
     UpdateColorRange();
@@ -876,20 +877,6 @@ ImageAbstraction* ImageAbstraction::scInsertLine(int* seam){
 ImageAbstraction* ImageAbstraction::transposeLeftImage(){
     ImageAbstraction *newImage=new ImageAbstraction(QSize(height(),width()),format());
 
-    for(int line=0;line<height();line++){
-
-        for(int column=0;column<width();column++){
-
-            newImage->setPixel(column,line,
-                                getPixelColorIntensity(ImageAbstraction::red,line,column),
-                                getPixelColorIntensity(ImageAbstraction::green,line,column),
-                                getPixelColorIntensity(ImageAbstraction::blue,line,column));
-
-        }
-
-    }
-
-    /*
     for(int col=0,newlin=this->width()-1;col<width();col++,newlin--)
         for(int lin=0;lin<height();lin++){
             newImage->setPixel(newlin,lin,
@@ -897,7 +884,7 @@ ImageAbstraction* ImageAbstraction::transposeLeftImage(){
                                 getPixelColorIntensity(ImageAbstraction::green,lin,col),
                                 getPixelColorIntensity(ImageAbstraction::blue,lin,col));
         }
-    */
+
 
     return newImage;
 }
@@ -906,21 +893,6 @@ ImageAbstraction* ImageAbstraction::transposeLeftImage(){
 ImageAbstraction* ImageAbstraction::transposeRightImage(){
     ImageAbstraction *newImage=new ImageAbstraction(QSize(height(),width()),format());
 
-
-    for(int line=0;line<height();line++){
-
-        for(int column=0;column<width();column++){
-
-            newImage->setPixel(column,line,
-                                getPixelColorIntensity(ImageAbstraction::red,line,column),
-                                getPixelColorIntensity(ImageAbstraction::green,line,column),
-                                getPixelColorIntensity(ImageAbstraction::blue,line,column));
-
-        }
-
-    }
-
-    /*
     for(int lin=0,newcol=this->height()-1;lin<height();lin++,newcol--)
         for(int col=0;col<width();col++){
             newImage->setPixel(col,newcol,
@@ -928,7 +900,188 @@ ImageAbstraction* ImageAbstraction::transposeRightImage(){
                                 getPixelColorIntensity(ImageAbstraction::green,lin,col),
                                 getPixelColorIntensity(ImageAbstraction::blue,lin,col));
         }
-    */
 
     return newImage;
 }
+
+/******************************** SEAM CARVING ***********************************/
+
+//****************** GENERAL METHODS ****************************//
+//reference: http://en.wikipedia.org/wiki/Seam_carving
+ImageAbstraction* ImageAbstraction::applySeamCarving(float n_width,float n_height){
+    int n_w_paths,n_h_paths;
+    int * path=(int *) malloc(sizeof(int) * height() * width());
+    int * energy_matrix=(int *) malloc(sizeof(int) * (height()*width()) );
+    ImageAbstraction *itmp;
+
+    itmp=this;
+    //vertical seams
+    if (n_width>1){
+        /*n_w_paths=round(width() * (n_width-1));
+        qDebug("SC: Width: Enlarging image: total paths:%i",n_w_paths);
+        increaseImage(n_w_paths);*/
+    }else if (n_width<1){
+        n_w_paths=round(width() * (1-n_width));
+        qDebug("SC: Width: Reducing image: total paths:%i",n_w_paths);
+        itmp=decreaseImage(n_w_paths,energy_matrix,path,itmp);
+    }
+
+    //horizontal seams
+    itmp=itmp->transposeLeftImage();
+    if (n_height>1){
+    /*    qDebug("SC: Height: Enlarging image");
+        n_h_paths=round(height() * (n_height-1));
+        increaseImage(n_h_paths);*/
+    }else if (n_height<1){
+        n_h_paths=round(height() * (1-n_height));
+        qDebug("SC: Height: Reducing image: total paths:%i",n_h_paths);
+        itmp=decreaseImage(n_h_paths,energy_matrix,path,itmp);
+    }
+    itmp=itmp->transposeRightImage();
+
+
+    free(path);
+    free(energy_matrix);
+
+    return itmp;
+}
+
+void ImageAbstraction::createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia){
+    int line,column,current_pixel,neighbor_pixel1,neighbor_pixel2,neighbor_pixel3,prev_column,next_column,prev_line;
+
+    //first line:
+    line=0;
+    for(int col = 0; col < ia->width(); col++) {
+        current_pixel = ia->getPixelColorIntensity(ImageAbstraction::blue,line,col);
+        energy_matrix[ia->width()*line+col]=current_pixel;
+    }
+    //*/
+
+    //next lines:
+    line=1;
+    prev_line=line-1;
+    do{
+        column=0;
+        prev_column=column;
+        next_column=findMinValue(column+1,column+1,ia->width()-1);
+        do{
+            current_pixel   = ia->getPixelColorIntensity(ImageAbstraction::blue,line,column);
+            neighbor_pixel1 = energy_matrix[ia->width()*prev_line+prev_column];
+            neighbor_pixel2 = energy_matrix[ia->width()*prev_line+column];
+            neighbor_pixel3 = energy_matrix[ia->width()*prev_line+next_column];
+            energy_matrix[ia->width()*line+column]=findMinValue(current_pixel+neighbor_pixel1,
+                                                                current_pixel+neighbor_pixel2,
+                                                                current_pixel+neighbor_pixel3);
+
+            column++;
+            prev_column=column-1;
+            next_column=findMinValue(column+1,column+1,ia->width()-1);
+        }while(column<ia->width());
+
+        line++;
+        prev_line=line-1;
+    }while(line<ia->height());
+}
+
+void ImageAbstraction::calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value, ImageAbstraction *ia){
+    *prev_column=col_min_value-1;
+    *next_column=col_min_value+1;
+    if(col_min_value==0)
+        *prev_column=col_min_value;
+    else if(col_min_value==ia->width()-1)
+        *next_column=col_min_value;
+}
+
+
+//seek the min value at last line
+int ImageAbstraction::findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia){
+    int col_min_value=0;
+    int lin=ia->height()-1;
+    for(int col=0;col<ia->width();col++)
+        if (energy_matrix[ia->width()*lin+col] < energy_matrix[ia->width()*lin+col_min_value])
+            col_min_value=col;
+    return col_min_value;
+}
+
+int ImageAbstraction::findMinValue(int value1,int value2, int value3){
+    if (value1<=value2 && value1<=value3)
+        return value1;
+    else if (value2<=value3)
+        return value2;
+    else
+        return value3;
+}
+
+int ImageAbstraction::findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col,ImageAbstraction *ia){
+    if      (energy_matrix[ia->width()*lin+prev_col] <= energy_matrix[ia->width()*lin+col]
+            &&
+            energy_matrix[ia->width()*lin+prev_col] <= energy_matrix[ia->width()*lin+next_col])
+        return prev_col;
+    else if (energy_matrix[ia->width()*lin+col] <= energy_matrix[ia->width()*lin+next_col])
+        return col;
+    else
+        return next_col;
+}
+
+void ImageAbstraction::printMatrix(int * matrix,int n_lin, int n_col){
+    for (int col = 0; col < n_col; col++) {
+        qDebug("col: %i",col);
+        for (int lin = 0; lin < n_lin; lin++){
+            int current_pixel   = matrix[n_col*lin+col];
+            qDebug("lin,%i,%i",lin,current_pixel);
+        }
+    }
+}
+
+void ImageAbstraction::saveMatrixInFile(char * nome_file,int * matrix,int n_cols,int n_lines){
+    FILE *fp;
+    fp = fopen(nome_file,"w");
+    fprintf(fp, "X,");
+    for (int col = 0; col < n_cols; col++)
+        fprintf(fp, "%i,",col);
+    for (int lin = 0; lin < n_lines; lin++){
+        fprintf(fp, "\n%i,",lin);
+        for (int col = 0; col < n_cols; col++) {
+            int current_pixel   = matrix[n_cols*lin+col];
+            fprintf(fp, "%i,", current_pixel);
+        }
+    }
+    fclose(fp) ;
+}
+
+//******************** DECREASING METHODS *****************************//
+ImageAbstraction* ImageAbstraction::decreaseImage(int n_paths,int * energy_matrix,int * path,ImageAbstraction* ia){
+    ImageAbstraction *image_temp=ia->copy(),*energy_image=ia->copy();
+
+    energy_image->ApplyGradientMagnitude();
+    energy_image->ApplyFilterGreyScale();
+
+    for(int i=0;i<n_paths;i++){
+        createEnergyMatrix(energy_matrix,energy_image);
+        findPath(energy_matrix,path,path,0,1,energy_image);
+        image_temp=image_temp->scRemoveLine(path,1);
+        energy_image=energy_image->scRemoveLine(path,1);
+    }
+    delete(energy_image);
+
+    return image_temp;
+}
+
+void ImageAbstraction::findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths, ImageAbstraction *ia){
+    int prev_column,next_column,lin;
+    int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
+    lin=ia->height()-1;
+    path[lin]=col_min_value;
+
+    //find the path, from mininum value up, with its neighbors
+    for(int lin=ia->height()-2;lin>=0;lin--){
+        calculatePrevAndNextColumn(&prev_column,&next_column,col_min_value,ia);
+
+        col_min_value = findColumnMinValue(energy_matrix, lin, prev_column, col_min_value, next_column,ia);
+
+        path[lin]=col_min_value;
+    }
+
+}
+
+
