@@ -16,7 +16,6 @@ void threadprogress::run(void){
 
         usleep(10000);
 
-        //qDebug("%i",x);
         if(x==99) x=0;
 
         emit progresschanged(x);

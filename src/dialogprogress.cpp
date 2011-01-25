@@ -7,6 +7,8 @@ DialogProgress::DialogProgress(QWidget *parent) :
     ui(new Ui::DialogProgress)
 {
     ui->setupUi(this);
+
+    //setWindowFlags(Qt::WindowTitleHint);
 }
 
 QProgressBar* DialogProgress::getProgress(){

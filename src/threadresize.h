@@ -1,23 +1,24 @@
 #include "imageabstration.h"
-
 #include <QThread>
-#ifndef MYTHREAD_H
-#define MYTHREAD_H
+#ifndef THREADRESIZE_H
+#define THREADRESIZE_H
 
 class threadresize : public QThread
 {
     Q_OBJECT
 public:
-    explicit threadresize(ImageAbstraction *ia, QObject * apParent = 0);
+    explicit threadresize(ImageAbstraction *ia, float width,float height, QObject * apParent = 0);
 
 protected:
     void run();
 
 private:
-    ImageAbstraction *ia;
+    ImageAbstraction *image;
+    float width;
+    float height;
 
 signals:
-    void finished(ImageAbstraction *ia);
+    void finished(ImageAbstraction *image);
 };
 
-#endif // MYTHREAD_H
+#endif // THREADRESIZE_H
