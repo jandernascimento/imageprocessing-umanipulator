@@ -266,7 +266,8 @@ void MainWindow::applyIntelligentResize(){
 }
 
 void MainWindow::applyIntelligentResize(float width,float height){
-    applySeamCarving(width,height);
+    image=image->applySeamCarving(width,height);
+    updateImageReference(image);
 }
 
 

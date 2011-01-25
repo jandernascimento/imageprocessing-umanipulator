@@ -28,6 +28,7 @@ public:
     ~MainWindow();
     ImageAbstraction *image;
     ImageLabel *label;
+    void applySeamCarving(float width,float height);
 
 public slots:
      void open(void);
@@ -59,7 +60,6 @@ public slots:
      void applyLoG(int dim, double sig);
      void applySetKernel(double* vals, int dim);
      void applyTEMP();
-     void applySeamCarving(float width,float height);
      void zoomIn(void);
      void zoomOut(void);
      void applyUndo();
@@ -111,18 +111,7 @@ private:
     void openFile(void);
 
     /** Intelligent Resizing **/
-    void findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths,ImageAbstraction *ia);
-    //void findAndDuplicatePath(int * energy_matrix,int * path,int * values_new_path,ImageAbstraction *ia);
-    void calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value);
-    int findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia);
-    int findMinValue(int value1,int value2, int value3);
-    int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col,ImageAbstraction *ia);
-    void createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia);
-    void decreaseImage(int n_paths,int * energy_matrix,int * path);
-    void increaseImage(int n_paths/*,int * energy_matrix,int * path*/);
-    void printMatrix(int * matrix,int n_lin, int n_col);
-    void saveMatrixInFile(char * nome_file,int * matrix,int n_cols,int n_lins);
-    //int * adjustPath(int * path, int factor,int n_lines);
+    void increaseImage(int n_paths);
 };
 
 #endif

@@ -54,6 +54,8 @@ class ImageAbstraction : public QImage
           int ApplyConvolutionLaplacian(int dim, double* kernel);
           ImageAbstraction* ApplyGradientMagnitude();
 
+          /** Intelligent Resizing **/
+          ImageAbstraction* applySeamCarving(float width,float height);
 
     private:
           int redmax;
@@ -68,6 +70,16 @@ class ImageAbstraction : public QImage
           bool isGreyScale;
           int ApplyFilterContrastRule(enum ecolor color,int x,int y,int min,int max);
 
+          /** Intelligent Resizing **/
+          ImageAbstraction* decreaseImage(int n_paths,int * energy_matrix,int * path,ImageAbstraction* ia);
+          void createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia);
+          int findMinValue(int value1,int value2, int value3);
+          int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col,ImageAbstraction *ia);
+          int findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia);
+          void calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value, ImageAbstraction *ia);
+          void findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths, ImageAbstraction *ia);
+          void printMatrix(int * matrix,int n_lin, int n_col);
+          void saveMatrixInFile(char * nome_file,int * matrix,int n_cols,int n_lines);
 };
 
 #endif // IMAGEABSTRATION_H
