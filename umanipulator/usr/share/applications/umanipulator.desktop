@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=uManipulator
+Comment=Micro image manipulator
+GenericName=Image manipulator
+Exec=umanipulator
+Terminal=false
+X-MultipleArgs=false
+Type=Application
+Icon=umanipulator.xpm
+Categories=Graphics;2DGraphics;RasterGraphics;GTK;
+StartupWMClass=uManipulator
+StartupNotify=true

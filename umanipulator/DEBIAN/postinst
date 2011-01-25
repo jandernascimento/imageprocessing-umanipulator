@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#ln -s /usr/lib/umanipulator/umanipulator /usr/bin/umanipulator
+
+chmod 755 /usr/lib/umanipulator/umanipulator
