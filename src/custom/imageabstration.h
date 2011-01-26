@@ -17,7 +17,7 @@ class ImageAbstraction : public QImage
           QRgb* setPixel(enum ecolor color, int x, int y,int value);
           QRgb* setPixel(int x, int y,int red, int green, int blue);
           ImageAbstraction* scRemoveLine(int* matrix,int total_columns);
-          ImageAbstraction* scInsertLine(int* seam);
+          ImageAbstraction* scInsertLine(int* seam,int* red_level,int* green_level,int* blue_level, ImageAbstraction * ia);
 
           /** Util  methods **/
           void UpdateColorRange(void);
@@ -71,15 +71,16 @@ class ImageAbstraction : public QImage
           int ApplyFilterContrastRule(enum ecolor color,int x,int y,int min,int max);
 
           /** Intelligent Resizing **/
-          ImageAbstraction* decreaseImage(int n_paths,int * energy_matrix,int * path,ImageAbstraction* ia);
+          ImageAbstraction* decreaseImage(int n_paths,int * energy_matrix,int * path,int * removal_paths,int * removal_paths_red,int * removal_paths_green,int * removal_paths_blue,ImageAbstraction* ia);
           void createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia);
           int findMinValue(int value1,int value2, int value3);
           int findColumnMinValue(int * energy_matrix,int lin,int prev_col,int col,int next_col,ImageAbstraction *ia);
           int findMinimunValueLastLine(int * energy_matrix,ImageAbstraction *ia);
           void calculatePrevAndNextColumn(int * prev_column,int * next_column,int col_min_value, ImageAbstraction *ia);
-          void findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths, ImageAbstraction *ia);
+          void findPath(int * energy_matrix,int * path,int * removal_paths,int * removal_paths_red,int * removal_paths_green,int * removal_paths_blue,int id_path,int n_paths, ImageAbstraction *ia);
           void printMatrix(int * matrix,int n_lin, int n_col);
           void saveMatrixInFile(char * nome_file,int * matrix,int n_cols,int n_lines);
+          ImageAbstraction* resizeImage(int n_paths,ImageAbstraction* ia,int increase_image);
 };
 
 #endif // IMAGEABSTRATION_H

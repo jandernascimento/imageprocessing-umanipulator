@@ -837,36 +837,37 @@ ImageAbstraction* ImageAbstraction::scRemoveLine(int* matrix,int total_columns){
 }
 
 
-ImageAbstraction* ImageAbstraction::scInsertLine(int* seam){
+ImageAbstraction* ImageAbstraction::scInsertLine(int* seam,int* red_level,int* green_level,int* blue_level, ImageAbstraction * ia){
 
-    ImageAbstraction *newImage=new ImageAbstraction( QSize(width()+2,height()),format());
+    ImageAbstraction *newImage=new ImageAbstraction( QSize(ia->width()+2,ia->height()),ia->format());
 
     for(int line=0;line<newImage->height();line++){
         for(int column=0;column<newImage->width();column++){
 
             newImage->setPixel(line,column,
-                                getPixelColorIntensity(ImageAbstraction::red,line,column),
-                                getPixelColorIntensity(ImageAbstraction::green,line,column),
-                                getPixelColorIntensity(ImageAbstraction::blue,line,column));
+                                ia->getPixelColorIntensity(ImageAbstraction::red,line,column),
+                                ia->getPixelColorIntensity(ImageAbstraction::green,line,column),
+                                ia->getPixelColorIntensity(ImageAbstraction::blue,line,column));
 
-            if(seam[4*line]==column){
-                int blue_level=(getPixelColorIntensity(ImageAbstraction::blue,line,column-1)+getPixelColorIntensity(ImageAbstraction::blue,line,column+1))/2;
-                int green_level=(getPixelColorIntensity(ImageAbstraction::green,line,column-1)+getPixelColorIntensity(ImageAbstraction::green,line,column+1))/2;
-                int red_level=(getPixelColorIntensity(ImageAbstraction::red,line,column-1)+getPixelColorIntensity(ImageAbstraction::red,line,column+1))/2;
+            if(seam[line]==column){
+                //duplicating the seam with interpolation
                 newImage->setPixel(line,column,//255,0,0);/*
-                                    seam[(4*line)+1],
-                                    seam[(4*line)+2],
-                                    seam[(4*line)+3]);
+                                    (ia->getPixelColorIntensity(ImageAbstraction::red,line,column-1)+ia->getPixelColorIntensity(ImageAbstraction::red,line,column))/2,
+                                    (ia->getPixelColorIntensity(ImageAbstraction::green,line,column-1)+ia->getPixelColorIntensity(ImageAbstraction::green,line,column))/2,
+                                    (ia->getPixelColorIntensity(ImageAbstraction::blue,line,column-1)+ia->getPixelColorIntensity(ImageAbstraction::blue,line,column))/2);//*/
 
-      //          newImage->setPixel(line,column+1,//255,0,0);/*
-    //                                red_level,
-  //                                  green_level,
-//                                    blue_level);
-            }else if(column>seam[4*line]){
+                //reinserting the path in the right side of the duplicated seam
+                newImage->setPixel(line,++column,//255,0,0);/*
+                                              red_level[line],
+                                              green_level[line],
+                                              blue_level[line]);//*/
+
+
+          }else if(column>seam[line]){
                 newImage->setPixel(line,column,
-                                    getPixelColorIntensity(ImageAbstraction::red,line,column-2),
-                                    getPixelColorIntensity(ImageAbstraction::green,line,column-2),
-                                    getPixelColorIntensity(ImageAbstraction::blue,line,column-2));
+                                    ia->getPixelColorIntensity(ImageAbstraction::red,line,column-2),
+                                    ia->getPixelColorIntensity(ImageAbstraction::green,line,column-2),
+                                    ia->getPixelColorIntensity(ImageAbstraction::blue,line,column-2));
             }
 
         }
@@ -909,44 +910,138 @@ ImageAbstraction* ImageAbstraction::transposeRightImage(){
 
 /******************************** SEAM CARVING ***********************************/
 
-//****************** GENERAL METHODS ****************************//
+ImageAbstraction* ImageAbstraction::decreaseImage(int n_paths,int * energy_matrix,int * path,int * removal_paths,int * removal_paths_red,int * removal_paths_green,int * removal_paths_blue,ImageAbstraction* ia){
+
+    ImageAbstraction *image_temp=ia->copy(),*energy_image=ia->copy();
+
+    energy_image->ApplyGradientMagnitude();
+    energy_image->ApplyFilterGreyScale();
+
+    for(int i=0;i<n_paths;i++){
+        createEnergyMatrix(energy_matrix,energy_image);
+        findPath(energy_matrix,path,removal_paths,removal_paths_red,removal_paths_green,removal_paths_blue,i,n_paths,image_temp);
+        image_temp=image_temp->scRemoveLine(path,1);
+        energy_image=energy_image->scRemoveLine(path,1);
+    }
+
+    delete(energy_image);
+
+    return image_temp;
+}
+
+
+ImageAbstraction* ImageAbstraction::resizeImage(int n_paths,ImageAbstraction* ia,int increase_image){
+    int * energy_matrix = (int *) malloc(sizeof(int) * (ia->height() * ia->width()) );
+    int * path          = (int *) malloc(sizeof(int) * (ia->height() * ia->width()) );
+
+    int * removal_paths, * removal_paths_red, * removal_paths_green, * removal_paths_blue;
+    removal_paths       = (int *) malloc(sizeof(int) * ia->height() * n_paths);
+    removal_paths_red   = (int *) malloc(sizeof(int) * ia->height() * n_paths);
+    removal_paths_green = (int *) malloc(sizeof(int) * ia->height() * n_paths);
+    removal_paths_blue  = (int *) malloc(sizeof(int) * ia->height() * n_paths);
+
+    //find and removal paths in ascend order
+    ia=decreaseImage(n_paths,energy_matrix,path,removal_paths,removal_paths_red,removal_paths_green,removal_paths_blue, ia);
+
+    //reinserting the paths at the image, if is enlarging
+    if (increase_image){
+        if (ia->height()>0){
+            free(path);
+            path             = (int *) malloc(sizeof(int) * ia->height());
+            int *red_level   = (int *) malloc(sizeof(int) * ia->height());
+            int *green_level = (int *) malloc(sizeof(int) * ia->height());
+            int *blue_level  = (int *) malloc(sizeof(int) * ia->height());
+
+            //reinserting the paths in the image, from the last one to the first one that was removed
+            for(int col=n_paths-1;col>=0;col--){
+                //building a array with each path of the matrix
+                for(int lin=0;lin<ia->height();lin++){
+                    path[lin]        = removal_paths[n_paths*lin+col];
+                    red_level[lin]   = removal_paths_red[n_paths*lin+col];
+                    green_level[lin] = removal_paths_green[n_paths*lin+col];
+                    blue_level[lin]  = removal_paths_blue[n_paths*lin+col];
+                }
+
+                ia=ia->scInsertLine(path,red_level,green_level,blue_level,ia);
+
+            }
+
+            free(red_level);
+            free(green_level);
+            free(blue_level);
+        }
+    }
+
+    free(removal_paths);
+    free(removal_paths_red);
+    free(removal_paths_green);
+    free(removal_paths_blue);
+    free(path);
+    free(energy_matrix);
+
+    return ia;
+}
+
 //reference: http://en.wikipedia.org/wiki/Seam_carving
 ImageAbstraction* ImageAbstraction::applySeamCarving(float n_width,float n_height){
     int n_w_paths,n_h_paths;
-    int * path=(int *) malloc(sizeof(int) * height() * width());
-    int * energy_matrix=(int *) malloc(sizeof(int) * (height()*width()) );
     ImageAbstraction *itmp;
 
     itmp=this;
     //vertical seams
     if (n_width>1){
-        /*n_w_paths=round(width() * (n_width-1));
-        qDebug("SC: Width: Enlarging image: total paths:%i",n_w_paths);
-        increaseImage(n_w_paths);*/
+        n_w_paths=round(width() * (n_width-1));
+        //qDebug("SC: Width: Enlarging image: total paths:%i",n_w_paths);
+
+        itmp=resizeImage(n_w_paths,itmp,1);
     }else if (n_width<1){
         n_w_paths=round(width() * (1-n_width));
-        qDebug("SC: Width: Reducing image: total paths:%i",n_w_paths);
-        itmp=decreaseImage(n_w_paths,energy_matrix,path,itmp);
+        //qDebug("SC: Width: Reducing image: total paths:%i",n_w_paths);
+
+        itmp=resizeImage(n_w_paths,itmp,0);
     }
 
     //horizontal seams
     itmp=itmp->transposeLeftImage();
     if (n_height>1){
-    /*    qDebug("SC: Height: Enlarging image");
+        //qDebug("SC: Height: Enlarging image");
         n_h_paths=round(height() * (n_height-1));
-        increaseImage(n_h_paths);*/
+
+        itmp=resizeImage(n_h_paths,itmp,1);
     }else if (n_height<1){
         n_h_paths=round(height() * (1-n_height));
-        qDebug("SC: Height: Reducing image: total paths:%i",n_h_paths);
-        itmp=decreaseImage(n_h_paths,energy_matrix,path,itmp);
+        //qDebug("SC: Height: Reducing image: total paths:%i",n_h_paths);
+
+        itmp=resizeImage(n_h_paths,itmp,0);
     }
     itmp=itmp->transposeRightImage();
 
-
-    free(path);
-    free(energy_matrix);
-
     return itmp;
+}
+
+void ImageAbstraction::findPath(int * energy_matrix,int * path,int * removal_paths,int * removal_paths_red,int * removal_paths_green,int * removal_paths_blue,int id_path,int n_paths, ImageAbstraction *ia){
+    int prev_column,next_column,lin;
+    int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
+    lin=ia->height()-1;
+    path[lin]=col_min_value;
+    removal_paths[n_paths*lin+id_path]=col_min_value;
+    removal_paths_red[n_paths*lin+id_path]=ia->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
+    removal_paths_green[n_paths*lin+id_path]=ia->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
+    removal_paths_blue[n_paths*lin+id_path]=ia->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
+
+    //find the path, from mininum value up, with its neighbors
+    for(int lin=ia->height()-2;lin>=0;lin--){
+        calculatePrevAndNextColumn(&prev_column,&next_column,col_min_value,ia);
+
+        col_min_value = findColumnMinValue(energy_matrix, lin, prev_column, col_min_value, next_column,ia);
+
+        path[lin]=col_min_value;
+        removal_paths[n_paths*lin+id_path]=col_min_value;
+        removal_paths_red[n_paths*lin+id_path]=ia->getPixelColorIntensity(ImageAbstraction::red,lin,col_min_value);
+        removal_paths_green[n_paths*lin+id_path]=ia->getPixelColorIntensity(ImageAbstraction::green,lin,col_min_value);
+        removal_paths_blue[n_paths*lin+id_path]=ia->getPixelColorIntensity(ImageAbstraction::blue,lin,col_min_value);
+    }
+
 }
 
 void ImageAbstraction::createEnergyMatrix(int * energy_matrix,ImageAbstraction *ia){
@@ -1051,40 +1146,4 @@ void ImageAbstraction::saveMatrixInFile(char * nome_file,int * matrix,int n_cols
     }
     fclose(fp) ;
 }
-
-//******************** DECREASING METHODS *****************************//
-ImageAbstraction* ImageAbstraction::decreaseImage(int n_paths,int * energy_matrix,int * path,ImageAbstraction* ia){
-    ImageAbstraction *image_temp=ia->copy(),*energy_image=ia->copy();
-
-    energy_image->ApplyGradientMagnitude();
-    energy_image->ApplyFilterGreyScale();
-
-    for(int i=0;i<n_paths;i++){
-        createEnergyMatrix(energy_matrix,energy_image);
-        findPath(energy_matrix,path,path,0,1,energy_image);
-        image_temp=image_temp->scRemoveLine(path,1);
-        energy_image=energy_image->scRemoveLine(path,1);
-    }
-    delete(energy_image);
-
-    return image_temp;
-}
-
-void ImageAbstraction::findPath(int * energy_matrix,int * path,int * removal_paths,int id_path,int n_paths, ImageAbstraction *ia){
-    int prev_column,next_column,lin;
-    int col_min_value=findMinimunValueLastLine(energy_matrix,ia);
-    lin=ia->height()-1;
-    path[lin]=col_min_value;
-
-    //find the path, from mininum value up, with its neighbors
-    for(int lin=ia->height()-2;lin>=0;lin--){
-        calculatePrevAndNextColumn(&prev_column,&next_column,col_min_value,ia);
-
-        col_min_value = findColumnMinValue(energy_matrix, lin, prev_column, col_min_value, next_column,ia);
-
-        path[lin]=col_min_value;
-    }
-
-}
-
 
