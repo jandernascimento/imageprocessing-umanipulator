@@ -109,9 +109,6 @@ private:
     QAction* retrieveMenuOption(QString name, QMenu *menu);
     void saveImage();
     void openFile(void);
-
-    /** Intelligent Resizing **/
-    void increaseImage(int n_paths);
 };
 
 #endif
