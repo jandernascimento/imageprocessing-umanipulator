@@ -4,6 +4,6 @@ Section: gnome
 Priority: optional
 Architecture: all
 Depends: libqtcore4, libqtgui4
-Maintainer: jbotnascimento@gmail.com, raraujo.oliveira@gmail.com
+Maintainer: hamid.mirisaee@gmail.com, jbotnascimento@gmail.com, raraujo.oliveira@gmail.com
 Description: Micro image editor
  Image manipulation tool.
