@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     dialoglog.cpp \
     dialogabout.cpp \
     dialogsetkernel.cpp \
-    intelligentresizing.cpp \
     threadresize.cpp \
     threadprogress.cpp
 
