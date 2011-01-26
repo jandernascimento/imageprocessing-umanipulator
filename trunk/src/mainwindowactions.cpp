@@ -7,7 +7,6 @@
 #include "dialogsetkernel.h"
 #include "dialoglog.h"
 #include "threadresize.h"
-#include "intelligentresizing.cpp"
 #include "threadprogress.h"
 bool flag = false;
 ImageAbstraction* copy = NULL;
