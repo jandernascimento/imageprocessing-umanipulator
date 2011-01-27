@@ -359,7 +359,7 @@ A more realistic example would be Figure \ref{bilinear3}.
 	\begin{figure} [H]
 		\centering
 		\includegraphics[scale=0.5]{images/intelligent1}
-		\caption{PUT MY LABEL\label{intelligent1}}
+		\caption{Comparison between resizing methods. From left to right: the original image, resizing using crop, scaling and seam removal.\label{intelligent1}}
 	\end{figure}
 
 	\subsection{Seams}
@@ -367,8 +367,8 @@ A more realistic example would be Figure \ref{bilinear3}.
 
 	\begin{figure} [H]
 		\centering
-		\includegraphics[scale=0.3]{images/intelligent2}
-		\caption{PUT MY LABEL\label{castle}}
+		\includegraphics[scale=0.5]{images/intelligent2}
+		\caption{The effect of gradient magnitude in a image\label{castle}}
 	\end{figure}
 
 	To build the energy matrix of the image, we compute the accumulative energy of each pixel with its neighbors above. The lowest energy between the three neighbors above the pixel should be accumulate with the pixel's energy. This will be its energy at the energy matrix. We perform this analysis from top to bottom, doing it with all rows of the image. To trace the vertical seam, we start from the last row and seek the pixel with lowest value (energy). Above it, we select the lowest one of the three neighbors, and do it successively, until we reach the first line of the image.
