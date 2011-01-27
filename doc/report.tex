@@ -6,6 +6,8 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{subfig}
+\usepackage{cite}
+\usepackage{url}
 
 \begin{document}
 
@@ -77,7 +79,7 @@
 
 	\begin{figure} [H]
 		\centering
-		\includegraphics[scale=.3]{images/noisy_removed}
+		\includegraphics[scale=0.3]{images/noisy_removed}
 		\caption{Left side: noisy image Right side: blurred image \label{crop_1}}
 	\end{figure}
 
@@ -176,7 +178,7 @@ most of the tested images.
 			The figure below shows an image and its edge-detected version based on a 5 by 5 Laplacian filter.
 	\begin{figure} [H]
 		\centering
-		\includegraphics[scale=.3]{images/edged}
+		\includegraphics[scale=0.3]{images/edged}
 		\caption{Left side: original image Right side: edge-detected image based on the Laplacian filter \label{crop_1}}
 	\end{figure}
 
@@ -326,14 +328,13 @@ A more realistic example would be Figure \ref{bilinear3}.
 
 		To perform the normalization, the only variables we must know to perform this operation is the minimum and maximum color in the current histogram, 
 		and minimum and maximum color in the enhanced histogram, or we may translate as a new position for the minimum and maximum colors. It is possible
-		to write mathematically the Equation \ref{eq:normalization}.
+		to write mathematically the Equation \ref{eq:normalization}. \nocite{*}
 
 
 		\begin{equation}
 			normalize(p)=new_{min}+\frac{new_{max}-new_{min}}{current_{max}-current_{min}}*(p-current_{min})
 			\label{eq:normalization}
 		\end{equation}
-		
 		
 \section{Supported image formats}
 
@@ -353,4 +354,10 @@ A more realistic example would be Figure \ref{bilinear3}.
 		    \end{tabular}
 \end{center}
 
+\bibliography{report}{}
+\bibliographystyle{plain}
+
 \end{document}
+
+
+
