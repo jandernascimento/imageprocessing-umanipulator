@@ -219,10 +219,10 @@ void MainWindow::applyIntelligentResize(){
 
 void MainWindow::applyIntelligentResize(float width,float height){
 
-    dp=new DialogProgress();
+    dp=new DialogProgress(this);
     dp->setWindowFlags(Qt::FramelessWindowHint);
-
     dp->show();
+
 
     threadresize *operation=new threadresize(image,width,height);
     threadprogress *progress=new threadprogress(dp->getProgress());

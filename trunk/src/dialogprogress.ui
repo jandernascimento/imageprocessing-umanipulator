@@ -3,7 +3,7 @@
  <class>DialogProgress</class>
  <widget class="QDialog" name="DialogProgress">
   <property name="windowModality">
-   <enum>Qt::ApplicationModal</enum>
+   <enum>Qt::WindowModal</enum>
   </property>
   <property name="enabled">
    <bool>true</bool>
@@ -16,14 +16,14 @@
     <height>96</height>
    </rect>
   </property>
-  <property name="contextMenuPolicy">
-   <enum>Qt::NoContextMenu</enum>
-  </property>
   <property name="windowTitle">
-   <string>Applying</string>
+   <string notr="true">Applying</string>
+  </property>
+  <property name="windowOpacity">
+   <double>100.000000000000000</double>
   </property>
   <property name="sizeGripEnabled">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -53,14 +53,14 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>70</x>
      <y>20</y>
-     <width>131</width>
+     <width>81</width>
      <height>21</height>
     </rect>
    </property>
    <property name="text">
-    <string>Processando..</string>
+    <string>Processing..</string>
    </property>
   </widget>
  </widget>

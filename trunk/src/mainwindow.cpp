@@ -171,8 +171,8 @@ void MainWindow::setupImageMenu(QMenu *menu){
 
 void MainWindow::setupImageFilterSubMenu(QMenu *menu){
     QAction *mean=new QAction(("Mean"), this);
-    QAction *gradientX=new QAction(("Vertical Gradiant"), this);
-    QAction *gradientY=new QAction(("Horizontal Gradiant"), this);
+    QAction *gradientX=new QAction(("Vertical Gradient"), this);
+    QAction *gradientY=new QAction(("Horizontal Gradient"), this);
     QAction *laplacian=new QAction(("Laplacian"), this);
     QAction *LoG=new QAction(("LoG"), this);
     QAction *custom=new QAction(("Custom"), this);
