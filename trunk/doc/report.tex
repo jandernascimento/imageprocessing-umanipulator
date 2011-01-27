@@ -149,7 +149,7 @@ dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})
 	\begin{figure} [H]
 		\centering
 		\includegraphics[scale=0.4]{images/edged}
-		\caption{Left side: original image Right side: edge-detected image based on Prewitt filters \label{edge}}
+		\caption{Left side: original image. Right side: edge-detected image based on Prewitt filters \label{edge}}
 	\end{figure}
 
 		
@@ -184,7 +184,7 @@ most of the tested images.
 	A color space is a model by which the color are represented by a few numbers, typically three or four. Using primary colors, a vast variety of colors could be made. Two well-known models are RGB and CYMK.      
 
 	\subsection{RGB}
-		In RGB model red, green and blue lights are added together to make a wide range of colors. This model is generally used in electronic systems such as CRTs and LCDs. In case of an 8-bit value for each color, more than 16 million different colors
+		In RGB model, red, green and blue lights are added together to make a wide range of colors. This model is generally used in electronic systems such as CRTs and LCDs. In case of an 8-bit value for each color, more than 16 million different colors
 		could be made using this model. The RGB model is considered as an additive model, which means the white color is a result of combination of all lights while black is a result of absence of all the lights.
 	
 
@@ -195,19 +195,18 @@ most of the tested images.
 
 	\subsection{Gray scale conversion}
 
-		In order to convert an image to gray scale from an RGB image to gray scale, we need to consider how far a pixel is from the black color. To achieve this goal, one can substitute all the colors of a pixel with the average of the three colors. Using this method, a pure black pixel would remain black, and a white pixel would still remain white. Other pixels, however, would have a gray view between black and white.
+		In order to convert an image from an RGB colors to gray scale, we need to consider how far a pixel is from the black color. To achieve this goal, one can substitute all the colors of a pixel with the average of the three colors. Using this method, a pure black pixel would remain black, and a white pixel would still remain white. Other pixels, however, would have a gray view between black and white.
 
 \section{Cropping}
 
 	Cropping is a technique where the main purpose is to change or improve the visibility of a certain object in an image, 
-	this is done by removing external frames. 
-
+	what is done by removing external frames. 
 	The new target becomes the main object of the image generating a new image with the dimension of the target area.  
 
 	\begin{figure}[H]
 	\centering
 	\includegraphics[scale=2]{images/crop}
-	\caption{Left side: original image Right side: cropped image}
+	\caption{Left side: original image. Right side: cropped image}
 	\label{fig:cropping}
 	\end{figure}
 
@@ -216,7 +215,7 @@ most of the tested images.
 
 	The fusion operation is done by merging two images. The merging is based on the Equation \ref{eq:fusion}. 
 	
-	The $\alpha$ is a float point value that represents the percentage in which the new image should have in the current image. 
+	The $\alpha$ is a floating point value that represents the percentage of participation in the new image. 
 
 	\begin{equation}
 		f(pixel_{current},pixel_{to\ merge},\alpha)=(1-\alpha)*pixel_{current}+\alpha*pixel_{to\ merge}
@@ -234,7 +233,7 @@ most of the tested images.
 
 	When we stretch an image, we have few known pixels.
 
-	There are too many algorithms that helps us to guess those unknown pixels. for instance:
+	There are many algorithms that helps us to guess those unknown pixels, for instance:
 
 	\begin{itemize}
 	  \item Nearest neighbor interpolation
@@ -324,7 +323,7 @@ A more realistic example would be Figure \ref{bilinear3}.
 
 		
 
-		To perform the normalization, the only variables we must know to perform this operation is the minimum and maximum color in the current histogram, 
+		To normalize, the only variables we must know is the minimum and maximum color in the current histogram, 
 		and minimum and maximum color in the enhanced histogram, or we may translate as a new position for the minimum and maximum colors. It is possible
 		to write mathematically the Equation \ref{eq:normalization}. \nocite{*}
 
