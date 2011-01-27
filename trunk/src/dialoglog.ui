@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>282</width>
+    <width>304</width>
     <height>158</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
   <widget class="QDialogButtonBox" name="buttonBox">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>70</x>
      <y>120</y>
      <width>161</width>
      <height>31</height>
@@ -37,7 +37,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>241</width>
+     <width>281</width>
      <height>101</height>
     </rect>
    </property>
@@ -48,7 +48,7 @@
     <item row="1" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>Please Set the std of the kernel</string>
+       <string>Please set the standard deviation of the kernel</string>
       </property>
      </widget>
     </item>
@@ -64,9 +64,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>buttonBox</zorder>
-  <zorder>gridLayoutWidget</zorder>
-  <zorder>label</zorder>
  </widget>
  <resources/>
  <connections>
