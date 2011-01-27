@@ -127,14 +127,14 @@ dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})
 
 
 
-			There are several filters based on the gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters.
+			There are several filters based on the gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters in this regard.
 			As it is mentioned previously, gradient approach is based on the first derivation of the input.
 
  Based on the properties of
 			the first derivation, the edges of a given input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
 			determined in order for the edges to be detected. However, since a thresholding is used, the edges might be too thick to be considered
 			as an edge. As a result, we may need to apply a localization method (for instance, using Laplacian filter) to find zero
-			crossing points and separate actual edges from other non-edge points. Figure \ref{pre}  illustrates the horizontal Prewitt operator. The vertical is the transpose of the horizontal filter.
+			crossing points and separate actual edges from other non-edge points. Figure \ref{pre}  illustrates the horizontal Prewitt operator. The vertical is the transpose of the horizontal filter. Also, Figure \ref{edge} illustrates an image with its edge-detected copy using Prewitt filters.
 
 
 \begin{figure}[H]
@@ -148,6 +148,11 @@ dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})
   \end{tabular}
 \end{center}
 \caption{Horizontal Prewitt operator\label{pre}}\end{figure}
+	\begin{figure} [H]
+		\centering
+		\includegraphics[scale=0.4]{images/edged}
+		\caption{Left side: original image Right side: edge-detected image based on Prewitt filters \label{edge}}
+	\end{figure}
 
 		
 		\subsubsection{Laplacian}
@@ -167,6 +172,7 @@ most of the tested images.
 \caption{an example of a 3 by 3 Laplacian filter}\end{figure}
 
 
+
 			 Since the Laplacian filter is based on the second derivation of the input, it is highly sensitive to noise. Consequently,
 			it is generally applied after a noise reduction process. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution operation is
 			associative. The following is the LoG formula in 2D space:
@@ -175,12 +181,6 @@ most of the tested images.
 			LoG(x,y) = -\frac{1}{\pi\sigma^{4}}[1-\frac{x^{2}+y^{2}}{2\sigma^{2}}]e^{-\frac{x^{2}+y^{2}}{2\sigma^{2}}}
 \end{equation}
 
-			The figure below shows an image and its edge-detected version based on a 5 by 5 Laplacian filter.
-	\begin{figure} [H]
-		\centering
-		\includegraphics[scale=0.3]{images/edged}
-		\caption{Left side: original image Right side: edge-detected image based on the Laplacian filter \label{crop_1}}
-	\end{figure}
 
 \section{Color space}    
 	A color space is a model by which the color are represented by a few numbers, typically three or four. Using primary colors, a vast variety of colors could be made. Two well-known models are RGB and CYMK.      
