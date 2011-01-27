@@ -13,7 +13,7 @@
 
 \title{$\mu$Image Manipulator}
 
-\author{Seyed Hamid Mirisaee,
+\author{Hamid Mirisaee,
 \and Jander Nascimento, 
 \and Raquel Oliveira}
 
@@ -334,27 +334,10 @@ A more realistic example would be Figure \ref{bilinear3}.
 			\label{eq:normalization}
 		\end{equation}
 		
-\section{Supported image formats}
-
-
-		\begin{center}
-		    \begin{tabular}{ | l | l |}
-		    \hline
-		    	PNG & Windows Bitmap \\ \hline
-			PNG & Portable Network Graphics\\ \hline
-			PBM & Portable Bitmap\\ \hline
-			PGM & Portable Gray map\\ \hline
-			PPM & Portable Pixmap\\ \hline
-			TIFF & Tagged Image File Format\\ \hline
-			XBM & X11 Bitmap\\ \hline
-			XPM & X11 Pixmap\\ \hline
-			SVG & Scalable Vector Graphics\\ \hline
-		    \end{tabular}
-		\end{center}
 
 \section{Intelligent Resizing}
 
-	One of the most expected features in softwares that manipulate images is the capability of resize them either to a shorter or a larger scale. The classical resizing methods do not take into account the content of the image. The Crop method picks up the most important part of the image and discard the other parts, and it can only remove pixels from the image periphery. The Scale method distorts the content of the image (Figure \ref{intelligent1}). The method called Seam Carving supports content-aware resize for both reduction and expansion of the image by finding seams (paths of least importance) to be either removed or inserted in an image.
+	One of the most important features in image manipulation softwares is the capability of resizing images. The classical resizing methods do not take into account the content of the image. In the crop method the user selects the most important part of the image and discard the other parts. The scale method distorts the content of the image. The Seam Carving method supports content-aware resizing by finding seams (least important paths) either to be removed or duplicated in the image (Figure \ref{intelligent1}).
 
 	\begin{figure} [H]
 		\centering
@@ -363,17 +346,17 @@ A more realistic example would be Figure \ref{bilinear3}.
 	\end{figure}
 
 	\subsection{Seams}
-	A seam is a connected path that starts in one extremity of the image and ends in the opposite extremity, being either vertical or horizontal. A vertical seam contains one pixel in each row of the image, and a horizontal seam contains one pixel in each columns of the image. In order to perform a content-aware resize of the image, paths should be detected correctly. This is achieved analising the energy of the image, which can be generate with algorithms like entropy, eye-gaze movement, visual saliency and gradient magnitude. We chose gradient magnitude because this one gives satisfactory results ~\cite{ref:seamwiki} Figure \ref{castle}.
+	A seam is a connected path which begins in one extremity of the image and ends in the opposite extremity. A seam is a set of pixels which are selected horizontally or vertically. In order to perform a content-aware resize of the image, paths should be detected correctly. This is achieved by analyzing the energy of the image, which can be generate with algorithms like entropy, eye-gaze movement, visual saliency and gradient magnitude. In this software, the gradient magnitude is used based on good results it produced~\cite{ref:seamwiki}. This point is illustrated in Figure \ref{castle}.
 
 	\begin{figure} [H]
 		\centering
-		\includegraphics[scale=0.5]{images/intelligent2}
+		\includegraphics[scale=0.3]{images/intelligent2}
 		\caption{The effect of gradient magnitude in a image\label{castle}}
 	\end{figure}
 
-	To build the energy matrix of the image, we compute the accumulative energy of each pixel with its neighbors above. The lowest energy between the three neighbors above the pixel should be accumulate with the pixel's energy. This will be its energy at the energy matrix. We perform this analysis from top to bottom, doing it with all rows of the image. To trace the vertical seam, we start from the last row and seek the pixel with lowest value (energy). Above it, we select the lowest one of the three neighbors, and do it successively, until we reach the first line of the image.
-	\subsection{Removal seams}
-	In ascending order of energy (importance), the seam are successively removed of both the gradient and the original image, and the remaining pixels are shifted left to form a continuous image. All the process should be repeat for each seam removal, to recalculate which should be the next seam to be removed based in the new image, without the seam removed previously. The process can be repeated to remove a set of seams, horizontally or vertically and will result in an image with reduced dimensions, but with the overall scene content intact. Horizontal seams of the image can be calculated using the same function, where the input image is transposed.
+	
+	\subsection{Removing seams}
+	Remove a seam is a four-step process. First, the gradient magnitude of the original image is made. Second,  we find the energy matrix using the Dijkstra's algorithms in order to compute the accumulative energy of each pixel. Third, we find the shortest path in the energy matrix. Afterwards, we remove this path from the original image and repeat the steps until the desired size is reached.
 
 \bibliography{report}{}
 \bibliographystyle{plain}
