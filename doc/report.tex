@@ -13,7 +13,7 @@
 
 \title{$\mu$Image Manipulator}
 
-\author{Hamid Mirisaee,
+\author{Seyed Hamid Mirisaee,
 \and Jander Nascimento, 
 \and Raquel Oliveira}
 
@@ -128,10 +128,8 @@ dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})
 
 
 			There are several filters based on the gradient concept. Sobel edge detector and Prewitt edge detector are two well-known filters in this regard.
-			As it is mentioned previously, gradient approach is based on the first derivation of the input.
-
- Based on the properties of
-			the first derivation, the edges of a given input could be seen near the picks in the first derivation curve. Accordingly, a threshold should be
+			As it is mentioned previously, gradient approach is based on the first derivation of the input. Based on the properties of
+			the first derivative, the edges of a given input could be seen near the picks in the first derivative curve. Accordingly, a threshold should be
 			determined in order for the edges to be detected. However, since a thresholding is used, the edges might be too thick to be considered
 			as an edge. As a result, we may need to apply a localization method (for instance, using Laplacian filter) to find zero
 			crossing points and separate actual edges from other non-edge points. Figure \ref{pre}  illustrates the horizontal Prewitt operator. The vertical is the transpose of the horizontal filter. Also, Figure \ref{edge} illustrates an image with its edge-detected copy using Prewitt filters.
@@ -156,7 +154,7 @@ dir(\bigtriangledown f) = \tan^{-1}(\frac{M_y}{M_x})
 
 		
 		\subsubsection{Laplacian}
-			The Laplacian filter is computed based on the second derivation of the input. The following matrix is an approximation of a 3 by 3 Laplacian filter; however, a 5 by 5 filter is used in the developed application based on better results it resulted in for
+			The Laplacian filter is computed based on the second derivative of the input. The following matrix is an approximation of a 3 by 3 Laplacian filter; however, a 5 by 5 filter is used in the developed application based on better results it produced for
 most of the tested images.
 
 \begin{figure}[H]
@@ -173,7 +171,7 @@ most of the tested images.
 
 
 
-			 Since the Laplacian filter is based on the second derivation of the input, it is highly sensitive to noise. Consequently,
+			 Since the Laplacian filter is based on the second derivative of the input, it is highly sensitive to noise. Consequently,
 			it is generally applied after a noise reduction process. Alternatively, one can use LoG (Laplacian of Gaussian) since the convolution operation is
 			associative. The following is the LoG formula in 2D space:
 
@@ -356,12 +354,12 @@ A more realistic example would be Figure \ref{bilinear3}.
 
 \section{Intelligent Resizing}
 
-	One of the most expected features in softwares that manipulate images is the capability of resize them either to a shorter or a larger scale. The classical resizing methods do not take into account the content of the image. The Crop method picks up the most important part of the image and discart the other parts, and it can only remove pixels from the image periphery. The Scale method distorts the content of the image (Figura xx). The method called Seam Carving supports content-aware resize for both reduction and expansion of the image by finding seams (paths of least importance) to be either removed or inserted in an image.
+	One of the most expected features in softwares that manipulate images is the capability of resize them either to a shorter or a larger scale. The classical resizing methods do not take into account the content of the image. The Crop method picks up the most important part of the image and discard the other parts, and it can only remove pixels from the image periphery. The Scale method distorts the content of the image (Figura xx). The method called Seam Carving supports content-aware resize for both reduction and expansion of the image by finding seams (paths of least importance) to be either removed or inserted in an image.
 	\subsection{Seams}
-	A seam is a conected path that starts in one extremity of the image and ends in the oposite extremity, being either vertical or horizontal. A vertical seam contains one pixel in each row of the image, and a horizontal seam contains one pixel in each columns of the image. In order to perform a content-aware resize of the image, paths should be detected correctly. This is achieved analising the energy of the image, which can be generate with algorithms like entropy, eye-gaze movement, visual saliency and grandient magnitude. We chose gradient magnitude because this one gives satisfactory results (reference wiki) (castel image).
-	To build the energy matrix of the image, we compute the acumulative energy of each pixel with its neighbors above. The lowest energy between the three neighbors above the pixel should be acumulate with the pixel's energy. This will be its energy at the energy matrix. We perform this analysis from top to bottom, doing it with all rows of the image. To trace the vertical seam, we start from the last row and seek the pixel with lowest value (energy). Above it, we select the lowest one of the three neighbors, and do it sucessively, until we reach the first line of the image.
+	A seam is a connected path that starts in one extremity of the image and ends in the opposite extremity, being either vertical or horizontal. A vertical seam contains one pixel in each row of the image, and a horizontal seam contains one pixel in each columns of the image. In order to perform a content-aware resize of the image, paths should be detected correctly. This is achieved analising the energy of the image, which can be generate with algorithms like entropy, eye-gaze movement, visual saliency and gradient magnitude. We chose gradient magnitude because this one gives satisfactory results (reference wiki) (castel image).
+	To build the energy matrix of the image, we compute the accumulative energy of each pixel with its neighbors above. The lowest energy between the three neighbors above the pixel should be accumulate with the pixel's energy. This will be its energy at the energy matrix. We perform this analysis from top to bottom, doing it with all rows of the image. To trace the vertical seam, we start from the last row and seek the pixel with lowest value (energy). Above it, we select the lowest one of the three neighbors, and do it successively, until we reach the first line of the image.
 	\subsection{Removal seams}
-	In ascending order of energy (importance), the seam are sucessively removed of both the gradient and the original image, and the remaining pixels are shifted left to form a continuous image. All the process should be repeat for each seam removal, to recalculate which should be the next seam to be removed based in the new image, without the seam removed previously. The process can be repeated to remove a set of seams, horizontally or vertically and will result in an image with reduced dimensions, but with the overall scene content intact. Horizontal seams of the image can be calculated using the same function, where the input image is transposed.
+	In ascending order of energy (importance), the seam are successively removed of both the gradient and the original image, and the remaining pixels are shifted left to form a continuous image. All the process should be repeat for each seam removal, to recalculate which should be the next seam to be removed based in the new image, without the seam removed previously. The process can be repeated to remove a set of seams, horizontally or vertically and will result in an image with reduced dimensions, but with the overall scene content intact. Horizontal seams of the image can be calculated using the same function, where the input image is transposed.
 
 \bibliography{report}{}
 \bibliographystyle{plain}
